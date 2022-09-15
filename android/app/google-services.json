@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1037314246608",
+    "project_id": "tomtompodcast-3fca1",
+    "storage_bucket": "tomtompodcast-3fca1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1037314246608:android:81bcfffc31dc453fe89bd5",
+        "android_client_info": {
+          "package_name": "app.tomtompodcast.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1037314246608-gtjak6as1eqn5d3fdnujoce1v1vip3cj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrx_zZK-bpwMg5JPfVfmZQqQQ906t2mns"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1037314246608-gtjak6as1eqn5d3fdnujoce1v1vip3cj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1037314246608-7oic71slcftqn0u7habsvin5q19n78gl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "app.tomtompodcast.com"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

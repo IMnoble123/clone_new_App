@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TomTom Podcast</string>
+    <string name="facebook_app_id">930262474304245</string>
+    <string name="facebook_client_token">b3fd49db9956a57b3699a1d8739c72cb</string>
+    <string name="fb_login_protocol_scheme">fb930262474304245</string>
+</resources>
