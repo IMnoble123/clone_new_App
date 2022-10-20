@@ -10,7 +10,7 @@ import 'package:podcast_app/network/api_services.dart';
 import 'package:podcast_app/screens/forgot/reset_success_screen.dart';
 import 'package:podcast_app/widgets/bg/gradient_bg.dart';
 import 'package:podcast_app/widgets/bg/tomtom_title.dart';
-import 'package:podcast_app/widgets/btns/stadiumButtons.dart';
+import 'package:podcast_app/widgets/btns/stadium_buttons.dart';
 
 class ResetPassword extends GetView<ResetPasswordController> {
   final String mobileNumber;

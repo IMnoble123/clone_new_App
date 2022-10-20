@@ -4,8 +4,6 @@ import 'package:podcast_app/controllers/main_controller.dart';
 import 'package:podcast_app/extras/app_colors.dart';
 import 'package:podcast_app/extras/routes.dart';
 import 'package:podcast_app/models/item.dart';
-import 'package:podcast_app/models/response/podcast_response.dart';
-import 'package:podcast_app/network/api_services.dart';
 import 'package:podcast_app/widgets/header.dart';
 
 class DashBoardCategory extends StatelessWidget {

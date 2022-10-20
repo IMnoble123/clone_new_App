@@ -111,6 +111,7 @@ class ProfileController extends GetxController {
   updatePodcastPush(bool b) {
     isPodcastPushOff.value = b;
     update();
+    
   }
 
   updateRjPush(bool b) {

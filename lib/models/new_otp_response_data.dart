@@ -4,8 +4,6 @@
 
 import 'dart:convert';
 
-import 'package:podcast_app/models/response/user_response_data.dart';
-
 NewOtpResponseData newOtpResponseDataFromJson(String str) => NewOtpResponseData.fromJson(json.decode(str));
 
 String newOtpResponseDataToJson(NewOtpResponseData data) => json.encode(data.toJson());

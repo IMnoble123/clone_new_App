@@ -3,22 +3,17 @@ import 'package:get/get.dart';
 import 'package:podcast_app/models/response/notification_response_data.dart';
 import 'package:podcast_app/network/api_keys.dart';
 import 'package:podcast_app/network/api_services.dart';
-import 'package:podcast_app/utils/utility.dart';
 
 class SearchController extends GetxController {
   final stfController = TextEditingController();
-
   final FocusNode focusNode = FocusNode();
-
   RxString searchText = ''.obs;
-
   RxBool focusChanged = false.obs;
   RxBool openSearchScreen = false.obs;
   RxBool isFromPlayList = false.obs;
-
+  
   RxInt notificationCount = 0.obs;
   RxList<NotificationItem> notificationItems = <NotificationItem>[].obs;
-
   RxList<String> selectedPodCasts = <String>[].obs;
 
   @override

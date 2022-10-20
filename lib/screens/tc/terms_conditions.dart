@@ -1,13 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 import 'package:podcast_app/extras/app_colors.dart';
 import 'package:podcast_app/extras/constants.dart';
 import 'package:podcast_app/screens/login/login_screen.dart';
-import 'package:podcast_app/widgets/btns/wrap_text_btn.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TermsAndConditionsScreen extends StatelessWidget {

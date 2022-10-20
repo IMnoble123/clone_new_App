@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class NotificationBadge extends StatelessWidget {
+  
   final int totalNotifications;
 
-  const NotificationBadge({required this.totalNotifications});
+  const NotificationBadge({Key? key, required this.totalNotifications})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

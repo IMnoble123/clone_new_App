@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:podcast_app/extras/constants.dart';
 import 'package:podcast_app/models/response/countries_data.dart';
 import 'package:podcast_app/network/api_keys.dart';
 import 'package:podcast_app/network/api_services.dart';
 
 class AuthController extends GetxController {
-
-
-
+  
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();

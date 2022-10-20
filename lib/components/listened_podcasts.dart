@@ -14,9 +14,7 @@ import 'package:podcast_app/widgets/no_data_widget.dart';
 class ListenedPodcasts extends StatefulWidget {
   final String? category;
 
-  const ListenedPodcasts(
-      {Key? key,  this.category})
-      : super(key: key);
+  const ListenedPodcasts({Key? key, this.category}) : super(key: key);
 
   @override
   State<ListenedPodcasts> createState() => _ListenedPodcastsState();
@@ -27,13 +25,14 @@ class _ListenedPodcastsState extends State<ListenedPodcasts> {
 
   bool _isFirstLoadRunning = false;
 
-  late var cardWidth;
+  late var cardWidth =
+      MediaQuery.of(MainPage.activeContext!).size.width / 2 - 3 * 15;
 
   @override
   void initState() {
     super.initState();
 
-    cardWidth = MediaQuery.of(MainPage.activeContext!).size.width / 2 - 3 * 15;
+    cardWidth;
 
     loadData();
   }
@@ -44,9 +43,10 @@ class _ListenedPodcastsState extends State<ListenedPodcasts> {
     });
 
     try {
-      final res = await ApiService()
-          .postData(ApiKeys.YOUR_LISTENED_PODCAST_SUFFIX, ApiKeys.getCatQuery(widget.category??''));
-          // .postData(ApiKeys.YOUR_LISTENED_PODCAST_SUFFIX, ApiKeys.getMobileUserQuery());
+      final res = await ApiService().postData(
+          ApiKeys.YOUR_LISTENED_PODCAST_SUFFIX,
+          ApiKeys.getCatQuery(widget.category ?? ''));
+      // .postData(ApiKeys.YOUR_LISTENED_PODCAST_SUFFIX, ApiKeys.getMobileUserQuery());
 
       PodcastResponse response = PodcastResponse.fromJson(res);
 

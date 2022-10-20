@@ -3,15 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import 'package:podcast_app/controllers/main_controller.dart';
-import 'package:podcast_app/extras/app_colors.dart';
 import 'package:podcast_app/extras/constants.dart';
 import 'package:podcast_app/models/response/comment_response.dart';
-import 'package:podcast_app/network/api_keys.dart';
-import 'package:podcast_app/network/api_services.dart';
 import 'package:podcast_app/network/common_network_calls.dart';
 import 'package:podcast_app/screens/chat/chat_bubble.dart';
 import 'package:podcast_app/widgets/audio_clip.dart';
-
 import '../../screens/sub_screens/report_screen.dart';
 
 class ReplayComment extends StatelessWidget {
@@ -116,37 +112,40 @@ class ReplayComment extends StatelessWidget {
               ),
               reply.replyerId == CommonNetworkApi().mobileUserId
                   ? Material(
-                color: Colors.transparent,
-                    child: IconButton(
-                        key: overFlowKey,
-                        onPressed: () async {
-                          print('clicked');
+                      color: Colors.transparent,
+                      child: IconButton(
+                          key: overFlowKey,
+                          onPressed: () async {
+                            print('clicked');
 
-                          showMenu<String>(
-                            context: context,
-                            // position: RelativeRect.fromLTRB(25.0, 25.0, 0.0, 0.0),
-                            position: getPosition(overFlowKey),
+                            showMenu<String>(
+                              context: context,
+                              // position: RelativeRect.fromLTRB(25.0, 25.0, 0.0, 0.0),
+                              position: getPosition(overFlowKey),
 
-                            //position where you want to show the menu on screen
-                            items: [
-                               PopupMenuItem<String>(
-                                  child: const Text('Delete',), value: '1',onTap: (){
+                              //position where you want to show the menu on screen
+                              items: [
+                                PopupMenuItem<String>(
+                                    child: const Text(
+                                      'Delete',
+                                    ),
+                                    value: '1',
+                                    onTap: () {
+                                      Get.find<MainController>()
+                                          .deleteReply(reply.replyId!);
+                                    }),
+                              ],
 
-                                 Get.find<MainController>().deleteReply(reply.replyId!);
-
-                              }),
-
-                            ],
-
-                            elevation: 8.0,
-                          );
-                        },
-                        icon: const Icon(
-                          Icons.more_vert,
-                          color: Colors.white,
-                        )),
-                  )
-                  :const SizedBox.shrink() /*Material(
+                              elevation: 8.0,
+                            );
+                          },
+                          icon: const Icon(
+                            Icons.more_vert,
+                            color: Colors.white,
+                          )),
+                    )
+                  : const SizedBox
+                      .shrink() /*Material(
                 color: Colors.transparent,
                 child: IconButton(
                     key: overFlowKey,
@@ -181,7 +180,7 @@ class ReplayComment extends StatelessWidget {
               ),*/
             ],
           ),
-         /* Row(
+          /* Row(
             children: const [
               SizedBox(
                 height: 5,
@@ -194,8 +193,10 @@ class ReplayComment extends StatelessWidget {
                 onPressed: () {
                   Get.find<MainController>().replayLDH(reply.replyId!, 'like');
                 },
-                icon:  Icon(
-                  reply.replyYouLiked =="1"? Icons.thumb_up :Icons.thumb_up_outlined,
+                icon: Icon(
+                  reply.replyYouLiked == "1"
+                      ? Icons.thumb_up
+                      : Icons.thumb_up_outlined,
                   color: Colors.white,
                   size: 20,
                 ),
@@ -212,8 +213,10 @@ class ReplayComment extends StatelessWidget {
                   Get.find<MainController>()
                       .replayLDH(reply.replyId!, 'dislike');
                 },
-                icon:  Icon(
-                  reply.replyYouDisliked =="1"? Icons.thumb_down :Icons.thumb_down_alt_outlined,
+                icon: Icon(
+                  reply.replyYouDisliked == "1"
+                      ? Icons.thumb_down
+                      : Icons.thumb_down_alt_outlined,
                   color: Colors.white,
                   size: 20,
                 ),
@@ -253,34 +256,19 @@ class ReplayComment extends StatelessWidget {
   }
 
   getPosition(GlobalKey overFlowKey) {
-
     RenderBox box = overFlowKey.currentContext!.findRenderObject() as RenderBox;
     Offset position = box.localToGlobal(Offset.zero); //this is global position
 
-    return RelativeRect.fromLTRB(position.dx, position.dy+40, 0.0, 0.0);
-
-
+    return RelativeRect.fromLTRB(position.dx, position.dy + 40, 0.0, 0.0);
   }
 
   void openDialog(context, String replyId) {
-
-
-
-    Future.delayed(const Duration(milliseconds: 500),(){
-
+    Future.delayed(const Duration(milliseconds: 500), () {
       showGeneralDialog(
           context: context,
           pageBuilder: (context, animation, secondAnimation) {
-            return  ReportScreen(id: replyId, isPodcast: false);
+            return ReportScreen(id: replyId, isPodcast: false);
           });
-
     });
-
-
-
-
   }
-
-
-
 }

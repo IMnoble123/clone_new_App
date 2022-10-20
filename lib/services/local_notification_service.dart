@@ -1,8 +1,8 @@
+import 'dart:developer';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:podcast_app/extras/app_colors.dart';
-
 import '../main.dart';
 import '../network/common_network_calls.dart';
 import '../screens/main/main_page.dart';
@@ -31,16 +31,10 @@ class LocalNotificationService {
     _notificationsPlugin.initialize(initializationSettings,
         onSelectNotification: (String? s) async {
       if (s != null) {
-
         TomTomApp.podcastId = s;
-        if (CommonNetworkApi().mobileUserId
-            .toString()
-            .trim()
-            .isNotEmpty) {
+        if (CommonNetworkApi().mobileUserId.toString().trim().isNotEmpty) {
           MainPage.playSelectedPodcast(TomTomApp.podcastId);
         }
-
-
       }
     });
 
@@ -80,7 +74,7 @@ class LocalNotificationService {
         payload: message.data['podcastId'],
       );
     } on Exception catch (e) {
-      print(e);
+      log(e.toString());
     }
   }
 }

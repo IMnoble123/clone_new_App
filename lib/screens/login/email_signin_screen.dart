@@ -1,23 +1,16 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:podcast_app/controllers/auth_controller.dart';
-import 'package:podcast_app/network/api_keys.dart';
 import 'package:podcast_app/extras/app_colors.dart';
 import 'package:podcast_app/extras/app_dialogs.dart';
 import 'package:podcast_app/extras/constants.dart';
-import 'package:podcast_app/models/response/response_data.dart';
-import 'package:podcast_app/models/response/user_response_data.dart';
 import 'package:podcast_app/network/api_services.dart';
 import 'package:podcast_app/screens/forgot/forgot_password.dart';
-import 'package:podcast_app/screens/main_screen.dart';
 import 'package:podcast_app/utils/utility.dart';
 import 'package:podcast_app/widgets/bg/gradient_bg.dart';
 import 'package:podcast_app/widgets/bg/tomtom_title.dart';
-import 'package:podcast_app/widgets/btns/stadiumButtons.dart';
+import 'package:podcast_app/widgets/btns/stadium_buttons.dart';
 import 'package:podcast_app/widgets/btns/wrap_text_btn.dart';
-
-import 'login_screen.dart';
 
 class EmailSignInScreen extends GetView<AuthController> {
   const EmailSignInScreen({Key? key}) : super(key: key);
@@ -34,12 +27,6 @@ class EmailSignInScreen extends GetView<AuthController> {
         body: Stack(
           children: [
             Container(
-              /*decoration: const BoxDecoration(
-                  color: Colors.black,
-                  shape: BoxShape.rectangle,
-                  image: DecorationImage(
-                      image: AssetImage('images/ob_bg.png'),
-                      fit: BoxFit.cover)),*/
               decoration: const BoxDecoration(
                   color: Colors.black,
                   shape: BoxShape.rectangle,
@@ -52,38 +39,6 @@ class EmailSignInScreen extends GetView<AuthController> {
             const LinearGradientBg(),
             Column(
               children: [
-                /* ClipPath(
-                  clipper: CurvedClipper(),
-                  child: Container(
-                    height: 250,
-                    width: double.infinity,
-                    color: const Color.fromARGB(255, 186, 16, 19),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'images/ob_title.png',
-                          width: 100,
-                          height: 100,
-                          scale: 2,
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text(
-                            'Login',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),*/
                 const TomTomTitle(title: 'Login'),
                 Expanded(
                   child: Padding(
@@ -141,8 +96,8 @@ class EmailSignInScreen extends GetView<AuthController> {
                               () => Stack(
                                 children: [
                                   ClipRRect(
-                                    borderRadius: BorderRadius.all(
-                                        const Radius.circular(4.0)),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(4.0)),
                                     child: TextField(
                                       autofocus: false,
                                       textAlign: TextAlign.start,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:podcast_app/controllers/search_controller.dart';
@@ -13,8 +12,6 @@ class SearchBar extends StatefulWidget {
 
 class _SearchBarState extends State<SearchBar> {
   final searchController = Get.find<SearchController>();
-
-
 
   @override
   Widget build(BuildContext context) {

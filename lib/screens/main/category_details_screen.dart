@@ -2,12 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:podcast_app/components/listened_podcasts.dart';
 import 'package:podcast_app/components/pagination_podcasts.dart';
 import 'package:podcast_app/components/shows/shows_pagination.dart';
-import 'package:podcast_app/extras/routes.dart';
-import 'package:podcast_app/extras/screen_args.dart';
 import 'package:podcast_app/network/api_keys.dart';
 import 'package:podcast_app/screens/modules/podcasts_list_horizontal.dart';
-import 'package:podcast_app/screens/modules/rjs_list_horizontal.dart';
-import 'package:podcast_app/screens/modules/shows_list_horizontal.dart';
 
 import '../../components/pagination_rjs.dart';
 

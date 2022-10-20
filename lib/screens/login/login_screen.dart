@@ -504,21 +504,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                     fbLogin();
                                   },
                                 ),
-                                Opacity(
-                                  opacity: Platform.isIOS ? 1.0 : 0.5,
-                                  child: CircleButton(
-                                    child: Image.asset(
-                                      'images/apple_new.png',
-                                      scale: 3,
-                                    ),
-                                    tapCallback: () {
-                                      // Get.offAll(() => const MainScreen());
-
-                                      if (Platform.isIOS) {
-                                        appleSingIn(context);
-                                      }
-                                    },
+                                if(Platform.isIOS)
+                                CircleButton(
+                                  child: Image.asset(
+                                    'images/apple_new.png',
+                                    scale: 3,
                                   ),
+                                  tapCallback: () {
+                                    // Get.offAll(() => const MainScreen());
+                                   appleSingIn(context);
+                                  },
                                 ),
                               ],
                             ),
@@ -1088,7 +1083,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             value: '1',
             onTap: () {
-              ApiService().initDio(NetworkConfig.prod_baseUrl);
+              ApiService().initDio(NetworkConfig.prodbaseUrl);
               //ApiService().generateToken();
             }),
         PopupMenuItem<String>(
@@ -1097,7 +1092,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             value: '2',
             onTap: () {
-              ApiService().initDio(NetworkConfig.qa_baseUrl);
+              ApiService().initDio(NetworkConfig.qabaseUrl);
               //ApiService().generateToken();
             }),
       ],
@@ -1107,8 +1102,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget setupAlertDialoadContainer(BuildContext context) {
-    List<Country> countries = authController.countriesList.value;
-    return Container(
+    List<Country> countries = authController.countriesList;
+    return SizedBox(
       height: MediaQuery.of(context).size.width /
           2, // Change as per your requirement
       width: MediaQuery.of(context).size.height /

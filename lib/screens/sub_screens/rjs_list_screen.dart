@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:podcast_app/extras/routes.dart';
-import 'package:podcast_app/extras/screen_args.dart';
 import 'package:podcast_app/models/response/rj_response.dart';
 import 'package:podcast_app/widgets/rj_row_item.dart';
 

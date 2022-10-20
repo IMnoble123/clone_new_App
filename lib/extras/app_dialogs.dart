@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'app_colors.dart';
 import 'constants.dart';
 
@@ -60,6 +59,8 @@ class AppDialogs {
           );
         });
   }
+
+  
 
   static Future<String> simpleOkDialog(
       BuildContext context, String title, String message) async {

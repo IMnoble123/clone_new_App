@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:podcast_app/extras/app_colors.dart';
 import 'package:podcast_app/extras/constants.dart';
 import 'package:podcast_app/utils/utility.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class TomTomScreen extends StatelessWidget {
   const TomTomScreen({Key? key}) : super(key: key);

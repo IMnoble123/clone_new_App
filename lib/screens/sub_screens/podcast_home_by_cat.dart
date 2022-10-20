@@ -3,8 +3,6 @@ import 'package:get/get.dart';
 import 'package:podcast_app/controllers/main_controller.dart';
 import 'package:podcast_app/network/api_services.dart';
 import 'package:podcast_app/network/common_network_calls.dart';
-import 'package:podcast_app/widgets/header.dart';
-import 'package:podcast_app/widgets/horizontal_scroll_items.dart';
 import 'package:podcast_app/widgets/trending_module.dart';
 
 import '../dash_board.dart';

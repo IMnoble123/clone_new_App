@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -8,17 +7,14 @@ import 'package:podcast_app/extras/app_dialogs.dart';
 import 'package:podcast_app/extras/constants.dart';
 import 'package:podcast_app/models/response/countries_data.dart';
 import 'package:podcast_app/models/response/response_data.dart';
-import 'package:podcast_app/network/api_keys.dart';
 import 'package:podcast_app/network/api_services.dart';
 import 'package:podcast_app/screens/login/otp_screen.dart';
 import 'package:podcast_app/widgets/bg/gradient_bg.dart';
-import 'package:podcast_app/widgets/btns/stadiumButtons.dart';
-
+import 'package:podcast_app/widgets/btns/stadium_buttons.dart';
 import '../../extras/app_colors.dart';
 import '../../widgets/bg/tomtom_title.dart';
 
 class ForgotPasswordScreen extends GetView<AuthController> {
-
   const ForgotPasswordScreen({Key? key}) : super(key: key);
 
   @override
@@ -33,12 +29,10 @@ class ForgotPasswordScreen extends GetView<AuthController> {
         ),
         body: Stack(
           children: [
-
             const LinearGradientBg(),
             Column(
               children: [
                 const TomTomTitle(title: 'Forgot Password'),
-
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 40.0),
@@ -48,15 +42,13 @@ class ForgotPasswordScreen extends GetView<AuthController> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-
-
                             const Text(
                               'Mobile Number',
                               style: TextStyle(color: Colors.white),
                             ),
                             ClipRRect(
                               borderRadius:
-                              const BorderRadius.all(Radius.circular(4.0)),
+                                  const BorderRadius.all(Radius.circular(4.0)),
                               child: TextField(
                                 autofocus: false,
                                 textAlign: TextAlign.start,
@@ -71,7 +63,7 @@ class ForgotPasswordScreen extends GetView<AuthController> {
                                 decoration: InputDecoration(
                                     filled: true,
                                     floatingLabelBehavior:
-                                    FloatingLabelBehavior.never,
+                                        FloatingLabelBehavior.never,
                                     border: InputBorder.none,
                                     fillColor: Colors.white,
                                     alignLabelWithHint: true,
@@ -91,32 +83,36 @@ class ForgotPasswordScreen extends GetView<AuthController> {
                                         Material(
                                           color: Colors.transparent,
                                           child: InkWell(
-                                            onTap: (){
-
+                                            onTap: () {
                                               showDialog(
                                                   context: context,
-                                                  builder: (BuildContext context) {
+                                                  builder:
+                                                      (BuildContext context) {
                                                     return AlertDialog(
-                                                      title: const Text('Countries List',style: TextStyle(color: AppColors.firstColor),),
-                                                      content: setupAlertDialoadContainer(context),
-
+                                                      title: const Text(
+                                                        'Countries List',
+                                                        style: TextStyle(
+                                                            color: AppColors
+                                                                .firstColor),
+                                                      ),
+                                                      content:
+                                                          setupAlertDialoadContainer(
+                                                              context),
                                                     );
-                                                  }).then((value){
-
-                                                if(value!=null){
-                                                  controller.selectedContryCode.value = value;
+                                                  }).then((value) {
+                                                if (value != null) {
+                                                  controller.selectedContryCode
+                                                      .value = value;
                                                 }
-
-
                                               });
-
-
                                             },
-                                            child:  Obx(
-                                                  ()=> Text(
-                                                controller.selectedContryCode.value,
+                                            child: Obx(
+                                              () => Text(
+                                                controller
+                                                    .selectedContryCode.value,
                                                 style: const TextStyle(
-                                                    color: AppColors.phoneTextColor),
+                                                    color: AppColors
+                                                        .phoneTextColor),
                                               ),
                                             ),
                                           ),
@@ -133,7 +129,7 @@ class ForgotPasswordScreen extends GetView<AuthController> {
                                 keyboardType: Platform.isAndroid
                                     ? TextInputType.number
                                     : const TextInputType.numberWithOptions(
-                                    signed: true, decimal: true),
+                                        signed: true, decimal: true),
                                 maxLength: 10,
                                 textInputAction: TextInputAction.next,
                                 onEditingComplete: () {
@@ -142,8 +138,6 @@ class ForgotPasswordScreen extends GetView<AuthController> {
                                 },
                               ),
                             ),
-
-
                             const SizedBox(
                               height: 25,
                             ),
@@ -173,62 +167,62 @@ class ForgotPasswordScreen extends GetView<AuthController> {
   }
 
   Widget setupAlertDialoadContainer(BuildContext context) {
-    List<Country> countries = controller.countriesList.value;
-    return Container(
-      height: MediaQuery.of(context).size.width/2, // Change as per your requirement
-      width: MediaQuery.of(context).size.height/2, // Change as per your requirement
+    List<Country> countries = controller.countriesList;
+    return SizedBox(
+      height: MediaQuery.of(context).size.width /
+          2, // Change as per your requirement
+      width: MediaQuery.of(context).size.height /
+          2, // Change as per your requirement
       child: ListView.separated(
         shrinkWrap: true,
         itemCount: countries.length,
         itemBuilder: (BuildContext context, int index) {
           return ListTile(
-            title: Text('${countries[index].dialcode}  ${countries[index].name}'),
-            onTap: (){
+            title:
+                Text('${countries[index].dialcode}  ${countries[index].name}'),
+            onTap: () {
               Navigator.of(context).pop(countries[index].dialcode);
             },
           );
-        },separatorBuilder: (context,index){
-        return Divider(height: 1,color: Colors.black45.withOpacity(0.5),);
-      },
+        },
+        separatorBuilder: (context, index) {
+          return Divider(
+            height: 1,
+            color: Colors.black45.withOpacity(0.5),
+          );
+        },
       ),
     );
   }
 
-  void sendOtp(BuildContext context) async{
-
-    String mobileNumber = controller.selectedContryCode+controller.phoneController.text;
+  void sendOtp(BuildContext context) async {
+    String mobileNumber =
+        controller.selectedContryCode + controller.phoneController.text;
 
     Map<String, String> q = {"mobile": mobileNumber};
 
     final res = await ApiService().sendOtp(q);
 
-    try{
-
+    try {
       ResponseData responseData = ResponseData.fromJson(res);
 
       print(responseData.toJson());
 
       if (responseData.status!.toUpperCase() == AppConstants.SUCCESS) {
-        Get.to(OtpScreen(mobileNumber: mobileNumber,isFromForgot: true,));
+        Get.to(OtpScreen(
+          mobileNumber: mobileNumber,
+          isFromForgot: true,
+        ));
       } else {
         AppDialogs.simpleOkDialog(context, 'Failed',
             responseData.response ?? "unable to process request");
       }
-
-
-    }catch(e){
-
-
+    } catch (e) {
       print(e);
-
-
     }
-
-
   }
 
   bool validate(BuildContext context) {
-
     if (controller.phoneController.text.isEmpty ||
         controller.phoneController.text.length < 8) {
       AppDialogs.simpleOkDialog(

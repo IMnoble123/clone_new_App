@@ -7,7 +7,13 @@ class TomTomTitle extends StatelessWidget {
   final double width;
   final double height;
   final bool hideTitle;
-  const TomTomTitle({Key? key, required this.title, this.width=100, this.height=100, this.hideTitle=false}) : super(key: key);
+  const TomTomTitle(
+      {Key? key,
+      required this.title,
+      this.width = 100,
+      this.height = 100,
+      this.hideTitle = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,16 +37,18 @@ class TomTomTitle extends StatelessWidget {
                 height: height,
                 scale: 2,
               ),
-               hideTitle?const SizedBox.shrink():Padding(
-                 padding: const EdgeInsets.all(8.0),
-                 child: Text(
-                   title,
-                   style: const TextStyle(
-                       color: Colors.white,
-                       fontSize: 18,
-                       fontWeight: FontWeight.w600),
-                 ),
-               ),
+              hideTitle
+                  ? const SizedBox.shrink()
+                  : Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        title,
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
               const SizedBox(
                 height: 30,
               ),

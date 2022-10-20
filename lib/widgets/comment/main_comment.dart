@@ -4,17 +4,13 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import 'package:podcast_app/controllers/main_controller.dart';
 import 'package:podcast_app/extras/app_colors.dart';
-import 'package:podcast_app/extras/app_dialogs.dart';
 import 'package:podcast_app/extras/constants.dart';
 import 'package:podcast_app/models/response/comment_response.dart';
 import 'package:podcast_app/network/common_network_calls.dart';
 import 'package:podcast_app/screens/chat/chat_bubble.dart';
 import 'package:podcast_app/screens/main/main_page.dart';
-import 'package:podcast_app/screens/sub_screens/podcast_more_options_screen.dart';
 import 'package:podcast_app/screens/sub_screens/report_screen.dart';
-import 'package:podcast_app/utils/utility.dart';
 import 'package:podcast_app/widgets/audio_clip.dart';
-import 'package:podcast_app/widgets/chat_text_field.dart';
 import 'package:podcast_app/widgets/comment/replay_comment.dart';
 
 class MainComment extends GetView<MainController> {

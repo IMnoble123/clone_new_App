@@ -55,7 +55,6 @@ dependencies:
   mask_text_input_formatter: ^2.1.0
   google_sign_in: ^5.2.4
 #  google_sign_in: ^5.2.4
-  flutter_facebook_auth: ^4.1.2
   sign_in_with_apple: ^3.3.0
   crypto: ^3.0.1
   firebase_analytics: ^9.1.6
@@ -77,6 +76,7 @@ dependencies:
 #  firebase_dynamic_links: ^2.0.7
   firebase_core: ^1.14.0
   firebase_dynamic_links: ^4.1.2
+  cloud_firestore: ^4.0.1
 #  firebase_messaging: ^11.2.13
   firebase_messaging: ^11.4.1
 #  overlay_support: ^1.2.1
@@ -86,8 +86,11 @@ dependencies:
   fab_circular_menu: ^1.0.2
   firebase_auth: ^3.3.14
   flutter_local_notifications: ^9.4.0
-  flutter_inappwebview: ^5.4.3+7
   dio_http_cache: ^0.3.0
+  flutter_inappwebview: ^5.5.0+3
+  awesome_notifications: ^0.7.3
+  libwinmedia: ^0.0.3
+  flutter_facebook_auth: ^4.4.1+1
 #  flutter_share_me: ^1.0.0
 
 #  flutter_html: any

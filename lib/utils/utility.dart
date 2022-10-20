@@ -1,8 +1,8 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -12,11 +12,8 @@ import 'package:podcast_app/extras/app_colors.dart';
 import 'package:podcast_app/extras/app_dialogs.dart';
 import 'package:podcast_app/extras/constants.dart';
 import 'package:podcast_app/helper/image_picker_helper.dart';
-import 'package:podcast_app/models/response/response_data.dart';
-import 'package:podcast_app/network/api_services.dart';
 import 'package:podcast_app/screens/login/login_screen.dart';
 import 'package:podcast_app/screens/main/main_page.dart';
-import 'package:podcast_app/widgets/list/podcast_list.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Utility {
@@ -24,7 +21,7 @@ class Utility {
 
     print(s);
 
-    if (s == null || s.isEmpty) return "";
+    if (s.isEmpty) return "";
 
     DateFormat inputFormat = DateFormat('dd-MMM-yyyy HH:mm');
 
@@ -99,7 +96,7 @@ class Utility {
             return true;
           }
         } catch (e) {
-          print(e.toString());
+          log(e.toString());
           return false;
         }
       }
@@ -115,11 +112,11 @@ class Utility {
   }
 
   static void openUrls(BuildContext context, String url) async {
-    if (!await launch(url)) throw 'Could not launch';
+    if (!await launchUrl(Uri.parse(url))) throw 'Could not launch';
   }
 
   static void composeEmail(BuildContext context, String email,
-      {body: ''}) async {
+      {body = ''}) async {
     String? encodeQueryParameters(Map<String, String> params) {
       return params.entries
           .map((e) =>
@@ -134,7 +131,7 @@ class Utility {
           <String, String>{'subject': 'TomTom Podcast', 'body': body}),
     );
 
-    launch(emailLaunchUri.toString());
+    launchUrl(Uri.parse(emailLaunchUri.toString()));
   }
 
   static Future<String> createFolderInAppDocDir(String folderName) async {

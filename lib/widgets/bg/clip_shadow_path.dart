@@ -5,8 +5,12 @@ class ClipShadowPath extends StatelessWidget {
   final CustomClipper<Path> clipper;
   final Widget child;
 
-  const ClipShadowPath({Key? key, required this.shadow, required this.clipper, required this.child}) : super(key: key);
-
+  const ClipShadowPath(
+      {Key? key,
+      required this.shadow,
+      required this.clipper,
+      required this.child})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +23,6 @@ class ClipShadowPath extends StatelessWidget {
     );
   }
 }
-
-
 
 class _ClipShadowShadowPainter extends CustomPainter {
   final Shadow shadow;

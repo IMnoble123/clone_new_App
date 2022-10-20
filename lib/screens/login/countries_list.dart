@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:podcast_app/controllers/countries_controller.dart';
-
 import '../../extras/app_colors.dart';
 import '../../widgets/bg/gradient_bg.dart';
 import '../../widgets/bg/tomtom_title.dart';
@@ -118,7 +116,7 @@ class CountriesList extends GetView<CountriesController> {
                                           child: Padding(
                                             padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                             child: RawScrollbar(
-                                              isAlwaysShown: true,
+                                              thumbVisibility: true,
                                               thumbColor: AppColors.firstColor,
                                               radius: const Radius.circular(20),
                                               thickness: 2,

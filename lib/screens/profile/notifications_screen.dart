@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:podcast_app/controllers/profile_controller.dart';
 import 'package:podcast_app/extras/app_colors.dart';
-import 'package:podcast_app/widgets/title_tile_view.dart';
 
 class NotificationsScreen extends GetView<ProfileController> {
   const NotificationsScreen({Key? key}) : super(key: key);

@@ -7,7 +7,6 @@ import 'package:podcast_app/extras/routes.dart';
 import 'package:podcast_app/extras/screen_args.dart';
 import 'package:podcast_app/models/response/category_response.dart';
 import 'package:podcast_app/network/api_services.dart';
-import 'package:podcast_app/network/common_network_calls.dart';
 import 'package:podcast_app/screens/main/main_page.dart';
 import 'package:podcast_app/widgets/header.dart';
 import 'package:podcast_app/widgets/no_data_widget.dart';

@@ -1,7 +1,5 @@
-import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:podcast_app/extras/share_prefs.dart';
@@ -13,7 +11,6 @@ import 'package:podcast_app/network/common_network_calls.dart';
 import 'package:podcast_app/screens/login/enter_name_page.dart';
 import 'package:podcast_app/screens/main/main_page.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import 'app_dialogs.dart';
 
 class AppConstants {

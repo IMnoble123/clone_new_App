@@ -1,6 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:podcast_app/controllers/main_controller.dart';
 import 'package:podcast_app/db/db.dart';
 import 'package:podcast_app/db/db_podcast.dart';
 import 'package:podcast_app/extras/app_dialogs.dart';
@@ -134,7 +135,9 @@ class PlayListController extends GetxController {
            "unable to process request");*/
 
       }
-    } catch (e) {}
+    } catch (e) {
+      log(e.toString());
+    }
 
     showProgress.value = false;
 
@@ -153,19 +156,14 @@ class PlayListController extends GetxController {
 
     try {
       PodcastResponse response = PodcastResponse.fromJson(responseData);
-
       podcasts.value.clear();
-
       if (response.status!.toUpperCase() == AppConstants.SUCCESS) {
         // inputController.clear();
-
         podcasts.value = response.podcasts!;
-
         print('added new collection ${response.status}');
       } else {
         /*AppDialogs.simpleOkDialog(context, 'Failed',
            "unable to process request");*/
-
         podcasts.value = [];
       }
     } catch (e) {
@@ -254,8 +252,8 @@ class PlayListController extends GetxController {
       if (responseData.status!.toUpperCase() == AppConstants.SUCCESS) {
         mainRjList.value = responseData.response!.rjList!;
         mainPodcasts.value =
-            responseData.response!.podcastList! as List<Podcast>;
-        showingPodcasts.value = mainPodcasts.value as List<Podcast>;
+            responseData.response!.podcastList!;
+        showingPodcasts.value = mainPodcasts.value;
 
         print('------${mainRjList.value.length}');
       } else {

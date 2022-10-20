@@ -21,7 +21,7 @@ import 'package:podcast_app/screens/tc/terms_conditions.dart';
 import 'package:podcast_app/utils/utility.dart';
 import 'package:podcast_app/widgets/bg/gradient_bg.dart';
 import 'package:podcast_app/widgets/bg/tomtom_title.dart';
-import 'package:podcast_app/widgets/btns/stadiumButtons.dart';
+import 'package:podcast_app/widgets/btns/stadium_buttons.dart';
 import 'package:podcast_app/widgets/btns/wrap_text_btn.dart';
 
 import '../../controllers/countries_controller.dart';

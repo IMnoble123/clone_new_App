@@ -12,11 +12,7 @@ import 'package:podcast_app/extras/routes.dart';
 import 'package:podcast_app/extras/screen_args.dart';
 import 'package:podcast_app/models/item.dart';
 import 'package:podcast_app/screens/main/main_page.dart';
-import 'package:podcast_app/screens/modules/podcasts_list_horizontal.dart';
-import 'package:podcast_app/screens/modules/rjs_list_horizontal.dart';
-import 'package:podcast_app/screens/modules/shows_list_horizontal.dart';
 import 'package:podcast_app/widgets/ad_spot.dart';
-import 'package:podcast_app/widgets/categories.dart';
 import 'package:podcast_app/widgets/menus_title.dart';
 
 import '../components/pagination_podcasts.dart';

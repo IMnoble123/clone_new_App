@@ -113,7 +113,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               var item = snapshot.data[index];
                               return searchItem(item);
                             })*/
-                              ;
                             }
 
                             // spinner for uncompleted state
@@ -142,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget searchItem(item) {
-    return ListTile();
+    return const ListTile();
   }
 
   Map<String, dynamic> prepareQuery(String searchText) {

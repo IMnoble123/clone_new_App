@@ -1,12 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:podcast_app/controllers/main_controller.dart';
 import 'package:podcast_app/controllers/search_controller.dart';
 import 'package:podcast_app/extras/app_colors.dart';
 import 'package:podcast_app/extras/constants.dart';
-import 'package:podcast_app/extras/keys.dart';
 import 'package:podcast_app/extras/routes.dart';
 import 'package:podcast_app/extras/screen_args.dart';
 import 'package:podcast_app/models/response/podcast_response.dart';
@@ -16,17 +14,12 @@ import 'package:podcast_app/models/response/shows_response_data.dart';
 import 'package:podcast_app/network/api_keys.dart';
 import 'package:podcast_app/network/api_services.dart';
 import 'package:podcast_app/network/common_network_calls.dart';
-import 'package:podcast_app/screens/dash_board.dart';
-import 'package:podcast_app/screens/main/dynamic_widget.dart';
 import 'package:podcast_app/screens/main/main_page.dart';
-import 'package:podcast_app/widgets/btns/wrap_text_btn.dart';
 import 'package:podcast_app/widgets/rj_row_item.dart';
-import 'package:podcast_app/widgets/search_bar.dart';
 import 'package:podcast_app/widgets/song_info_tile.dart';
 
 class SearchScreen extends GetView<SearchController> {
   const SearchScreen({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     final mainController = Get.find<MainController>();
@@ -88,8 +81,9 @@ class SearchScreen extends GetView<SearchController> {
                     )
                   : const SizedBox.shrink(),
             ),
-            const SizedBox(height: 200,)
-
+            const SizedBox(
+              height: 200,
+            )
           ],
         ),
       ),
@@ -279,11 +273,8 @@ class SearchScreen extends GetView<SearchController> {
 
   Widget displaySearchResults(dynamic data) {
     print('From Search $data');
-
-    try{
-
+    try {
       SearchResponseData response = SearchResponseData.fromJson(data);
-
       if (response.status == "Error") {
         return Container(
           alignment: Alignment.center,
@@ -292,13 +283,12 @@ class SearchScreen extends GetView<SearchController> {
             style: TextStyle(color: Colors.white),
           ),
         );
-
-
       }
 
       List<Podcast> searchPodcasts = response.response!.podcastList!;
       List<RjItem> searchRjs = response.response!.rjList!;
       List<ShowItem> showsList = response.response!.showsList!;
+      searchPodcasts.sort((a, b) => a.podcastName!.compareTo(b.podcastName!));
 
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4.0),
@@ -315,10 +305,10 @@ class SearchScreen extends GetView<SearchController> {
                           .tomtomPlayer
                           .addAllPodcasts(searchPodcasts, index);
 
-                      CommonNetworkApi().postViewed(searchPodcasts[index].podcastId!);
-
+                      CommonNetworkApi()
+                          .postViewed(searchPodcasts[index].podcastId!);
                     },
-                    playAll: (){
+                    playAll: () {
                       Get.find<MainController>()
                           .tomtomPlayer
                           .addAllPodcasts(searchPodcasts, 0);
@@ -329,10 +319,15 @@ class SearchScreen extends GetView<SearchController> {
                   return const Divider();
                 },
                 itemCount: searchPodcasts.length),
-            searchRjs.isNotEmpty?const Padding(
-              padding: EdgeInsets.symmetric(vertical: 12.0),
-              child: Text('RJ\'s Results',style: TextStyle(color: Colors.white,fontSize: 20),),
-            ):const SizedBox.shrink(),
+            searchRjs.isNotEmpty
+                ? const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 12.0),
+                    child: Text(
+                      'RJ\'s Results',
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                  )
+                : const SizedBox.shrink(),
             ListView.separated(
                 shrinkWrap: true,
                 primary: false,
@@ -342,8 +337,8 @@ class SearchScreen extends GetView<SearchController> {
                     callback: () {
                       controller.closeSearchPanel();
 
-                      Navigator.pushNamed(
-                          MainPage.activeContext!, AppRoutes.podcastDetailsScreen,
+                      Navigator.pushNamed(MainPage.activeContext!,
+                          AppRoutes.podcastDetailsScreen,
                           arguments: searchRjs[index]);
                     },
                   );
@@ -352,25 +347,35 @@ class SearchScreen extends GetView<SearchController> {
                   return const Divider();
                 },
                 itemCount: searchRjs.length),
-            showsList.isNotEmpty?const Padding(
-              padding: EdgeInsets.symmetric(vertical: 12.0),
-              child: Text('Shows Results',style: TextStyle(color: Colors.white,fontSize: 20),),
-            ):const SizedBox.shrink(),
+            showsList.isNotEmpty
+                ? const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 12.0),
+                    child: Text(
+                      'Shows Results',
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                  )
+                : const SizedBox.shrink(),
             ListView.separated(
                 shrinkWrap: true,
                 primary: false,
                 itemBuilder: (c, index) {
                   return showItem(
-                    showsList[index],c,
+                    showsList[index],
+                    c,
                     () {
                       controller.closeSearchPanel();
 
                       FocusScope.of(c).unfocus();
 
-                      final args = ScreenArguments('${showsList[index].showsName!} (${showsList[index].totalPodcast})' , ApiKeys.PODCASTS_BY_SHOW_SUFFIX,  ApiKeys.getPodcastsByShowIdQuery(showsList[index].showsId!));
-                      Navigator.pushNamed(MainPage.activeContext!, AppRoutes.podcastListScreenVertical,arguments: args);
-
-
+                      final args = ScreenArguments(
+                          '${showsList[index].showsName!} (${showsList[index].totalPodcast})',
+                          ApiKeys.PODCASTS_BY_SHOW_SUFFIX,
+                          ApiKeys.getPodcastsByShowIdQuery(
+                              showsList[index].showsId!));
+                      Navigator.pushNamed(MainPage.activeContext!,
+                          AppRoutes.podcastListScreenVertical,
+                          arguments: args);
                     },
                   );
                 },
@@ -378,12 +383,10 @@ class SearchScreen extends GetView<SearchController> {
                   return const Divider();
                 },
                 itemCount: showsList.length),
-
           ],
         ),
       );
-
-    }catch(e){
+    } catch (e) {
       print(e);
       return Container(
         alignment: Alignment.center,
@@ -392,7 +395,6 @@ class SearchScreen extends GetView<SearchController> {
           style: TextStyle(color: Colors.white),
         ),
       );
-
     }
 
     /*return GridView.builder(
@@ -485,7 +487,7 @@ class SearchScreen extends GetView<SearchController> {
     return {"keyword":"mirchi"};
   }*/
   Map<String, dynamic> getQuery(String value) {
-    return {"keyword": value,"mob_user_id":CommonNetworkApi().mobileUserId};
+    return {"keyword": value, "mob_user_id": CommonNetworkApi().mobileUserId};
     // return {"keyword": value.isNotEmpty ? value : "telugu"};
   }
 
@@ -594,7 +596,7 @@ class SearchScreen extends GetView<SearchController> {
     );
   }
 
-  Container showItem(ShowItem showItem, BuildContext c,VoidCallback callback) {
+  Container showItem(ShowItem showItem, BuildContext c, VoidCallback callback) {
     return Container(
       height: 100,
       alignment: Alignment.center,
@@ -614,45 +616,43 @@ class SearchScreen extends GetView<SearchController> {
                     borderRadius: BorderRadius.circular(8.0),
                     child: CachedNetworkImage(
                       imageUrl: showItem.showsImage!.isNotEmpty &&
-                          !showItem.showsImage!.contains(".jfif")
+                              !showItem.showsImage!.contains(".jfif")
                           ? showItem.showsImage!
                           : AppConstants.dummyPic,
                       width: 75,
-                      height: 75,memCacheWidth: 75,memCacheHeight: 75,
+                      height: 75,
+                      memCacheWidth: 75,
+                      memCacheHeight: 75,
                       fit: BoxFit.cover,
-                      placeholder: (context, url) => const Center(
-                          child: CircularProgressIndicator()),
+                      placeholder: (context, url) =>
+                          const Center(child: CircularProgressIndicator()),
                       errorWidget: (context, url, error) =>
-                      const Icon(Icons.error),
+                          const Icon(Icons.error),
                     )),
-
               ]),
               Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 16.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          showItem.showsName ?? '',
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        Text(
-                          ' ${showItem.totalPodcast ?? '0'} episodes',
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            color: AppColors.disableColor,
-                          ),
-                        )
-
-
-                      ],
+                padding: const EdgeInsets.only(left: 16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      showItem.showsName ?? '',
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.w500),
                     ),
-                  )),
+                    Text(
+                      ' ${showItem.totalPodcast ?? '0'} episodes',
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: AppColors.disableColor,
+                      ),
+                    )
+                  ],
+                ),
+              )),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Icon(
@@ -660,22 +660,19 @@ class SearchScreen extends GetView<SearchController> {
                   color: Colors.white.withOpacity(0.5),
                 ),
               )
-
             ],
           ),
           Positioned.fill(
               child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () {
-                    //Get.find<MainController>().togglePanel();
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {
+                //Get.find<MainController>().togglePanel();
 
-                    callback();
-
-
-                  },
-                ),
-              ))
+                callback();
+              },
+            ),
+          ))
         ],
       ),
     );

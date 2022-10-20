@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'dart:developer';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,74 +11,14 @@ import 'package:podcast_app/models/response/rj_response.dart';
 import 'package:podcast_app/network/api_services.dart';
 import 'package:podcast_app/network/common_network_calls.dart';
 import 'package:podcast_app/screens/main/main_page.dart';
-
 import '../network/api_keys.dart';
 
 class DynamicLinksService {
-  /*static Future<String> createDynamicLink(Podcast podcast) async {
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    print(packageInfo.packageName);
-    String uriPrefix = "https://open.tomtompodcast.com";
-
-    final String data = jsonEncode(podcast);
-
-    final DynamicLinkParameters parameters = DynamicLinkParameters(
-      uriPrefix: uriPrefix,
-      link: Uri.parse('https://www.tomtompodcast.com?data=$data'),
-
-      androidParameters: AndroidParameters(
-        // packageName: packageInfo.packageName,
-        packageName: "app.tomtompodcast.com",
-        minimumVersion: 21,
-      ),
-
-      iosParameters: IosParameters(
-          bundleId: "app.tomtompodcast.com",
-          minimumVersion: packageInfo.version,
-          appStoreId: '123456789'),
-
-      navigationInfoParameters: NavigationInfoParameters(
-          forcedRedirectEnabled: true
-      ),
-
-      dynamicLinkParametersOptions: DynamicLinkParametersOptions(
-        shortDynamicLinkPathLength: ShortDynamicLinkPathLength.short,
-      ),
-
-      //iosParameters: IOSParameters(bundleId: packageInfo.packageName,minimumVersion: packageInfo.version,appStoreId: '123456789'),
-
-      */ /* googleAnalyticsParameters: GoogleAnalyticsParameters(
-        campaign: 'example-promo',
-        medium: 'social',
-        source: 'orkut',
-      ),*/ /*
-
-      */ /*itunesConnectAnalyticsParameters: ItunesConnectAnalyticsParameters(
-        providerToken: '123456',
-        campaignToken: 'example-promo',
-      ),*/ /*
-      socialMetaTagParameters: SocialMetaTagParameters(
-          title: 'TomTom Podcast',
-          description: 'New podcast released',
-          imageUrl: Uri.parse('https://images.pexels.com/photos/3841338/pexels-photo-3841338.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260')),
-          // imageUrl: Uri.parse(podcast.imagepath!)),
-    );
-
-    // final Uri dynamicUrl = await parameters.buildUrl();
-
-     final ShortDynamicLink shortDynamicLink = await parameters.buildShortLink();
-    final Uri shortUrl = shortDynamicLink.shortUrl;
-    return shortUrl.toString();
-
-    */ /*final Uri uri = await parameters.buildUrl();
-    return uri.toString();*/ /*
-  }*/
-
   static FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
 
   static Future<String> createRjDynamicLink(RjItem rjItem) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    print(packageInfo.packageName);
+    log(packageInfo.packageName);
     String uriPrefix = "https://tomtompodcast.page.link";
 
     final DynamicLinkParameters parameters = DynamicLinkParameters(
@@ -107,7 +47,7 @@ class DynamicLinksService {
 
   static Future<String> createDynamicLink(Podcast podcast) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    print(packageInfo.packageName);
+    log(packageInfo.packageName);
     String uriPrefix = "https://tomtompodcast.page.link";
     // String uriPrefix = "https://open.tomtompodcast.com";
 
@@ -135,16 +75,11 @@ class DynamicLinksService {
           title: podcast.podcastName!,
           description: podcast.description!,
           imageUrl: Uri.parse(podcast.imagepath!)),
-      // imageUrl: Uri.parse('https://4.img-dpreview.com/files/p/E~TS590x0~articles/3925134721/0266554465.jpeg')),
-      // imageUrl: Uri.parse(podcast.imagepath!)),
     );
-
-    //Uri uri =await dynamicLinks.buildLink(parameters);
 
     final ShortDynamicLink shortLink =
         await dynamicLinks.buildShortLink(parameters);
     Uri uri = shortLink.shortUrl;
-
     return uri.toString();
   }
 
@@ -152,10 +87,56 @@ class DynamicLinksService {
     dynamicLinks.onLink.listen((dynamicLinkData) {
       _handleDynamicLink(dynamicLinkData);
     }).onError((error) {
-      print('onLink error');
-      print(error.message);
+      log('onLink error');
+      log(error.message);
     });
   }
+
+  static _handleDynamicLink(PendingDynamicLinkData? data) async {
+    final Uri? deepLink = data?.link;
+
+    if (deepLink != null) {
+      log(deepLink.toString());
+      if (deepLink.toString().contains('rjId')) {
+        final rjId = jsonDecode(deepLink.queryParameters['rjId']!);
+
+        if (rjId != null) {
+          gotoRjProfile(rjId.toString());
+        }
+      } else {
+        final Podcast podcast =
+            Podcast.fromJson(jsonDecode(deepLink.queryParameters['podcast']!));
+
+        log(podcast.toJson().toString());
+        Get.find<MainController>()
+            .tomtomPlayer
+            .addAllPodcasts(List.filled(1, podcast), 0);
+        Get.find<MainController>().togglePanel();
+
+        CommonNetworkApi().postViewed(podcast.podcastId!);
+      }
+    }
+  }
+
+  static void gotoRjProfile(rjId) async {
+    final responseData = await ApiService()
+        .postData(ApiKeys.RJ_BYID_SUFFIX, ApiKeys.getRjByRjIdQuery(rjId));
+
+    RjResponse response = RjResponse.fromJson(responseData);
+
+    if (response.status == "Success") {
+      RjItem rjItem = response.rjItems![0];
+
+      if (Get.find<MainController>().panelController.isPanelOpen) {
+        Get.find<MainController>().panelController.close();
+      }
+
+      Navigator.pushNamed(
+          MainPage.activeContext!, AppRoutes.podcastDetailsScreen,
+          arguments: rjItem);
+    }
+  }
+}
 
   /*static void initDynamicLinks() async {
     final PendingDynamicLinkData? data =
@@ -172,38 +153,7 @@ class DynamicLinksService {
     });
   }*/
 
-  static _handleDynamicLink(PendingDynamicLinkData? data) async {
-    final Uri? deepLink = data?.link;
-
-    if (deepLink != null) {
-      print(deepLink);
-      if (deepLink.toString().contains('rjId')) {
-        final rjId = jsonDecode(deepLink.queryParameters['rjId']!);
-
-        if (rjId != null) {
-          gotoRjProfile(rjId.toString());
-        }
-      } else {
-        final Podcast podcast =
-            Podcast.fromJson(jsonDecode(deepLink.queryParameters['podcast']!));
-
-        if (podcast != null) {
-          if (podcast != null) {
-            print(podcast.toJson().toString());
-            Get.find<MainController>()
-                .tomtomPlayer
-                .addAllPodcasts(List.filled(1, podcast), 0);
-            Get.find<MainController>().togglePanel();
-
-            CommonNetworkApi().postViewed(podcast.podcastId!);
-
-            //navigateKey.currentState.pushNamed(PostSinglePage.routeName, arguments: post);
-          }
-        }
-      }
-    }
-
-    /*if (deepLink == null) {
+  /*if (deepLink == null) {
       return;
     }
 
@@ -213,28 +163,3 @@ class DynamicLinksService {
         print("refercode=$title");
       }
     }*/
-  }
-
-  static void gotoRjProfile(rjId) async {
-    final responseData = await ApiService()
-        .postData(ApiKeys.RJ_BYID_SUFFIX, ApiKeys.getRjByRjIdQuery(rjId));
-
-    RjResponse response = RjResponse.fromJson(responseData);
-
-    if (response.status == "Success") {
-      RjItem rjItem = response.rjItems![0];
-
-      if (rjItem != null) {
-
-        if (Get.find<MainController>().panelController.isPanelOpen) {
-          Get.find<MainController>().panelController.close();
-        }
-
-
-        Navigator.pushNamed(
-            MainPage.activeContext!, AppRoutes.podcastDetailsScreen,
-            arguments: rjItem);
-      }
-    }
-  }
-}

@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:podcast_app/components/pagination_cat_grid_item.dart';
-import 'package:podcast_app/controllers/main_controller.dart';
 import 'package:podcast_app/extras/constants.dart';
 import 'package:podcast_app/extras/routes.dart';
 import 'package:podcast_app/extras/screen_args.dart';
 import 'package:podcast_app/models/response/category_response.dart';
-import 'package:podcast_app/models/response/podcast_response.dart';
 import 'package:podcast_app/network/api_keys.dart';
 import 'package:podcast_app/network/api_services.dart';
-import 'package:podcast_app/network/common_network_calls.dart';
 import 'package:podcast_app/screens/main/main_page.dart';
 import 'package:podcast_app/widgets/no_data_widget.dart';
-import 'package:podcast_app/widgets/song_info_tile.dart';
+
 
 class PaginationCategoriesVertical extends StatefulWidget {
   const PaginationCategoriesVertical({

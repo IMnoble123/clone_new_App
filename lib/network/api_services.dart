@@ -1,16 +1,12 @@
-import 'dart:math';
-
 import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:podcast_app/extras/constants.dart';
 import 'package:podcast_app/extras/share_prefs.dart';
 import 'package:podcast_app/models/response/response_data.dart';
 import 'package:podcast_app/network/api_keys.dart';
-import 'package:podcast_app/network/network_config.dart';
 
 class ApiService {
   static final ApiService _apiService = ApiService.internal();
-
   ApiService.internal();
 
   factory ApiService() {
@@ -20,6 +16,7 @@ class ApiService {
   // Dio dio = Dio();
   late Dio dio;
   Dio dioDownloader = Dio();
+
 
   void initDio(String baseUrl) {
     dio = Dio();

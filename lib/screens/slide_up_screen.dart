@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,7 +31,7 @@ class SlideUpScreen extends GetView<MainController> {
   Widget build(BuildContext context) {
     print(controller.hashCode);
 
-    DateTime? currentBackPressTime = null;
+    DateTime? currentBackPressTime;
 
     bool isKeyboardShowing = MediaQuery.of(context).viewInsets.vertical > 0;
 
@@ -58,7 +60,6 @@ class SlideUpScreen extends GetView<MainController> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         resizeToAvoidBottomInset: true,
-
         appBar: AppBar(
           elevation: 0.0,
           backgroundColor: Colors.transparent,
@@ -326,10 +327,10 @@ class SlideUpScreen extends GetView<MainController> {
                             seekProgress = v;
                           });*/
                         },
-                        onChangeStart: (v){
+                        onChangeStart: (v) {
                           controller.isSeekbarTouched.value = true;
                         },
-                        onChangeEnd: (v){
+                        onChangeEnd: (v) {
                           controller.isSeekbarTouched.value = false;
 
                           controller.updateSeekPositionEnd(v);
@@ -365,7 +366,6 @@ class SlideUpScreen extends GetView<MainController> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Row(
-
                     children: [
                       /*InkWell(
                           onTap: () {
@@ -394,7 +394,7 @@ class SlideUpScreen extends GetView<MainController> {
                                 .saveBoolData(AppConstants.SONG_LOOP, b);
                           },
                           child: Obx(
-                                () => Image.asset(
+                            () => Image.asset(
                               'images/loop.png',
                               width: 25,
                               height: 25,
@@ -510,24 +510,27 @@ class SlideUpScreen extends GetView<MainController> {
                             color: AppColors.firstColor,
                           )),*/
 
-                      InkWell(onTap: (){
-                        if (CommonNetworkApi().mobileUserId != "-1") {
-
-                          DynamicLinksService.createDynamicLink(
-                              controller.currentPodcast!)
-                              .then((value) {
-                            print(value);
-                            Share.share(value);
-
-                          });
-
-                        } else {
-                          Utility.showRegistrationPromotion(context);
-                        }
-                      },child: const Icon(
-                        Icons.share,
-                        color: AppColors.firstColor,
-                      ),)
+                      InkWell(
+                        onTap: () {
+                          if (CommonNetworkApi().mobileUserId != "-1") {
+                            DynamicLinksService.createDynamicLink(
+                                    controller.currentPodcast!)
+                                .whenComplete(() {
+                              log("function completed");
+                            }).then((value) {
+                              Share.share(value,subject: "chnages added");
+                            }).onError((error, stackTrace) {
+                              log("error");
+                            });
+                          } else {
+                            Utility.showRegistrationPromotion(context);
+                          }
+                        },
+                        child: const Icon(
+                          Icons.share,
+                          color: AppColors.firstColor,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -728,11 +731,9 @@ class SlideUpScreen extends GetView<MainController> {
                         )
                       : const SizedBox.shrink(),
                 ),
-                 SizedBox(
+                const SizedBox(
                   height: 150,
                 ),
-
-
               ],
             ),
           ),
@@ -814,7 +815,7 @@ class SlideUpScreen extends GetView<MainController> {
   }
 
   String formatHHMMSS(int seconds) {
-    if (seconds != null && seconds != 0) {
+    if (seconds != 0) {
       int hours = (seconds / 3600).truncate();
       seconds = (seconds % 3600).truncate();
       int minutes = (seconds / 60).truncate();
@@ -840,13 +841,10 @@ class SlideUpScreen extends GetView<MainController> {
 
     if (response.status == "Success") {
       RjItem rjItem = response.rjItems![0];
-
-      if (rjItem != null) {
-        controller.togglePanel();
-        Navigator.pushNamed(
-            MainPage.activeContext!, AppRoutes.podcastDetailsScreen,
-            arguments: rjItem);
-      }
+      controller.togglePanel();
+      Navigator.pushNamed(
+          MainPage.activeContext!, AppRoutes.podcastDetailsScreen,
+          arguments: rjItem);
     }
   }
 }

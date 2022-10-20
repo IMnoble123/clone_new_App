@@ -45,7 +45,7 @@ class ProfileShareScreen extends StatelessWidget {
           height: MediaQuery.of(context).size.height,
           child: Column(
             children: [
-              Spacer(),
+              const Spacer(),
               Image.asset(
                 'images/share_circle.png',
                 width: 50,
@@ -72,7 +72,6 @@ class ProfileShareScreen extends StatelessWidget {
                   itemExtent: 50,
                   children: [
                     listTile('images/copy_link.png', 'Copy Link', () {
-
                       DynamicLinksService.createRjDynamicLink(
                           rjItem)
                           .then((value) {
@@ -114,8 +113,8 @@ class ProfileShareScreen extends StatelessWidget {
                           .then((value) async{
                         print(value);
                         final url = "https://telegram.me/share/url?url=$value";
-                        if(await canLaunch(url)){
-                          launch(url);
+                        if(await canLaunchUrl(Uri.parse(url))){
+                          launchUrl(Uri.parse(url));
                         }
 
                       });

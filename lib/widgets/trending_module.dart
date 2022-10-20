@@ -4,7 +4,6 @@ import 'package:podcast_app/extras/constants.dart';
 import 'package:podcast_app/extras/routes.dart';
 import 'package:podcast_app/extras/screen_args.dart';
 import 'package:podcast_app/models/response/podcast_response.dart';
-import 'package:podcast_app/network/api_services.dart';
 import 'package:podcast_app/widgets/header.dart';
 
 class TrendingListView extends StatelessWidget {

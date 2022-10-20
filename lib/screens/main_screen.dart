@@ -14,7 +14,6 @@ import 'package:podcast_app/widgets/bottom_navigation.dart';
 import 'package:podcast_app/widgets/search_widget.dart';
 import 'package:podcast_app/widgets/tab_navigator.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-
 import 'collapsed_screen.dart';
 
 class MainScreen extends StatefulWidget {

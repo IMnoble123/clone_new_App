@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:podcast_app/screens/login/login_screen.dart';
 import 'package:podcast_app/widgets/bg/gradient_bg.dart';
 import 'package:podcast_app/widgets/bg/tomtom_title.dart';
-import 'package:podcast_app/widgets/btns/stadiumButtons.dart';
+import 'package:podcast_app/widgets/btns/stadium_buttons.dart';
 
 class ResetSuccessScreen extends StatelessWidget {
   const ResetSuccessScreen({Key? key}) : super(key: key);

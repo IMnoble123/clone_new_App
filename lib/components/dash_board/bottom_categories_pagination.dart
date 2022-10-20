@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:podcast_app/components/pagination_podcasts.dart';
@@ -103,11 +105,11 @@ class _BottomCategoriesPaginationState
             categoriesList.addAll(response.categories!);
             _hasNextPage = totalRows != categoriesList.length;
 
-            print('load more $_hasNextPage');
+            log('load more $_hasNextPage');
           });
         }
       } catch (e) {
-        print(e.toString());
+        log(e.toString());
       }
 
       if (mounted) {

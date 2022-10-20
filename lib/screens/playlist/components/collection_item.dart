@@ -1,12 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:podcast_app/controllers/playlist_controller.dart';
 import 'package:podcast_app/extras/app_colors.dart';
-import 'package:podcast_app/extras/app_dialogs.dart';
-import 'package:podcast_app/extras/constants.dart';
 import 'package:podcast_app/models/response/collections_data_response.dart';
-import 'package:podcast_app/network/api_keys.dart';
-import 'package:podcast_app/network/api_services.dart';
 
 class CollectionUiItem extends StatelessWidget {
   final CollectionItem item;

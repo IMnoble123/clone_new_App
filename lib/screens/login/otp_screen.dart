@@ -3,23 +3,16 @@ import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
 import 'package:podcast_app/controllers/reset_controller.dart';
 import 'package:podcast_app/models/response/validate_otp_reset.dart';
-import 'package:podcast_app/network/api_keys.dart';
 import 'package:podcast_app/extras/app_dialogs.dart';
 import 'package:podcast_app/extras/constants.dart';
-import 'package:podcast_app/extras/keys.dart';
-import 'package:podcast_app/models/response/response_data.dart';
 import 'package:podcast_app/network/api_services.dart';
 import 'package:podcast_app/network/common_network_calls.dart';
 import 'package:podcast_app/screens/forgot/reset_password_screen.dart';
-import 'package:podcast_app/screens/main/main_page.dart';
 import 'package:podcast_app/utils/utility.dart';
 import 'package:podcast_app/widgets/bg/gradient_bg.dart';
 import 'package:podcast_app/widgets/bg/tomtom_title.dart';
-import 'package:podcast_app/widgets/btns/stadiumButtons.dart';
+import 'package:podcast_app/widgets/btns/stadium_buttons.dart';
 import 'package:podcast_app/widgets/btns/wrap_text_btn.dart';
-
-import 'login_screen.dart';
-import '../main_screen.dart';
 
 class OtpScreen extends StatefulWidget {
   final String mobileNumber;
@@ -163,7 +156,6 @@ class _OtpScreenState extends State<OtpScreen> {
                           ),
                           WrapTextButton(
                             callback: ()  {
-
                               CommonNetworkApi().sendNewOtp(context, widget.mobileNumber);
 
                             },

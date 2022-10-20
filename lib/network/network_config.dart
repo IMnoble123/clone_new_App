@@ -15,8 +15,8 @@ class NetworkConfig{
   static const String qa_baseUrl ="http://ec2-34-197-255-9.compute-1.amazonaws.com/api";*/
 
   //http://ec2-34-197-255-9.compute-1.amazonaws.com
-  static const String prod_baseUrl ="https://rj.tomtompodcast.com/api";
-  static const String qa_baseUrl ="https://qa.tomtompodcast.com/api";
+  static const String prodbaseUrl ="https://rj.tomtompodcast.com/api";
+  static const String qabaseUrl ="https://qa.tomtompodcast.com/api";
 
 
 

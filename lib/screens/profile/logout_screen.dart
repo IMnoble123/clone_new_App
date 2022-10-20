@@ -11,7 +11,7 @@ import 'package:podcast_app/main.dart';
 import 'package:podcast_app/network/common_network_calls.dart';
 import 'package:podcast_app/screens/login/login_screen.dart';
 import 'package:podcast_app/screens/main/main_page.dart';
-import 'package:podcast_app/widgets/btns/stadiumButtons.dart';
+import 'package:podcast_app/widgets/btns/stadium_buttons.dart';
 
 class LogOutScreen extends StatelessWidget {
   const LogOutScreen({Key? key}) : super(key: key);

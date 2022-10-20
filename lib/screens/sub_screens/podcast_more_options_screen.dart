@@ -1,10 +1,8 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:podcast_app/controllers/main_controller.dart';
 import 'package:podcast_app/db/db.dart';
@@ -17,7 +15,6 @@ import 'package:podcast_app/extras/constants.dart';
 import 'package:podcast_app/models/response/response_data.dart';
 import 'package:podcast_app/network/api_services.dart';
 import 'package:podcast_app/network/common_network_calls.dart';
-import 'package:podcast_app/screens/login/login_screen.dart';
 import 'package:podcast_app/screens/main/main_page.dart';
 import 'package:podcast_app/screens/sub_screens/add_collections_screen.dart';
 import 'package:podcast_app/screens/sub_screens/report_screen.dart';
@@ -64,7 +61,9 @@ class PodcastMoreOptionsScreen extends GetView<MainController> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               Image.asset(
                 'images/play.png',
                 width: 50,
@@ -128,18 +127,17 @@ class PodcastMoreOptionsScreen extends GetView<MainController> {
                   padding: const EdgeInsets.symmetric(
                       vertical: 8.0, horizontal: 16.0),
                   child: RawScrollbar(
-                    isAlwaysShown: true,
+                    thumbVisibility: true,
                     thumbColor: AppColors.firstColor,
                     radius: const Radius.circular(20),
                     thickness: 2,
                     child: ListView(
                       itemExtent: 50,
                       children: [
-
-
                         Stack(
                           children: [
-                            listTile('images/download_icon.png', 'Download', () {
+                            listTile('images/download_icon.png', 'Download',
+                                () {
                               if (CommonNetworkApi().mobileUserId != "-1") {
                                 if (!controller.downloadInProgress.value) {
                                   controller.downloadProgress.value = 0;
@@ -151,22 +149,23 @@ class PodcastMoreOptionsScreen extends GetView<MainController> {
                             }),
                             Positioned(
                               child: Obx(
-                                    () => controller.downloadProgress.value != 0 &&
-                                    controller.downloadProgress.value != 100
+                                () => controller.downloadProgress.value != 0 &&
+                                        controller.downloadProgress.value != 100
                                     ? Center(
-                                  child: SizedBox(
-                                    width: 25,
-                                    height: 25,
-                                    child: CircularProgressIndicator(
-                                      backgroundColor: AppColors.firstColor
-                                          .withOpacity(0.4),
-                                      value: controller
-                                          .downloadProgress.value /
-                                          100,
-                                      color: AppColors.firstColor,
-                                    ),
-                                  ),
-                                )
+                                        child: SizedBox(
+                                          width: 25,
+                                          height: 25,
+                                          child: CircularProgressIndicator(
+                                            backgroundColor: AppColors
+                                                .firstColor
+                                                .withOpacity(0.4),
+                                            value: controller
+                                                    .downloadProgress.value /
+                                                100,
+                                            color: AppColors.firstColor,
+                                          ),
+                                        ),
+                                      )
                                     : const SizedBox.shrink(),
                               ),
                               right: 0,
@@ -175,15 +174,13 @@ class PodcastMoreOptionsScreen extends GetView<MainController> {
                             )
                           ],
                         ),
-
-
                         listTile('images/share_circle.png', 'Share', () {
                           if (CommonNetworkApi().mobileUserId != "-1") {
                             DynamicLinksService.createDynamicLink(
-                                controller.currentPodcast!)
+                                    controller.currentPodcast!)
                                 .then((value) {
                               print(value);
-                              Share.share(value);
+                              Share.share(value, subject: 'Look what i made');
                               // Share.share(HtmlWidget(dummy).html);
                             });
                           } else {
@@ -192,37 +189,33 @@ class PodcastMoreOptionsScreen extends GetView<MainController> {
 
                           //sharePodcast();
                         }),
-
                         listTile('images/star.png', 'Add to favorites', () {
                           if (CommonNetworkApi().mobileUserId != "-1") {
                             ApiService()
                                 .postData(
-                                ApiKeys.FAV_SUFFIX,
-                                ApiKeys.getFavouriteQuery(
-                                    controller.podcastId.value),ageNeeded: false)
+                                    ApiKeys.FAV_SUFFIX,
+                                    ApiKeys.getFavouriteQuery(
+                                        controller.podcastId.value),
+                                    ageNeeded: false)
                                 .then((value) => showResponse(context, value));
                           } else {
                             Utility.showRegistrationPromotion(context);
                           }
                         }),
-
-
-
-
                         listTile('images/add_play_list.png', 'Add to play list',
-                                () {
-                              print(CommonNetworkApi().mobileUserId);
-                              if (CommonNetworkApi().mobileUserId != "-1") {
-                                showGeneralDialog(
-                                    context: context,
-                                    pageBuilder:
-                                        (context, animation, secondAnimation) {
-                                      return AddPlayListCollectionScreen(
-                                          controller.currentPodcast!.podcastId!);
-                                    });
-                              } else {
-                                Utility.showRegistrationPromotion(context);
-                                /*AppDialogs.simpleSelectionDialog(
+                            () {
+                          print(CommonNetworkApi().mobileUserId);
+                          if (CommonNetworkApi().mobileUserId != "-1") {
+                            showGeneralDialog(
+                                context: context,
+                                pageBuilder:
+                                    (context, animation, secondAnimation) {
+                                  return AddPlayListCollectionScreen(
+                                      controller.currentPodcast!.podcastId!);
+                                });
+                          } else {
+                            Utility.showRegistrationPromotion(context);
+                            /*AppDialogs.simpleSelectionDialog(
                                     context,
                                     "Login Required",
                                     "you will need to login permission for this feature ",
@@ -235,46 +228,41 @@ class PodcastMoreOptionsScreen extends GetView<MainController> {
                                     (value) => Get.offAll(const LoginScreen()));
                               }
                             });*/
-                              }
-                            }, addTrail: true),
-
+                          }
+                        }, addTrail: true),
                         listTile('images/timer.png', 'Listen later', () {
                           if (CommonNetworkApi().mobileUserId != "-1") {
                             ApiService()
                                 .postData(
-                                ApiKeys.FAV_SUFFIX,
-                                ApiKeys.getListenLaterQuery(
-                                    controller.podcastId.value),ageNeeded: false)
+                                    ApiKeys.FAV_SUFFIX,
+                                    ApiKeys.getListenLaterQuery(
+                                        controller.podcastId.value),
+                                    ageNeeded: false)
                                 .then((value) => showResponse(context, value));
                           } else {
                             Utility.showRegistrationPromotion(context);
                           }
                         }),
-
-
-
                         listTile('images/report_flag.png', 'Report', () {
                           Get.back();
 
-                          Future.delayed(const Duration(milliseconds: 500),(){
-
+                          Future.delayed(const Duration(milliseconds: 500), () {
                             showGeneralDialog(
                                 context: MainPage.activeContext!,
-                                pageBuilder: (context, animation, secondAnimation) {
-                                  return  ReportScreen(id: controller.currentPodcast!.podcastId!,isPodcast: true,);
+                                pageBuilder:
+                                    (context, animation, secondAnimation) {
+                                  return ReportScreen(
+                                    id: controller.currentPodcast!.podcastId!,
+                                    isPodcast: true,
+                                  );
                                 });
-
                           });
-
                         }),
-
                         listTile('images/close.png', 'Close Player', () {
                           Get.back();
 
                           controller.closePlayer();
                         }),
-
-
                       ],
                     ),
                   ),
@@ -471,6 +459,4 @@ class PodcastMoreOptionsScreen extends GetView<MainController> {
 
     TomTomDb().insertPodcast(dbPodcast);
   }
-
-
 }

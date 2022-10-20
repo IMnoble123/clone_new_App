@@ -5,7 +5,6 @@ import 'package:podcast_app/models/item.dart';
 import 'package:podcast_app/network/api_keys.dart';
 import 'package:podcast_app/screens/main/main_page.dart';
 import 'package:podcast_app/screens/playlist/all_playlist_screen.dart';
-import 'package:podcast_app/screens/playlist/collections_widget.dart';
 import 'package:podcast_app/screens/playlist/downloaded_screen.dart';
 import 'package:podcast_app/screens/playlist/fav_list.dart';
 import 'package:podcast_app/screens/playlist/play_list_chips.dart';

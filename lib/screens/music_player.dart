@@ -1,10 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:podcast_app/models/search_response.dart';
 
-import 'audio_recorder.dart';
 
 class MusicPlayerScreen extends StatefulWidget {
   final Result? podItem;
@@ -62,7 +60,7 @@ class _MusicPlayerScreenState extends State<MusicPlayerScreen> {
                   RawMaterialButton(
                     onPressed: () {},
                     padding: const EdgeInsets.all(8.0),
-                    shape: CircleBorder(),
+                    shape: const CircleBorder(),
                     elevation: 10.0,
                     fillColor: Colors.white,
                     child: const Icon(
@@ -71,7 +69,7 @@ class _MusicPlayerScreenState extends State<MusicPlayerScreen> {
                     ),
                   ),
                   isLoading
-                      ? CircularProgressIndicator()
+                      ? const CircularProgressIndicator()
                       : RawMaterialButton(
                           onPressed: () {
                             if (player.playing) {
@@ -85,7 +83,7 @@ class _MusicPlayerScreenState extends State<MusicPlayerScreen> {
                             }
                           },
                           padding: const EdgeInsets.all(8.0),
-                          shape: CircleBorder(),
+                          shape: const CircleBorder(),
                           elevation: 10.0,
                           fillColor: Colors.white,
                           child: Icon(

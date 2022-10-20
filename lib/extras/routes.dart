@@ -1,12 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:podcast_app/screens/dash_board.dart';
-import 'package:podcast_app/screens/login/login_screen.dart';
-import 'package:podcast_app/screens/onboarding_screen.dart';
-import 'package:podcast_app/screens/playlist/play_list_screen.dart';
-import 'package:podcast_app/screens/profile/profile_screen.dart';
-import 'package:podcast_app/screens/tom_tom_screen.dart';
-import 'package:podcast_app/screens/video_screen.dart';
-
 import 'screen_args.dart';
 
 class AppRoutes {

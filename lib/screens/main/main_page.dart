@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -19,12 +18,10 @@ import 'package:podcast_app/network/api_services.dart';
 import 'package:podcast_app/screens/main/dynamic_widget.dart';
 import 'package:podcast_app/screens/playlist/playlist_search_screen.dart';
 import 'package:podcast_app/utils/utility.dart';
-import 'package:podcast_app/widgets/anim/animated_social_icon.dart';
 import 'package:podcast_app/widgets/bg/gradient_bg.dart';
 import 'package:podcast_app/widgets/bottom_navigation.dart';
 import 'package:podcast_app/widgets/search_widget.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-
 import '../collapsed_screen.dart';
 import '../search_screen.dart';
 import '../slide_up_screen.dart';
@@ -34,7 +31,7 @@ class MainPage extends StatelessWidget {
 
   static bool isFirstBuild = true;
 
-  static BuildContext? activeContext = null;
+  static BuildContext? activeContext;
 
   static GlobalKey<FabCircularMenuState> fabKey = GlobalKey();
 
@@ -332,7 +329,7 @@ class MainPage extends StatelessWidget {
 
   void registerFcmToken(BuildContext context) async {
     AppSharedPreference().getStringData(AppConstants.FCM_TOKEN).then((token) {
-      if (token != null && token.isNotEmpty) {
+      if (token.isNotEmpty) {
         ApiService().postData(ApiKeys.FCM_TOKEN_SUFFIX,
             ApiKeys.getFcmQuery(token, Utility.getDeviceOs()));
       }

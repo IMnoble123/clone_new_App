@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:podcast_app/widgets/tab_navigator.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class AppKeys {
   static const String SHOW_ON_BOARD = "Onboard";
 
-
   static final navigator = TabNavigator(key: navigatorState,name: 'home',);
-
   static final navigatorState = GlobalKey<NavigatorState>();
   static final panelKey = GlobalKey();
   static final mainScaffoldState = GlobalKey<ScaffoldState>();

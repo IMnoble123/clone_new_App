@@ -1,7 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:podcast_app/extras/app_colors.dart';
 import 'package:podcast_app/extras/constants.dart';
 import 'package:podcast_app/extras/routes.dart';
 import 'package:podcast_app/extras/screen_args.dart';
@@ -181,7 +179,7 @@ class BrowseCategoriesScreen extends StatelessWidget {
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
                     clipBehavior: Clip.hardEdge,
-                    child: Container(
+                    child: SizedBox(
                         //color: AppColors.firstColor.withOpacity(0.4),
                         width: double.infinity,
                         //padding: const EdgeInsets.all(16.0),

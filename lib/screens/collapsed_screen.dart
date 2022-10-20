@@ -8,16 +8,10 @@ import 'package:podcast_app/screens/sub_screens/podcast_more_options_screen.dart
 import 'package:podcast_app/widgets/stroke_circular_btn.dart';
 
 class CollapsedScreen extends GetView<MainController> {
-  const CollapsedScreen({
-    Key? key,
-  }) : super(key: key);
-
+  const CollapsedScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    print(controller.hashCode);
-
-    DateTime? currentBackPressTime = null;
-
+    DateTime? currentBackPressTime;
     return InkWell(
       splashColor: Colors.red,
       onTap: () {

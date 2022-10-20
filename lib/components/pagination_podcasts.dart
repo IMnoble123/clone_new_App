@@ -4,7 +4,6 @@ import 'package:podcast_app/components/podcast_item.dart';
 import 'package:podcast_app/controllers/main_controller.dart';
 import 'package:podcast_app/extras/routes.dart';
 import 'package:podcast_app/extras/screen_args.dart';
-import 'package:podcast_app/network/api_keys.dart';
 import 'package:podcast_app/network/api_services.dart';
 import 'package:podcast_app/widgets/header.dart';
 import 'package:podcast_app/widgets/no_data_widget.dart';

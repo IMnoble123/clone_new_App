@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:podcast_app/controllers/main_controller.dart';
-import 'package:podcast_app/extras/app_colors.dart';
 import 'package:podcast_app/extras/constants.dart';
 import 'package:podcast_app/extras/routes.dart';
 import 'package:podcast_app/extras/screen_args.dart';
@@ -10,7 +9,7 @@ import 'package:podcast_app/models/response/shows_response_data.dart';
 import 'package:podcast_app/network/api_keys.dart';
 import 'package:podcast_app/network/api_services.dart';
 import 'package:podcast_app/widgets/no_data_widget.dart';
-import 'package:podcast_app/widgets/song_info_tile.dart';
+
 
 class ShowsListVertical extends GetView<MainController> {
   final String title;
@@ -99,7 +98,7 @@ class ShowsListVertical extends GetView<MainController> {
 
   Widget updateShowsData(List<ShowItem> shows) {
 
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       controller.showsCount.value = shows.length;
     });
     
@@ -204,7 +203,7 @@ class ShowsListVertical extends GetView<MainController> {
                         FocusScope.of(c).unfocus();
 
                         // final args = ScreenArguments('${showItem.showsName!} (${showItem.totalPodcast})' , ApiKeys.PODCASTS_BY_SHOW_SUFFIX,  ApiKeys.getPodcastsByShowIdQuery(showItem.showsId!));
-                        final args = ScreenArguments('${showItem.showsName!}' , ApiKeys.PODCASTS_BY_SHOW_SUFFIX,  ApiKeys.getPodcastsByShowIdQuery(showItem.showsId!));
+                        final args = ScreenArguments(showItem.showsName! , ApiKeys.PODCASTS_BY_SHOW_SUFFIX,  ApiKeys.getPodcastsByShowIdQuery(showItem.showsId!));
                         Navigator.pushNamed(c, AppRoutes.podcastListScreenVertical,arguments: args);
 
 

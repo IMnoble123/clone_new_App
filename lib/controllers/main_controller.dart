@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
@@ -20,7 +21,6 @@ import 'package:podcast_app/network/api_services.dart';
 import 'package:podcast_app/network/common_network_calls.dart';
 import 'package:podcast_app/player/progress_bar_state.dart';
 import 'package:podcast_app/player/tomtom_player.dart';
-import 'package:podcast_app/widgets/rj_filter_categories.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -40,7 +40,7 @@ class MainController extends GetxController {
 
   RxList<Category> categories = <Category>[].obs;
 
-  Rx<ProgressBarState> progressNotifier = ProgressBarState(
+  Rx<ProgressBarState> progressNotifier = const ProgressBarState(
     current: Duration.zero,
     buffered: Duration.zero,
     total: Duration.zero,
@@ -102,8 +102,6 @@ class MainController extends GetxController {
 
   RxList<Comment> comments = <Comment>[].obs;
   RxBool commentsLoad = false.obs;
-
-
 
   Future<void> addComment({required String comment, bool file = false}) async {
     try {
@@ -300,7 +298,9 @@ class MainController extends GetxController {
 
     try {
       Get.find<ChatTextFieldController>().clearText();
-    } catch (e) {}
+    } catch (e) {
+      log(e.toString());
+    }
 
     if (!podcast.imagepath!.contains(".jfif")) {
       coverPic.value = podcast.imagepath!;

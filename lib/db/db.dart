@@ -1,6 +1,5 @@
 import 'package:podcast_app/db/db_podcast.dart';
 import 'package:podcast_app/extras/constants.dart';
-import 'package:podcast_app/network/api_services.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -65,7 +64,7 @@ class TomTomDb {
 
   Future<bool> isPodcastExist(String userId, String podcastId) async {
     final result = await database?.rawQuery(
-        'SELECT * FROM ${AppConstants.PODCAST_TABLE_NAME} where user_id = ${userId} and podcast_id = ${podcastId}');
+        'SELECT * FROM ${AppConstants.PODCAST_TABLE_NAME} where user_id = $userId and podcast_id = $podcastId');
     print(result);
     return result!.isNotEmpty;
   }

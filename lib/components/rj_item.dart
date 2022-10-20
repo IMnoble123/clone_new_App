@@ -79,3 +79,4 @@ class RjPaginationItem extends StatelessWidget {
     );
   }
 }
+

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:podcast_app/widgets/song_info_tile.dart';
-
 import '../../controllers/main_controller.dart';
 import '../../models/response/podcast_response.dart';
 import '../../network/common_network_calls.dart';

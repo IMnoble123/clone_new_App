@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:podcast_app/components/rj_item.dart';
 import 'package:podcast_app/extras/constants.dart';
-import 'package:podcast_app/extras/routes.dart';
-import 'package:podcast_app/extras/screen_args.dart';
 import 'package:podcast_app/models/response/rj_response.dart';
 import 'package:podcast_app/network/api_services.dart';
 import 'package:podcast_app/screens/main/main_page.dart';
-import 'package:podcast_app/widgets/header.dart';
 import 'package:podcast_app/widgets/rj_row_item.dart';
-
-import '../network/api_keys.dart';
 import '../network/common_network_calls.dart';
 
 class PaginationRjsVertical extends StatefulWidget {

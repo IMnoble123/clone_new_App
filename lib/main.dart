@@ -1,10 +1,10 @@
 import 'dart:async';
-
+import 'dart:developer';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_appcenter_bundle/flutter_appcenter_bundle.dart';
@@ -24,37 +24,26 @@ import 'package:podcast_app/network/network_config.dart';
 import 'package:podcast_app/screens/dummy_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<void> backgroundHandler(RemoteMessage message) async {
-
-  try{
-
-
-    print('SplashScreen background');
-
-    print(message.data.toString());
-    print(message.notification!.title);
-
-  }catch(e){
-    print('SplashScreen ${e.toString()}');
-  }
-
-
-
-
-}
-
-
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp();
- FirebaseMessaging.onBackgroundMessage(backgroundHandler);
+  FirebaseMessaging.onBackgroundMessage(backgroundHandler);
 
+  AwesomeNotifications().initialize(null, [
+    NotificationChannel(
+        channelKey: 'key1',
+        channelName: 'tom-tom ',
+        channelDescription: 'Notifications',
+        playSound: true,
+        enableLights: true,
+        enableVibration: true,
+        ledColor: Colors.white,
+        defaultColor: const Color.fromARGB(255, 232, 9, 39))
+  ]);
 
   AppSharedPreference();
   //FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  ApiService().initDio(NetworkConfig.prod_baseUrl);
+  ApiService().initDio(NetworkConfig.prodbaseUrl);
   // ApiService().initDio(NetworkConfig.qa_baseUrl);
 
   // await ApiService().generateToken();
@@ -75,12 +64,13 @@ void main() async {
   final prefs = await SharedPreferences.getInstance();
   final showHome = prefs.getBool(AppKeys.SHOW_ON_BOARD) ?? false;
   final acceptedTC = prefs.getBool(AppConstants.ACCEPTED_TC) ?? false;
-  AppConstants.age_restricted = prefs.getBool(AppConstants.AGE_RESTRICTED) ?? true;
+  AppConstants.age_restricted =
+      prefs.getBool(AppConstants.AGE_RESTRICTED) ?? true;
 
   final userLoginedIn = prefs.getBool(AppConstants.IS_USER_LOGED_IN) ?? false;
 
   CommonNetworkApi().mobileUserId = prefs.getString(AppConstants.USER_ID) ?? '';
-  print("Mobile User Id ${CommonNetworkApi().mobileUserId}");
+  log("Mobile User Id ${CommonNetworkApi().mobileUserId}");
   CommonNetworkApi().mobileUserName =
       prefs.getString(AppConstants.USER_Name) ?? 'Anonymous';
 
@@ -92,8 +82,21 @@ void main() async {
     accptedTc: acceptedTC,
   ));
 
-  WidgetsBinding.instance!.addObserver(_Handler());
+  WidgetsBinding.instance.addObserver(_Handler());
+}
 
+Future<void> backgroundHandler(RemoteMessage message) async {
+  log(message.data.toString());
+  AwesomeNotifications().createNotificationFromJsonData(message.data);
+
+  // try {
+  //   log('SplashScreen background');
+  //   log(message.data.toString());
+  //   log(message.notification!.title.toString());
+  //   AwesomeNotifications().createNotificationFromJsonData(message.data);
+  // } catch (e) {
+  //   log('SplashScreen ${e.toString()}');
+  // }
 }
 
 class _Handler extends WidgetsBindingObserver {
@@ -101,20 +104,15 @@ class _Handler extends WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       print('App RESUMED');
-    }else if (state == AppLifecycleState.detached) {
-
-      try{
-
+    } else if (state == AppLifecycleState.detached) {
+      try {
         Get.find<MainController>().tomtomPlayer.stop();
         Get.find<MainController>().tomtomPlayer.dispose();
-      }catch(e){
+      } catch (e) {
         print('App detached with error ${e.toString()}');
       }
-
     } else {
-
       print('App PAUSED');
-
     }
   }
 }
@@ -215,9 +213,9 @@ class _TomTomApp extends State<TomTomApp> {
                 ? const LoginScreen()
                 : const OnBoardingScreen(),*/
 
-      home: DummyScreen(userLogin: widget.userLogin,),
-
-
+      home: DummyScreen(
+        userLogin: widget.userLogin,
+      ),
     );
 
     /*return GetMaterialApp(

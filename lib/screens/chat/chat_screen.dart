@@ -1,13 +1,10 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_vibrate/flutter_vibrate.dart';
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:podcast_app/controllers/chat_controller.dart';
 import 'package:podcast_app/extras/app_colors.dart';
 import 'package:podcast_app/extras/app_dialogs.dart';
@@ -17,7 +14,6 @@ import 'package:podcast_app/models/response/rj_response.dart';
 import 'package:podcast_app/network/api_services.dart';
 import 'package:podcast_app/screens/chat/chat_bubble.dart';
 import 'package:podcast_app/utils/utility.dart';
-import 'package:record/record.dart';
 
 class ChatScreen extends GetView<ChartController> {
   final RjItem rjItem;
@@ -49,7 +45,7 @@ class ChatScreen extends GetView<ChartController> {
                 '${rjItem.rjName}',
                 style: const TextStyle(color: Colors.white, fontSize: 14),
               ),
-             /* Text(
+              /* Text(
                 '${rjItem.rjPhone}',
                 style: TextStyle(
                     color: Colors.white.withOpacity(0.75), fontSize: 12),
@@ -129,7 +125,8 @@ class ChatScreen extends GetView<ChartController> {
                                 controller.isPlayRecodedAudio.value = false;
                                 controller.isRecordingCompleted.value = false;
 
-                                Utility.deleteAudio(controller.recordPath.value);
+                                Utility.deleteAudio(
+                                    controller.recordPath.value);
                               },
                               icon: const Icon(
                                 Icons.delete,
@@ -181,36 +178,39 @@ class ChatScreen extends GetView<ChartController> {
                                       Icons.stop_circle,
                                       color: AppColors.firstColor,
                                     )),
-                            controller.isRecordingCompleted.value?Material(
-                                color: Colors.transparent,
-                                child: IconButton(
-                                    onPressed: () {
-                                      if (controller.isRecording.value) {
-                                        stopRecording(context);
-                                      }
+                            controller.isRecordingCompleted.value
+                                ? Material(
+                                    color: Colors.transparent,
+                                    child: IconButton(
+                                        onPressed: () {
+                                          if (controller.isRecording.value) {
+                                            stopRecording(context);
+                                          }
 
-                                      controller.enableAudioView.value = false;
-                                      controller.isPlayRecodedAudio.value =
-                                          false;
-                                      controller.isRecording.value = false;
-                                      controller.isRecordingCompleted.value =
-                                          false;
+                                          controller.enableAudioView.value =
+                                              false;
+                                          controller.isPlayRecodedAudio.value =
+                                              false;
+                                          controller.isRecording.value = false;
+                                          controller.isRecordingCompleted
+                                              .value = false;
 
-                                      uploadImageToServer(context,
-                                              controller.recordPath.value)
-                                          .then((value) {
-                                        if (value.isNotEmpty) {
-                                          print(value);
-                                          controller.sendHtmlMessage(
-                                              getHtmlData(value,false));
-                                          // controller.sendHtmlMessage(getHtmlData(value));
-                                        }
-                                      });
-                                    },
-                                    icon: const Icon(
-                                      Icons.send,
-                                      color: AppColors.firstColor,
-                                    ))):const SizedBox.shrink()
+                                          uploadImageToServer(context,
+                                                  controller.recordPath.value)
+                                              .then((value) {
+                                            if (value.isNotEmpty) {
+                                              print(value);
+                                              controller.sendHtmlMessage(
+                                                  getHtmlData(value, false));
+                                              // controller.sendHtmlMessage(getHtmlData(value));
+                                            }
+                                          });
+                                        },
+                                        icon: const Icon(
+                                          Icons.send,
+                                          color: AppColors.firstColor,
+                                        )))
+                                : const SizedBox.shrink()
                           ],
                         )
                       : Row(
@@ -264,8 +264,6 @@ class ChatScreen extends GetView<ChartController> {
                                                         Navigator.pop(context);
 
                                                         openGallery(context);
-
-
                                                       },
                                                     ),
                                                   ),
@@ -473,7 +471,7 @@ class ChatScreen extends GetView<ChartController> {
 
   void sendMessage(String text) {}
 
-  String getHtmlData(String url,bool isImage) {
+  String getHtmlData(String url, bool isImage) {
     String htmlData = "";
 
     print(url);
@@ -584,15 +582,9 @@ class ChatScreen extends GetView<ChartController> {
     }
   }
 
-
-
-
-
   void openGallery(BuildContext context) async {
-
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.image,allowMultiple: false
-    );
+    FilePickerResult? result = await FilePicker.platform
+        .pickFiles(type: FileType.image, allowMultiple: false);
 
     if (result != null) {
       File file = File(result.files.single.path!);
@@ -600,7 +592,7 @@ class ChatScreen extends GetView<ChartController> {
       uploadImageToServer(context, file.absolute.path).then((value) {
         if (value.isNotEmpty) {
           print(value);
-          controller.sendHtmlMessage(getHtmlData(value,true));
+          controller.sendHtmlMessage(getHtmlData(value, true));
           // controller.sendHtmlMessage(getHtmlData(value));
         }
       });
@@ -609,11 +601,9 @@ class ChatScreen extends GetView<ChartController> {
     }
   }
 
-  void openAudio(BuildContext context) async{
-
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-        type: FileType.audio,allowMultiple: false
-    );
+  void openAudio(BuildContext context) async {
+    FilePickerResult? result = await FilePicker.platform
+        .pickFiles(type: FileType.audio, allowMultiple: false);
 
     if (result != null) {
       File file = File(result.files.single.path!);
@@ -621,13 +611,12 @@ class ChatScreen extends GetView<ChartController> {
       uploadImageToServer(context, file.absolute.path).then((value) {
         if (value.isNotEmpty) {
           print(value);
-          controller.sendHtmlMessage(getHtmlData(value,false));
+          controller.sendHtmlMessage(getHtmlData(value, false));
           // controller.sendHtmlMessage(getHtmlData(value));
         }
       });
     } else {
       // User canceled the picker
     }
-
   }
 }

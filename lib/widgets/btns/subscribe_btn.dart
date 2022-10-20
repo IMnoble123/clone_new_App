@@ -7,15 +7,15 @@ import 'package:podcast_app/models/response/rj_response.dart';
 import 'package:podcast_app/network/api_services.dart';
 import 'package:podcast_app/network/common_network_calls.dart';
 import 'package:podcast_app/utils/utility.dart';
-
 import '../../extras/app_colors.dart';
 
 class SubScribeButton extends StatefulWidget {
   final RjItem rjItem;
 
-  const SubScribeButton(
-      {Key? key, required this.rjItem, })
-      : super(key: key);
+  const SubScribeButton({
+    Key? key,
+    required this.rjItem,
+  }) : super(key: key);
 
   @override
   State<SubScribeButton> createState() => _SubScribeButtonState();
@@ -30,35 +30,31 @@ class _SubScribeButtonState extends State<SubScribeButton> {
           ? AppColors.firstColor
           : null, //1 means subscribed, 0 means not
       onPressed: () {
-
-        if(CommonNetworkApi().mobileUserId=="-1"){
+        if (CommonNetworkApi().mobileUserId == "-1") {
           Utility.showRegistrationPromotion(context);
           return;
         }
 
+        // if (widget.rjItem.subscribed!.toString() != "1") {
+        ApiService()
+            .postData(ApiKeys.SUBSCRIBE_SUFFIX,
+                ApiKeys.getSubscribedQuery(widget.rjItem.rjUserId!),
+                ageNeeded: false)
+            .then((value) {
+          ResponseData responseData = ResponseData.fromJson(value);
 
-       // if (widget.rjItem.subscribed!.toString() != "1") {
-          ApiService()
-              .postData(ApiKeys.SUBSCRIBE_SUFFIX,
-                  ApiKeys.getSubscribedQuery(widget.rjItem.rjUserId!),ageNeeded: false)
-              .then((value) {
-            ResponseData responseData = ResponseData.fromJson(value);
-
-            if (responseData.status!.toUpperCase() == AppConstants.SUCCESS) {
-              widget.rjItem.subscribed = widget.rjItem.subscribed=="1"?"0":"1";
-              setState(() {
-
-              });
-              AppDialogs.simpleOkDialog(
-                  context, 'Success', responseData.response ?? '');
-
-
-            } else {
-              AppDialogs.simpleOkDialog(
-                  context, 'Success', responseData.response ?? '');
-            }
-          });
-       // }
+          if (responseData.status!.toUpperCase() == AppConstants.SUCCESS) {
+            widget.rjItem.subscribed =
+                widget.rjItem.subscribed == "1" ? "0" : "1";
+            setState(() {});
+            AppDialogs.simpleOkDialog(
+                context, 'Success', responseData.response ?? '');
+          } else {
+            AppDialogs.simpleOkDialog(
+                context, 'Success', responseData.response ?? '');
+          }
+        });
+        // }
       },
       shape: const StadiumBorder(
         side: BorderSide(color: AppColors.firstColor),
@@ -69,7 +65,9 @@ class _SubScribeButtonState extends State<SubScribeButton> {
           text: TextSpan(
             children: [
               TextSpan(
-                text: widget.rjItem.subscribed!.toString() == "1" ? "Subscribed " : "Subscribe",
+                text: widget.rjItem.subscribed!.toString() == "1"
+                    ? "Subscribed "
+                    : "Subscribe",
               ),
               const WidgetSpan(
                 child: Icon(
@@ -84,6 +82,4 @@ class _SubScribeButtonState extends State<SubScribeButton> {
       ),
     );
   }
-
-
 }
