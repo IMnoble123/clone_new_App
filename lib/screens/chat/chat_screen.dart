@@ -6,6 +6,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:podcast_app/controllers/chat_controller.dart';
+import 'package:podcast_app/controllers/main_controller.dart';
 import 'package:podcast_app/extras/app_colors.dart';
 import 'package:podcast_app/extras/app_dialogs.dart';
 import 'package:podcast_app/extras/constants.dart';
@@ -55,8 +56,9 @@ class ChatScreen extends GetView<ChartController> {
           actions: [
             IconButton(
                 onPressed: () async {
-                  for (var element in AudioPlayer.players.entries) {
-                    await element.value.stop();
+                  var audioplayers = Get.find<MainController>().audioplayers;
+                  for (var element in audioplayers) {
+                    await element.stop();
                   }
 
                   controller.timer?.cancel();
@@ -459,6 +461,7 @@ class ChatScreen extends GetView<ChartController> {
 
       uploadedUrl = responseData.response!;
     } else {
+      // ignore: use_build_context_synchronously
       AppDialogs.simpleOkDialog(
           context, 'Failed', responseData.response ?? "Failed to upload");
       uploadedUrl = "";
@@ -570,9 +573,9 @@ class ChatScreen extends GetView<ChartController> {
 
     // await controller.audioPlayer.play(Uri.parse(controller.recordPath.value).path,isLocal: true).then((value) {
     try {
-      await controller.audioPlayer?.play(
-          File.fromUri(Uri.parse(controller.recordPath.value)).path,
-          isLocal: true);
+      await controller.audioPlayer?.play(DeviceFileSource(
+        File.fromUri(Uri.parse(controller.recordPath.value)).path,
+      ));
       controller.isPlayRecodedAudio.value = true;
       // await controller.audioPlayer.play(controller.recordPath.value,isLocal: true);
 
@@ -589,6 +592,7 @@ class ChatScreen extends GetView<ChartController> {
     if (result != null) {
       File file = File(result.files.single.path!);
 
+      // ignore: use_build_context_synchronously
       uploadImageToServer(context, file.absolute.path).then((value) {
         if (value.isNotEmpty) {
           print(value);
@@ -608,6 +612,7 @@ class ChatScreen extends GetView<ChartController> {
     if (result != null) {
       File file = File(result.files.single.path!);
 
+      // ignore: use_build_context_synchronously
       uploadImageToServer(context, file.absolute.path).then((value) {
         if (value.isNotEmpty) {
           print(value);

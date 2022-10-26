@@ -1,9 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
-import 'dart:ui';
-
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -19,18 +19,14 @@ import 'package:podcast_app/controllers/countries_controller.dart';
 import 'package:podcast_app/extras/app_colors.dart';
 import 'package:podcast_app/extras/app_dialogs.dart';
 import 'package:podcast_app/extras/constants.dart';
-import 'package:podcast_app/extras/share_prefs.dart';
 import 'package:podcast_app/models/request/social_user_data.dart';
 import 'package:podcast_app/models/response/countries_data.dart';
 import 'package:podcast_app/models/response/response_data.dart';
-import 'package:podcast_app/network/api_keys.dart';
 import 'package:podcast_app/network/api_services.dart';
 import 'package:podcast_app/network/common_network_calls.dart';
 import 'package:podcast_app/network/network_config.dart';
 import 'package:podcast_app/screens/login/countries_list.dart';
-import 'package:podcast_app/screens/login/email_signin_screen.dart';
 import 'package:podcast_app/screens/login/otp_screen.dart';
-import 'package:podcast_app/screens/login/register_screen.dart';
 import 'package:podcast_app/screens/main/main_page.dart';
 import 'package:podcast_app/screens/tc/terms_conditions.dart';
 import 'package:podcast_app/widgets/bg/gradient_bg.dart';
@@ -415,12 +411,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                   //Get.to(OtpScreen(mobileNumber: mobileInputController.text));
                                 },
                                 shape: const StadiumBorder(),
+                                color: const Color.fromARGB(255, 186, 16, 19),
                                 child: const Text(
                                   'Send OTP',
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 18),
                                 ),
-                                color: const Color.fromARGB(255, 186, 16, 19),
                               ),
                             ),
                             /*Padding(
@@ -442,10 +438,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             const SizedBox(
                               height: 10,
                             ),
-
                             Padding(
                               padding:
-                              const EdgeInsets.symmetric(vertical: 8.0),
+                                  const EdgeInsets.symmetric(vertical: 8.0),
                               child: SizedBox(
                                   width: 150,
                                   child: Divider(
@@ -453,7 +448,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   )),
                             ),
 
-                           /* Row(
+                            /* Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 SizedBox(
@@ -501,54 +496,54 @@ class _LoginScreenState extends State<LoginScreen> {
                                     scale: 3,
                                   ),
                                   tapCallback: () {
-                                    fbLogin();
+                                    Get.find<AuthController>()
+                                        .allowUserToSignInwithFB();
                                   },
                                 ),
-                                if(Platform.isIOS)
-                                CircleButton(
-                                  child: Image.asset(
-                                    'images/apple_new.png',
-                                    scale: 3,
+                                if (Platform.isIOS)
+                                  CircleButton(
+                                    child: Image.asset(
+                                      'images/apple_new.png',
+                                      scale: 3,
+                                    ),
+                                    tapCallback: () {
+                                      // Get.offAll(() => const MainScreen());
+                                      appleSingIn(context);
+                                    },
                                   ),
-                                  tapCallback: () {
-                                    // Get.offAll(() => const MainScreen());
-                                   appleSingIn(context);
-                                  },
-                                ),
                               ],
                             ),
                             const SizedBox(
                               height: 10,
                             ),
-
                             Padding(
                               padding:
-                              const EdgeInsets.symmetric(vertical: 8.0),
+                                  const EdgeInsets.symmetric(vertical: 8.0),
                               child: SizedBox(
                                   width: 150,
                                   child: Divider(
                                     color: Colors.white.withOpacity(0.4),
                                   )),
                             ),
-
                             const SizedBox(
                               height: 10,
                             ),
-
                             RichText(
                               text: TextSpan(
                                   text:
                                       'By Continuing, I certify I’m over 13 years of age \nand accept the',
                                   style: const TextStyle(
-                                      height: 1.5, fontSize: 11
-                                  ),
+                                      height: 1.5, fontSize: 11),
                                   children: [
                                     TextSpan(
-                                        text: ' Terms & Conditions',
-                                        style: const TextStyle(
-                                            color: AppColors.firstColor,fontSize: 14,
-                                            fontWeight: FontWeight.bold),
-                                      recognizer: TapGestureRecognizer()..onTap = () => openTC(),)
+                                      text: ' Terms & Conditions',
+                                      style: const TextStyle(
+                                          color: AppColors.firstColor,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold),
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () => openTC(),
+                                    )
                                   ]),
                               textAlign: TextAlign.center,
                             ),
@@ -570,11 +565,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                           url:
                                               'https://www.tomtompodcast.com/mterms.html',
                                         ));
-                                    *//*AppSharedPreference()
+                                    */ /*AppSharedPreference()
                                         .saveStringData(AppConstants.USER_ID,
                                             '-1') // '-1' means Guest user
                                         .then((value) =>
-                                            Get.offAll(() => const MainPage()));*//*
+                                            Get.offAll(() => const MainPage()));*/ /*
 
                                     //Get.offAll(() => const MainPage());
                                     // Get.offAll(() => const MainScreen());
@@ -739,9 +734,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
     postGoogleSignInData(_googleSignIn.currentUser!);*/
 
-
-
-
     signInWithGoogle().then((userCredential) {
       User user = userCredential.user!;
       postGoogleSignInData(user);
@@ -786,7 +778,7 @@ class _LoginScreenState extends State<LoginScreen> {
           FacebookAuthProvider.credential(loginResult.accessToken!.token);
 
       setState(() {
-        showProgress =true;
+        showProgress = true;
       });
 
       final result = await FirebaseAuth.instance
@@ -821,15 +813,11 @@ class _LoginScreenState extends State<LoginScreen> {
       //AppDialogs.simpleOkDialog(context, 'Warning!', e.toString());
     }
 
-    if(mounted){
-
+    if (mounted) {
       setState(() {
-        showProgress =false;
+        showProgress = false;
       });
-
     }
-
-
   }
 
   void fbLoginOld() async {
@@ -923,9 +911,8 @@ class _LoginScreenState extends State<LoginScreen> {
     String name = appleCredential.givenName ?? 'Anonymous';
 
     setState(() {
-      showProgress =true;
+      showProgress = true;
     });
-
 
     final result =
         await FirebaseAuth.instance.signInWithCredential(oauthCredential);
@@ -949,12 +936,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
     AppConstants.navigateToDashBoard(context, response);
 
-    if(mounted){
-
+    if (mounted) {
       setState(() {
-        showProgress =false;
+        showProgress = false;
       });
-      
     }
   }
 
@@ -965,7 +950,6 @@ class _LoginScreenState extends State<LoginScreen> {
         AppleIDAuthorizationScopes.fullName
       ],
       webAuthenticationOptions: WebAuthenticationOptions(
-        // TODO: Set the `clientId` and `redirectUri` arguments to the values you entered in the Apple Developer portal during the setup
         // clientId: 'de.lunaone.flutter.signinwithappleexample.service',
         clientId: 'com.tomtompodcast.app',
 
@@ -1001,7 +985,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void postGoogleSignInData(User? user) async {
-
     setState(() {
       showProgress = true;
     });
@@ -1023,12 +1006,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
     AppConstants.navigateToDashBoard(context, response);
 
-    if(mounted){
+    if (mounted) {
       setState(() {
         showProgress = false;
       });
     }
-
   }
 
   /*void postGoogleSignInData(GoogleSignInAccount? user) async {
@@ -1078,23 +1060,23 @@ class _LoginScreenState extends State<LoginScreen> {
       //position where you want to show the menu on screen
       items: [
         PopupMenuItem<String>(
-            child: const Text(
-              'Enable Production',
-            ),
             value: '1',
             onTap: () {
               ApiService().initDio(NetworkConfig.prodbaseUrl);
               //ApiService().generateToken();
-            }),
-        PopupMenuItem<String>(
+            },
             child: const Text(
-              'Enable QA',
-            ),
+              'Enable Production',
+            )),
+        PopupMenuItem<String>(
             value: '2',
             onTap: () {
               ApiService().initDio(NetworkConfig.qabaseUrl);
               //ApiService().generateToken();
-            }),
+            },
+            child: const Text(
+              'Enable QA',
+            )),
       ],
 
       elevation: 8.0,
@@ -1131,13 +1113,10 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   openTC() {
-
     Get.to(() => const TermsAndConditionsScreen(
-      title: 'Terms & Conditions',
-      url:
-      'https://www.tomtompodcast.com/mterms.html',
-    ));
-
+          title: 'Terms & Conditions',
+          url: 'https://www.tomtompodcast.com/mterms.html',
+        ));
   }
 
 // List<Country> countries = List.empty(growable: true);

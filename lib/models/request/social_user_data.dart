@@ -4,9 +4,9 @@
 
 import 'dart:convert';
 
-SocialUserData socialUserDataFromJson(String str) => SocialUserData.fromJson(json.decode(str));
+// SocialUserData socialUserDataFromJson(String str) => SocialUserData.fromJson(json.decode(str));
 
-String socialUserDataToJson(SocialUserData data) => json.encode(data.toJson());
+// String socialUserDataToJson(SocialUserData data) => json.encode(data.toJson());
 
 class SocialUserData {
   SocialUserData({

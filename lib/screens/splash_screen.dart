@@ -1,17 +1,8 @@
 import 'package:audioplayers/audioplayers.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
-import 'package:podcast_app/controllers/auth_controller.dart';
-import 'package:podcast_app/extras/constants.dart';
-import 'package:podcast_app/main.dart';
-import 'package:podcast_app/screens/home_screen.dart';
 import 'package:podcast_app/services/local_notification_service.dart';
 import 'package:podcast_app/services/push_notifications.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   final VoidCallback callback;
@@ -57,14 +48,16 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   AudioCache audioCache = AudioCache();
+
   bool startAnimation = false;
+  late final LocalNotificationService service;
 
   @override
   void initState() {
     super.initState();
-
-    LocalNotificationService.initialize(context);
-
+    //  LocalNotificationService.initialize(context);
+    service = LocalNotificationService();
+    service.intialize();
     PushNotifications.initPushNotifications(context);
 
     lottieController = AnimationController(
@@ -72,10 +65,6 @@ class _SplashScreenState extends State<SplashScreen>
     );
 
     loadFiles();
-
-
-
-
   }
 
   @override
@@ -86,12 +75,8 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   void loadFiles() async {
-    /*final uri = await audioCache.load('audio/splash_audio.mp4');
-    audioCache.play(uri.path, mode: PlayerMode.LOW_LATENCY);
-*/
-
-    await audioCache.play('audio/splash_audio_2.wav',
-        mode: PlayerMode.MEDIA_PLAYER);
+    await AudioPlayer().play(AssetSource('audio/splash_audio_2.wav'),
+        mode: PlayerMode.mediaPlayer);
     // mode: PlayerMode.MEDIA_PLAYER);
 
     setState(() {
@@ -108,6 +93,7 @@ class _SplashScreenState extends State<SplashScreen>
       }
     });
   }
-
-
 }
+  /*final uri = await audioCache.load('audio/splash_audio.mp4');
+    audioCache.play(uri.path, mode: PlayerMode.LOW_LATENCY);
+*/

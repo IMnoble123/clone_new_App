@@ -82,7 +82,6 @@ class MainController extends GetxController {
   RxBool enableCommentEditField = false.obs;
   RxBool enableReplayEditField = false.obs;
   RxString commentId = "".obs;
-
   RxString coverPic = "".obs;
   RxString podcastId = "".obs;
   RxString podcastName = "".obs;
@@ -102,6 +101,8 @@ class MainController extends GetxController {
 
   RxList<Comment> comments = <Comment>[].obs;
   RxBool commentsLoad = false.obs;
+
+  List<AudioPlayer>audioplayers = [];
 
   Future<void> addComment({required String comment, bool file = false}) async {
     try {
@@ -245,8 +246,8 @@ class MainController extends GetxController {
   }
 
   nextPodcast() async {
-    for (var element in AudioPlayer.players.entries) {
-      await element.value.stop();
+    for (var element in audioplayers) {
+      await element.stop();
     }
 
     tomtomPlayer.onNextSongButtonPressed();
@@ -608,8 +609,8 @@ class MainController extends GetxController {
         return;
       }
 
-      List<Comment> _list = response.comments!.reversed.toList();
-      comments.value = _list;
+      List<Comment> list = response.comments!.reversed.toList();
+      comments.value = list;
     } catch (e) {
       print(e.toString());
       comments.value = [];

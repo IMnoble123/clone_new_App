@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:podcast_app/controllers/auth_controller.dart';
 import 'package:podcast_app/controllers/main_controller.dart';
 import 'package:podcast_app/extras/app_binding.dart';
 import 'package:podcast_app/extras/app_colors.dart';
@@ -75,14 +76,13 @@ class LogOutScreen extends StatelessWidget {
                   //Get.clearRouteTree();
 
                   try {
-                    final GoogleSignIn googleSignIn =  GoogleSignIn();
+                    final GoogleSignIn googleSignIn = GoogleSignIn();
                     bool isSignIn = await googleSignIn.isSignedIn();
-                    if(isSignIn){
+                    if (isSignIn) {
                       await googleSignIn.signOut();
                     }
 
                     await FirebaseAuth.instance.signOut();
-
                   } catch (e) {}
 
                   CommonNetworkApi().mobileUserId = "";
@@ -93,6 +93,8 @@ class LogOutScreen extends StatelessWidget {
                   MainPage.isFirstBuild = true;
                   await Get.delete<MainController>(force: true)
                       .then((value) => Get.offAll(const LoginScreen()));
+
+                  Get.find<AuthController>().allowUserToSignOut();
 
                   //Get.reset();
 

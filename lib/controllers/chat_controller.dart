@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:podcast_app/controllers/main_controller.dart';
 import 'package:podcast_app/extras/constants.dart';
 import 'package:podcast_app/models/response/chat_list_data.dart';
 import 'package:podcast_app/models/response/response_data.dart';
@@ -41,17 +42,14 @@ class ChartController extends GetxController {
 
   RxString message = ''.obs;
 
-  String playingAudio ='';
+  String playingAudio = '';
   Duration playingDuration = Duration.zero;
   Duration playingTotalDuration = Duration.zero;
 
   AudioPlayer? audioPlayer;
 
-
-
   @override
   void onInit() {
-
     messageController.addListener(() {
       message.value = messageController.text;
     });
@@ -61,10 +59,14 @@ class ChartController extends GetxController {
 
     Future.delayed(const Duration(seconds: 2), () {
       scrollToBottom();
-      audioPlayer = AudioPlayer(mode: PlayerMode.LOW_LATENCY);
+      audioPlayer = AudioPlayer();
+      audioPlayer!.setPlayerMode(PlayerMode.lowLatency);
+      Get.find<MainController>().audioplayers.add(audioPlayer!);
+      // audioPlayer = AudioPlayer(mode: PlayerMode.lowLatency);
     });
 
-    Utility.createFolderInAppDocDir(AppConstants.DOWNLOADS_FILES_DIRECTORY).then((value) => localDirectory=value);
+    Utility.createFolderInAppDocDir(AppConstants.DOWNLOADS_FILES_DIRECTORY)
+        .then((value) => localDirectory = value);
 
     super.onInit();
   }
@@ -73,16 +75,15 @@ class ChartController extends GetxController {
     if (rjId.value.trim().isEmpty) return;
 
     final responseData = await ApiService().postData(
-        ApiKeys.CHAT_LIST_SUFFIX, ApiKeys.getChatListQuery(rjId.value),ageNeeded: false);
+        ApiKeys.CHAT_LIST_SUFFIX, ApiKeys.getChatListQuery(rjId.value),
+        ageNeeded: false);
 
     ChatListData chatListData = ChatListData.fromJson(responseData as dynamic);
 
     if (chatListData.status == "Success") {
-
-      if(chatItems.value.length != chatListData.chatList){
+      if (chatItems.value.length != chatListData.chatList) {
         chatItems.value = chatListData.chatList!;
       }
-
     } else {
       chatItems.clear();
     }
@@ -100,13 +101,12 @@ class ChartController extends GetxController {
       // listScrollController.jumpTo(position);
 
       listScrollController.animateTo(
-        position+50,
+        position + 50,
         duration: const Duration(milliseconds: 500),
         curve: Curves.easeOut,
       );
     }
   }
-
 
   void sendMessage() async {
     if (rjId.value.trim().isEmpty) return;
@@ -128,7 +128,8 @@ class ChartController extends GetxController {
     scrollToBottom();
 
     final responseData = await ApiService().postData(
-        ApiKeys.CREATE_CHAT_SUFFIX, prepareChatItem(rjId.value, message), ageNeeded: false);
+        ApiKeys.CREATE_CHAT_SUFFIX, prepareChatItem(rjId.value, message),
+        ageNeeded: false);
 
     ResponseData response = ResponseData.fromJson(responseData as dynamic);
 
@@ -159,7 +160,8 @@ class ChartController extends GetxController {
     scrollToBottom();
 
     final responseData = await ApiService().postData(
-        ApiKeys.CREATE_CHAT_SUFFIX, prepareChatItem(rjId.value, htmlData),ageNeeded: false);
+        ApiKeys.CREATE_CHAT_SUFFIX, prepareChatItem(rjId.value, htmlData),
+        ageNeeded: false);
 
     ResponseData response = ResponseData.fromJson(responseData as dynamic);
 

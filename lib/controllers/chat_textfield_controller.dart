@@ -39,11 +39,13 @@ class ChatTextFieldController extends GetxController {
   @override
   void onInit() {
     messageController.addListener(() {
-      message.value = messageController.text;
-    });
+      message.value = messageController.text;});
 
     Future.delayed(const Duration(seconds: 2), () {
-      audioPlayer = AudioPlayer(mode: PlayerMode.LOW_LATENCY);
+       audioPlayer = AudioPlayer();
+      audioPlayer!.setPlayerMode(PlayerMode.lowLatency);
+       Get.find<MainController>().audioplayers.add(audioPlayer!);
+      // audioPlayer = AudioPlayer(mode: PlayerMode.lowLatency);
     });
 
     Utility.createFolderInAppDocDir(AppConstants.DOWNLOADS_FILES_DIRECTORY)

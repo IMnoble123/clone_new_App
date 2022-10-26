@@ -65,7 +65,7 @@ class PushNotifications {
           print(message.notification!.title);
         }
 
-        LocalNotificationService.display(message);
+        // LocalNotificationService.display(message);
       });
 
       ///When the app is in background but opened and user taps

@@ -1,12 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:podcast_app/models/request/user_model.dart';
 import 'package:podcast_app/models/response/countries_data.dart';
 import 'package:podcast_app/network/api_keys.dart';
 import 'package:podcast_app/network/api_services.dart';
 
 class AuthController extends GetxController {
-  
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
@@ -16,7 +18,6 @@ class AuthController extends GetxController {
   RxBool showPassWord = true.obs;
 
   RxBool agreeChecked = false.obs;
-
 
   DateTime? selectedDateTime;
   String? selectedDate;
@@ -30,26 +31,46 @@ class AuthController extends GetxController {
   String? selectedDob = '';
 
   RxList<Country> countriesList = <Country>[].obs;
+  UsersDetails? usersDetails;
 
   @override
   void onInit() {
     super.onInit();
-   
+
     isUserLoggedIn();
   }
 
-  togglePasswordVisibility(){
+  togglePasswordVisibility() {
     showPassWord.value = !showPassWord.value;
     update();
   }
 
-  isUserLoggedIn() async {
-
+  allowUserToSignInwithFB() async {
+    var result = await FacebookAuth.i.login(
+      permissions: ["public_profile", "email"],
+    );
+    if (result.status == LoginStatus.success) {
+      final requestData = await FacebookAuth.i.getUserData(
+        fields: "email,name,picture.type(large)",
+      );
+      usersDetails = UsersDetails(
+        displayname: requestData["name"],
+        email: requestData["email"],
+        photoURL: requestData["picture"]["data"]["url"] ?? "",
+      );
+      update();
+    }
   }
 
-  login(String email, String password) async {
-
+  allowUserToSignOut() async {
+    await FacebookAuth.i.logOut();
+    usersDetails = null;
+    update();
   }
+
+  isUserLoggedIn() async {}
+
+  login(String email, String password) async {}
 
   createAccount(String email, String password, String name) async {
     try {
@@ -62,38 +83,31 @@ class AuthController extends GetxController {
 
   RxBool isCountriesLoading = false.obs;
 
-  fetchCountries() async{
-
+  fetchCountries() async {
     isCountriesLoading.value = true;
-
 
     final res = await ApiService().getServerItems(ApiKeys.COUNTRIES_SUFFIX);
 
-    try{
-
+    try {
       CountriesData countriesData = CountriesData.fromJson(res);
 
-      if(countriesData.status=="Success"){
+      if (countriesData.status == "Success") {
         countriesList.value = countriesData.countries!;
+      } else {
+        countriesList.value = [];
       }
-      else{
-        countriesList.value=[];
-      }
-
-    }catch(e){
+    } catch (e) {
       print(e);
-      countriesList.value=[];
+      countriesList.value = [];
     }
 
     isCountriesLoading.value = false;
 
     update();
-
   }
 
   @override
   void onClose() {
-
     nameController.dispose();
     emailController.dispose();
     phoneController.dispose();

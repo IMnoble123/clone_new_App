@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'dart:io';
-
+import 'package:audioplayers/audioplayers.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:podcast_app/controllers/chat_textfield_controller.dart';
 import 'package:podcast_app/controllers/main_controller.dart';
@@ -12,7 +11,6 @@ import 'package:podcast_app/extras/app_dialogs.dart';
 import 'package:podcast_app/extras/constants.dart';
 import 'package:podcast_app/models/response/response_data.dart';
 import 'package:podcast_app/network/api_services.dart';
-import 'package:podcast_app/screens/main/main_page.dart';
 import 'package:podcast_app/utils/utility.dart';
 
 class ChatTextField extends StatefulWidget {
@@ -71,11 +69,9 @@ class _ChatTextFieldState extends State<ChatTextField> {
                     ),
                     Expanded(
                       child: Text(
-                        Utility.formatNumber(
-                                controller.recordDuration.value ~/ 60) +
-                            ':' +
-                            Utility.formatNumber(
-                                controller.recordDuration.value % 60),
+                        '${Utility.formatNumber(
+                                controller.recordDuration.value ~/ 60)}:${Utility.formatNumber(
+                                controller.recordDuration.value % 60)}',
                         textAlign: TextAlign.center,
                         style: const TextStyle(color: AppColors.firstColor),
                       ),
@@ -727,8 +723,7 @@ class _ChatTextFieldState extends State<ChatTextField> {
     // await controller.audioPlayer.play(Uri.parse(controller.recordPath.value).path,isLocal: true).then((value) {
     try {
       await controller.audioPlayer?.play(
-          File.fromUri(Uri.parse(controller.recordPath.value)).path,
-          isLocal: true);
+          DeviceFileSource(File.fromUri(Uri.parse(controller.recordPath.value)).path,));
       controller.isPlayRecodedAudio.value = true;
       // await controller.audioPlayer.play(controller.recordPath.value,isLocal: true);
 
@@ -745,6 +740,7 @@ class _ChatTextFieldState extends State<ChatTextField> {
     if (result != null) {
       File file = File(result.files.single.path!);
 
+      // ignore: use_build_context_synchronously
       uploadImageToServer(context, file.absolute.path).then((value) {
         if (value.isNotEmpty) {
           print(value);

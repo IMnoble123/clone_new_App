@@ -19,11 +19,11 @@ class DynamicLinksService {
   static Future<String> createRjDynamicLink(RjItem rjItem) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     log(packageInfo.packageName);
-    String uriPrefix = "https://tomtompodcast.page.link";
+    String uriPrefix = "https://tomtompodcast.page.link/";
 
     final DynamicLinkParameters parameters = DynamicLinkParameters(
       uriPrefix: uriPrefix,
-      link: Uri.parse('https://www.tomtompodcast.com?rjId=${rjItem.rjUserId}'),
+      link: Uri.parse('https://www.tomtompodcast.com/RjItem?rjUserId=${rjItem.rjUserId}'),
       androidParameters: const AndroidParameters(
         // packageName: packageInfo.packageName,
         packageName: "app.tomtompodcast.com",

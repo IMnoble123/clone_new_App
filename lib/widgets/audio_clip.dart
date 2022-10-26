@@ -1,11 +1,9 @@
-import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:podcast_app/controllers/chat_controller.dart';
 import 'package:podcast_app/controllers/main_controller.dart';
-import 'package:podcast_app/extras/constants.dart';
 import 'package:podcast_app/screens/slide_up_screen.dart';
 
 class AudioClip extends StatefulWidget {
@@ -74,80 +72,74 @@ class _AudioClipState extends State<AudioClip> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      /*decoration: BoxDecoration(
-          shape: BoxShape.rectangle,
-          color: Colors.black.withOpacity(0.25),
-          borderRadius: const BorderRadius.all(Radius.circular(25))),*/
-      child: Row(
-        children: [
-          isPlaying
-              ? IconButton(
-                  onPressed: () {
-                    audioPlayer?.pause();
-                  },
-                  icon: const Icon(
-                    Icons.pause_circle_filled_outlined,
-                    color: Colors.white,
-                    size: 30,
-                  ))
-              : IconButton(
-                  onPressed: () async {
-                    for (var element in AudioPlayer.players.entries) {
-                      await element.value.stop();
-                    }
+    return Row(
+      children: [
+        isPlaying
+            ? IconButton(
+                onPressed: () {
+                  audioPlayer?.pause();
+                },
+                icon: const Icon(
+                  Icons.pause_circle_filled_outlined,
+                  color: Colors.white,
+                  size: 30,
+                ))
+            : IconButton(
+                onPressed: () async {
+                   var audioplayers = Get.find<MainController>().audioplayers;
+                  for (var element in audioplayers){
+                    await element.stop();}
 
-                    Future.delayed(const Duration(seconds: 1), () async {
-                      print(widget.audioUrl);
-                      controller?.playingAudio = widget.audioUrl;
-                      await audioPlayer?.play(
-                            widget.audioUrl,
-                          // widget.audioUrl.replaceAll(" ", "%20"),
-                          position: currentDuration);
-                    });
-                  },
-                  icon: const Icon(
-                    Icons.play_circle_fill_rounded,
-                    color: Colors.white,
-                    size: 30,
-                  )),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(0.0),
-              child: SliderTheme(
-                data: const SliderThemeData(
-                  thumbShape: StrokeThumb(stroke: 2.0, thumbRadius: 10.0),
-                  overlayShape: RoundSliderOverlayShape(overlayRadius: 10.0),
-                ),
-                child: Slider(
-                  min: 0,
-                  max: totalDuration.inSeconds.toDouble(),
-                  value: currentDuration.inSeconds.toDouble(),
-                  onChanged: (s) {
-                    setState(() {
-                      currentDuration = Duration(seconds: s.toInt());
-                      audioPlayer?.seek(currentDuration);
-                    });
-                  },
-                  activeColor: Colors.white,
-                  inactiveColor: Colors.white.withOpacity(0.5),
-                  thumbColor: Colors.white,
-                ),
+                  Future.delayed(const Duration(seconds: 1), () async {
+                    print(widget.audioUrl);
+                    controller?.playingAudio = widget.audioUrl;
+                    await audioPlayer?.play(DeviceFileSource(widget.audioUrl),
+                          // widget.audioUrl,
+                        // widget.audioUrl.replaceAll(" ", "%20"),
+                        position: currentDuration);
+                  });
+                },
+                icon: const Icon(
+                  Icons.play_circle_fill_rounded,
+                  color: Colors.white,
+                  size: 30,
+                )),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(0.0),
+            child: SliderTheme(
+              data: const SliderThemeData(
+                thumbShape: StrokeThumb(stroke: 2.0, thumbRadius: 10.0),
+                overlayShape: RoundSliderOverlayShape(overlayRadius: 10.0),
+              ),
+              child: Slider(
+                min: 0,
+                max: totalDuration.inSeconds.toDouble(),
+                value: currentDuration.inSeconds.toDouble(),
+                onChanged: (s) {
+                  setState(() {
+                    currentDuration = Duration(seconds: s.toInt());
+                    audioPlayer?.seek(currentDuration);
+                  });
+                },
+                activeColor: Colors.white,
+                inactiveColor: Colors.white.withOpacity(0.5),
+                thumbColor: Colors.white,
               ),
             ),
           ),
+        ),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5.0),
-            child: Text(
-              '${formatHHMMSS(currentDuration.inSeconds.toInt())} / ${formatHHMMSS(totalDuration.inSeconds.toInt())}',
-              // '${formatHHMMSS(currentDuration.inSeconds.toInt())} ',
-              style: const TextStyle(color: Colors.white, fontSize: 10),
-            ),
-          )
-          // Text('${formatHHMMSS(currentDuration.inSeconds.toInt())} / ${formatHHMMSS(totalDuration.inSeconds.toInt())}',style: const TextStyle(color: Colors.white,fontSize: 10),)
-        ],
-      ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+          child: Text(
+            '${formatHHMMSS(currentDuration.inSeconds.toInt())} / ${formatHHMMSS(totalDuration.inSeconds.toInt())}',
+            // '${formatHHMMSS(currentDuration.inSeconds.toInt())} ',
+            style: const TextStyle(color: Colors.white, fontSize: 10),
+          ),
+        )
+        // Text('${formatHHMMSS(currentDuration.inSeconds.toInt())} / ${formatHHMMSS(totalDuration.inSeconds.toInt())}',style: const TextStyle(color: Colors.white,fontSize: 10),)
+      ],
     );
   }
 
@@ -166,7 +158,7 @@ class _AudioClipState extends State<AudioClip> {
       }
     });
 
-    audioPlayer?.onAudioPositionChanged.listen((event) {
+    audioPlayer?.onPositionChanged.listen((event) {
       if (mounted) {
         setState(() {
           currentDuration = event;
@@ -180,7 +172,7 @@ class _AudioClipState extends State<AudioClip> {
     audioPlayer?.onPlayerStateChanged.listen((event) {
       print(event.name);
 
-      if (event == PlayerState.PLAYING) {
+      if (event == PlayerState.playing) {
         isPlaying = true;
 
         Get.find<MainController>().tomtomPlayer.holdPlayer();
@@ -194,7 +186,7 @@ class _AudioClipState extends State<AudioClip> {
       }
     });
 
-    audioPlayer?.onPlayerCompletion.listen((event) {
+    audioPlayer?.onPlayerComplete.listen((event) {
       currentDuration = Duration.zero;
       if (mounted) {
         setState(() {
@@ -205,7 +197,7 @@ class _AudioClipState extends State<AudioClip> {
   }
 
   String formatHHMMSS(int seconds) {
-    if (seconds != null && seconds != 0) {
+    if (seconds != 0) {
       int hours = (seconds / 3600).truncate();
       seconds = (seconds % 3600).truncate();
       int minutes = (seconds / 60).truncate();
