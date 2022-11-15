@@ -45,28 +45,28 @@ class AuthController extends GetxController {
     update();
   }
 
-  allowUserToSignInwithFB() async {
-    var result = await FacebookAuth.i.login(
-      permissions: ["public_profile", "email"],
-    );
-    if (result.status == LoginStatus.success) {
-      final requestData = await FacebookAuth.i.getUserData(
-        fields: "email,name,picture.type(large)",
-      );
-      usersDetails = UsersDetails(
-        displayname: requestData["name"],
-        email: requestData["email"],
-        photoURL: requestData["picture"]["data"]["url"] ?? "",
-      );
-      update();
-    }
-  }
+  // allowUserToSignInwithFB() async {
+  //   var result = await FacebookAuth.i.login(
+  //     permissions: ["public_profile", "email"],
+  //   );
+  //   if (result.status == LoginStatus.success) {
+  //     final requestData = await FacebookAuth.i.getUserData(
+  //       fields: "email,name,picture.type(large)",
+  //     );
+  //     usersDetails = UsersDetails(
+  //       displayname: requestData["name"],
+  //       email: requestData["email"],
+  //       photoURL: requestData["picture"]["data"]["url"] ?? "",
+  //     );
+  //     update();
+  //   }
+  // }
 
-  allowUserToSignOut() async {
-    await FacebookAuth.i.logOut();
-    usersDetails = null;
-    update();
-  }
+  // allowUserToSignOut() async {
+  //   await FacebookAuth.i.logOut();
+  //   usersDetails = null;
+  //   update();
+  // }
 
   isUserLoggedIn() async {}
 

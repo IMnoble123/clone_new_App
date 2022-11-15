@@ -118,7 +118,7 @@ class EditProfileScree extends GetView<ProfileController> {
                       callback: () {
                         controller.inputController.text =
                             controller.userData.value.name ?? '';
-                        _displayTextInputDialog('User Name', context)
+                        _displayTextInputDialog('Full Name', context)
                             .then((value) {
                           if (value != null && value.isNotEmpty) {
                             ApiService()
@@ -368,7 +368,7 @@ class EditProfileScree extends GetView<ProfileController> {
 
     final response = await ApiService().uploadFile(path);
 
-    ResponseData responseData = ResponseData.fromJson(response);
+    ResponseData responseData = ResponseData.fromJson(response!);
 
     /*if (responseData.status!.toUpperCase() == AppConstants.SUCCESS) {
 

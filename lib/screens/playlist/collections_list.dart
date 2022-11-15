@@ -17,6 +17,20 @@ class CollectionsList extends GetView<PlayListController> {
 
   @override
   Widget build(BuildContext context) {
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   if(controller.collections.value.isEmpty){
+    //     AlertDialog(
+    //     title: const Text('No playlist found'),
+    //     actions: [
+    //       TextButton(
+    //           onPressed: () {
+    //             Navigator.of(context).pop();
+    //           },
+    //           child: const Text('Ok'))
+    //     ],
+    //   );
+    //   }
+    // });
     /*return SizedBox(
       height: 150,
       child: FutureBuilder(
@@ -95,7 +109,6 @@ class CollectionsList extends GetView<PlayListController> {
                         "Would you like to remove ${items[i].folderName} collection and its podcasts?",
                         "Remove")
                     .then((value) {
-
                   if (value == AppConstants.OK) {
                     ApiService()
                         .deleteData(
@@ -233,6 +246,7 @@ class CollectionsList extends GetView<PlayListController> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Stack(
+                            alignment: Alignment.center,
                             children: [
                               ClipRRect(
                                   borderRadius: BorderRadius.circular(8.0),
@@ -249,7 +263,6 @@ class CollectionsList extends GetView<PlayListController> {
                                         const Icon(Icons.error),
                                   )),
                             ],
-                            alignment: Alignment.center,
                           ),
                           Align(
                             alignment: Alignment.center,

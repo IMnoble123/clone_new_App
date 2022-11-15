@@ -87,13 +87,14 @@ class TopicDescriptionScreen extends GetView<MainController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Align(
+                            alignment: Alignment.center,
                             child: Text(
                               podcast!.description!.isNotEmpty
                                   ? podcast!.description!
                                   : '',
                               style: const TextStyle(
                                   color: AppColors.textSecondaryColor, fontSize: 14),
-                            ),alignment: Alignment.center,
+                            ),
                           ),
                           const SizedBox(
                             height: 10,
@@ -209,6 +210,9 @@ class TopicDescriptionScreen extends GetView<MainController> {
 
                               }),
                               Positioned(
+                                right: 0,
+                                top: 0,
+                                bottom: 0,
                                 child: Obx(
                                   () => controller.downloadProgress.value != 0 &&
                                           controller.downloadProgress.value != 100
@@ -228,9 +232,6 @@ class TopicDescriptionScreen extends GetView<MainController> {
                                         )
                                       : const SizedBox.shrink(),
                                 ),
-                                right: 0,
-                                top: 0,
-                                bottom: 0,
                               )
                             ],
                           ),

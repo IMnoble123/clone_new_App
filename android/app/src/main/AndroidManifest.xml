@@ -68,7 +68,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="open.tomtompodcast.com" />
+                <data android:scheme="https" android:host="tomtompodcast.page.link" />
                 <data android:scheme="https" android:host="tomtompodcast.com"/>
             </intent-filter>
 
@@ -104,6 +104,8 @@
                <data android:scheme="appwrite-callback-[PROJECT_ID]" />
            </intent-filter>
        </activity>
+
+       //faceboook login//
        
    	    <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
    	    <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
@@ -122,8 +124,6 @@
             <data android:scheme="@string/fb_login_protocol_scheme" />
         </intent-filter>
     </activity>
-
-
 
        <service android:name="com.ryanheise.audioservice.AudioService"
            android:exported="true">

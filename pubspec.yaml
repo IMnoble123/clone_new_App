@@ -73,6 +73,7 @@ dependencies:
   file_picker: ^4.5.1
   photo_view: ^0.14.0
   audioplayers: ^1.1.1
+  social_share: ^2.2.1
 #  firebase_dynamic_links: ^2.0.7
   firebase_core: ^2.1.0
   firebase_dynamic_links: ^5.0.2
@@ -90,7 +91,7 @@ dependencies:
   flutter_inappwebview: ^5.5.0+3
   awesome_notifications: ^0.7.3
   libwinmedia: ^0.0.3
-  flutter_facebook_auth: ^4.4.1+1
+  flutter_facebook_auth: ^5.0.1
 #  flutter_share_me: ^1.0.0
 
 #  flutter_html: any

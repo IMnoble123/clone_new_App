@@ -7,15 +7,11 @@ import 'package:podcast_app/controllers/main_controller.dart';
 import 'package:podcast_app/controllers/playlist_controller.dart';
 import 'package:podcast_app/db/db.dart';
 import 'package:podcast_app/db/db_podcast.dart';
-import 'package:podcast_app/extras/app_colors.dart';
 import 'package:podcast_app/extras/app_dialogs.dart';
 import 'package:podcast_app/extras/constants.dart';
 import 'package:podcast_app/network/common_network_calls.dart';
 import 'package:podcast_app/utils/utility.dart';
 import 'package:podcast_app/widgets/download_song_info_tile.dart';
-import 'package:podcast_app/widgets/menus_title.dart';
-
-import 'package:path/path.dart';
 import 'package:podcast_app/widgets/no_data_widget.dart';
 
 class DownloadedScreen extends GetView<PlayListController> {

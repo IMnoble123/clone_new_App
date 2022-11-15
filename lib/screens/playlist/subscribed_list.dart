@@ -73,6 +73,7 @@ class SubscribedPodcasts extends GetView<PlayListController> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Stack(
+                      alignment: Alignment.center,
                       children: [
                         ClipRRect(
                             borderRadius: BorderRadius.circular(8.0),
@@ -89,7 +90,6 @@ class SubscribedPodcasts extends GetView<PlayListController> {
                               Container(width:100,height: 100,color:AppColors.firstColor.withOpacity(0.25),child: const Icon(Icons.error_outline,color: Colors.white,size: 25,)),
                             )),
                       ],
-                      alignment: Alignment.center,
                     ),
                     Align(
                       alignment: Alignment.center,

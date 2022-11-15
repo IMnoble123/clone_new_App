@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +9,7 @@ import 'package:podcast_app/extras/constants.dart';
 import 'package:podcast_app/extras/dynamic_links_service.dart';
 import 'package:podcast_app/extras/routes.dart';
 import 'package:podcast_app/extras/share_prefs.dart';
+import 'package:podcast_app/models/response/podcast_response.dart';
 import 'package:podcast_app/models/response/rj_response.dart';
 import 'package:podcast_app/network/api_keys.dart';
 import 'package:podcast_app/network/api_services.dart';
@@ -19,7 +20,7 @@ import 'package:podcast_app/widgets/chat_text_field.dart';
 import 'package:podcast_app/widgets/comment/main_comment_screen.dart';
 import 'package:podcast_app/widgets/stroke_circular_btn.dart';
 import 'package:share_plus/share_plus.dart';
-
+import 'package:social_share/social_share.dart';
 import 'sub_screens/podcast_more_options_screen.dart';
 
 class SlideUpScreen extends GetView<MainController> {
@@ -30,7 +31,6 @@ class SlideUpScreen extends GetView<MainController> {
   @override
   Widget build(BuildContext context) {
     print(controller.hashCode);
-
     DateTime? currentBackPressTime;
 
     bool isKeyboardShowing = MediaQuery.of(context).viewInsets.vertical > 0;
@@ -154,8 +154,7 @@ class SlideUpScreen extends GetView<MainController> {
                               color: Colors.transparent,
                               child: InkWell(
                                 onTap: () {
-                                  gotoRjPage(
-                                      controller.currentPodcast!.userId!);
+                                  gotoRjPage(controller.currentPodcast!.userId!);
                                 },
                                 child: Align(
                                     alignment: Alignment.centerLeft,
@@ -515,12 +514,8 @@ class SlideUpScreen extends GetView<MainController> {
                           if (CommonNetworkApi().mobileUserId != "-1") {
                             DynamicLinksService.createDynamicLink(
                                     controller.currentPodcast!)
-                                .whenComplete(() {
-                              log("function completed");
-                            }).then((value) {
-                              Share.share(value,subject: "chnages added");
-                            }).onError((error, stackTrace) {
-                              log("error");
+                                .then((value) async {
+                              Share.share(value);
                             });
                           } else {
                             Utility.showRegistrationPromotion(context);

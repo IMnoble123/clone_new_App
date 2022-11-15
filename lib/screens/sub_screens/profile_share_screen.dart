@@ -75,7 +75,7 @@ class ProfileShareScreen extends StatelessWidget {
                       DynamicLinksService.createRjDynamicLink(
                           rjItem)
                           .then((value) {
-                        print(value);
+                        print('hello....................$value');
 
                         Clipboard.setData(ClipboardData(text: value));
 

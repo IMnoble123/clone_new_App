@@ -222,7 +222,7 @@ class TomTomPlayer {
   }
 
   void setLoopMode(bool b) async {
-    _audioPlayer.setLoopMode(b ? LoopMode.all : LoopMode.off);
+    _audioPlayer.setLoopMode(b ? LoopMode.one : LoopMode.off);
   }
 
   void setShuffleMode(bool b) async {

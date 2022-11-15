@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -25,6 +26,7 @@ import 'package:podcast_app/models/response/response_data.dart';
 import 'package:podcast_app/network/api_services.dart';
 import 'package:podcast_app/network/common_network_calls.dart';
 import 'package:podcast_app/network/network_config.dart';
+import 'package:podcast_app/screens/home_screen.dart';
 import 'package:podcast_app/screens/login/countries_list.dart';
 import 'package:podcast_app/screens/login/otp_screen.dart';
 import 'package:podcast_app/screens/main/main_page.dart';
@@ -496,8 +498,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     scale: 3,
                                   ),
                                   tapCallback: () {
-                                    Get.find<AuthController>()
-                                        .allowUserToSignInwithFB();
+                                    loginwithFacebook();
                                   },
                                 ),
                                 if (Platform.isIOS)
@@ -758,7 +759,6 @@ class _LoginScreenState extends State<LoginScreen> {
     if (googleAuth == null) {
       throw Exception('canceled');
     }
-
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth.accessToken,
@@ -820,56 +820,100 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  void fbLoginOld() async {
-    final LoginResult result = await FacebookAuth.instance.login(
-      permissions: [
-        'email',
-        'public_profile',
-        'user_birthday',
-        'user_friends',
-        //'user_gender',
-        'user_link'
-      ],
-    ); // by default we request the email and the public profile
-// or FacebookAuth.i.login()
-    if (result.status == LoginStatus.success) {
-      // you are logged
-      final AccessToken accessToken = result.accessToken!;
-      print(accessToken);
-
-      final userData = await FacebookAuth.i.getUserData(
-        fields: "name,email,picture.width(200),birthday,friends,gender,link",
-      );
-
-      print(userData['picture']);
-      print(userData['picture']['data']['url']);
-      //FbPictureData fbPictureData = FbPictureData.fromJson(userData['picture']);
-
-      final socialUser = SocialUserData(
-          email: userData['email'],
-          name: userData['name'],
-          source: 'facebook',
-          gmailId: "",
-          gender: getGender(userData['gender']),
-          //userData['gender'] ?? 'Male',
-          appleId: "",
-          dob: "",
-          facebookId: userData['id'],
-          mobile: AppConstants.getRandomNumber(),
-          password: "",
-          profileImage: userData['picture']['data']['url'] ?? '');
-
-      print(userData['picture']);
-
-      final response =
-          await ApiService().registerSocialUser(socialUser.toJson());
-
-      AppConstants.navigateToDashBoard(context, response);
-    } else {
-      print(result.status);
-      print(result.message);
-    }
+  void loginwithFacebook() async {
+    try {
+      final facebookLoginResult = await FacebookAuth.instance.login();
+      final userData = await FacebookAuth.instance.getUserData();
+      final facebookAuthCredential = FacebookAuthProvider.credential(
+          facebookLoginResult.accessToken!.token);
+      await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+      await FirebaseFirestore.instance.collection('Users').add({
+        'email': userData['email'],
+        'imageUrl': userData['picture']['data']['url'],
+        'name': userData['name'],
+      });
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => const HomeScreen()),
+          (route) => false);
+    } on FirebaseException catch (e) {
+      var title = '';
+      switch (e.code) {
+        case 'account-exists-with-different-credential':
+          title = 'This account exicts with a different sign in provider';
+          break;
+        case 'invalid-credential':
+          title = 'Unknown error has occurred';
+          break;
+        case 'user-disabled':
+          title = 'The user you to log into is disabled';
+          break;
+      }
+      showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+                title: const Text('Log in with facebook failed'),
+                content: Text(title),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Ok'))
+                ],
+              ));
+    } finally {}
   }
+
+//   void fbLoginOld() async {
+//     final LoginResult result = await FacebookAuth.instance.login(
+//       permissions: [
+//         'email',
+//         'public_profile',
+//         'user_birthday',
+//         'user_friends',
+//         //'user_gender',
+//         'user_link'
+//       ],
+//     ); // by default we request the email and the public profile
+// // or FacebookAuth.i.login()
+//     if (result.status == LoginStatus.success) {
+//       // you are logged
+//       final AccessToken accessToken = result.accessToken!;
+//       print(accessToken);
+
+//       final userData = await FacebookAuth.i.getUserData(
+//         fields: "name,email,picture.width(200),birthday,friends,gender,link",
+//       );
+
+//       print(userData['picture']);
+//       print(userData['picture']['data']['url']);
+//       //FbPictureData fbPictureData = FbPictureData.fromJson(userData['picture']);
+
+//       final socialUser = SocialUserData(
+//           email: userData['email'],
+//           name: userData['name'],
+//           source: 'facebook',
+//           gmailId: "",
+//           gender: getGender(userData['gender']),
+//           //userData['gender'] ?? 'Male',
+//           appleId: "",
+//           dob: "",
+//           facebookId: userData['id'],
+//           mobile: AppConstants.getRandomNumber(),
+//           password: "",
+//           profileImage: userData['picture']['data']['url'] ?? '');
+
+//       print(userData['picture']);
+
+//       final response =
+//           await ApiService().registerSocialUser(socialUser.toJson());
+
+//       AppConstants.navigateToDashBoard(context, response);
+//     } else {
+//       print(result.status);
+//       print(result.message);
+//     }
+//   }
 
   String generateNonce([int length = 32]) {
     const charset =
@@ -943,6 +987,8 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  //***** sign apple using Api******/
+
   void appleSingInOld(BuildContext context) async {
     final credential = await SignInWithApple.getAppleIDCredential(
       scopes: [
@@ -977,7 +1023,8 @@ class _LoginScreenState extends State<LoginScreen> {
         facebookId: "",
         mobile: AppConstants.getRandomNumber(),
         password: "",
-        profileImage: "");
+        profileImage: ""
+    );
 
     final response = await ApiService().registerSocialUser(socialUser.toJson());
 

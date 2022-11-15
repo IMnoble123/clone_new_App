@@ -94,7 +94,7 @@ class LogOutScreen extends StatelessWidget {
                   await Get.delete<MainController>(force: true)
                       .then((value) => Get.offAll(const LoginScreen()));
 
-                  Get.find<AuthController>().allowUserToSignOut();
+                  // Get.find<AuthController>().allowUserToSignOut();
 
                   //Get.reset();
 

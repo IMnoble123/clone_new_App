@@ -23,7 +23,7 @@ class DynamicLinksService {
 
     final DynamicLinkParameters parameters = DynamicLinkParameters(
       uriPrefix: uriPrefix,
-      link: Uri.parse('https://www.tomtompodcast.com/RjItem?rjUserId=${rjItem.rjUserId}'),
+      link: Uri.parse('https://www.tomtompodcast.com/RjItem?rjId=${rjItem.rjUserId}'),
       androidParameters: const AndroidParameters(
         // packageName: packageInfo.packageName,
         packageName: "app.tomtompodcast.com",
@@ -49,7 +49,7 @@ class DynamicLinksService {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     log(packageInfo.packageName);
     String uriPrefix = "https://tomtompodcast.page.link";
-    // String uriPrefix = "https://open.tomtompodcast.com";
+
 
     final String data = jsonEncode(podcast);
 
@@ -63,6 +63,7 @@ class DynamicLinksService {
       androidParameters: const AndroidParameters(
         // packageName: packageInfo.packageName,
         packageName: "app.tomtompodcast.com",
+        
       ),
 
       iosParameters: const IOSParameters(

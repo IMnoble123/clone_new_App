@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:podcast_app/controllers/main_controller.dart';
@@ -19,9 +18,9 @@ import 'package:podcast_app/screens/main/main_page.dart';
 import 'package:podcast_app/screens/sub_screens/add_collections_screen.dart';
 import 'package:podcast_app/screens/sub_screens/report_screen.dart';
 import 'package:podcast_app/utils/utility.dart';
-
 import 'package:path/path.dart' as p;
 import 'package:share_plus/share_plus.dart';
+import 'package:social_share/social_share.dart';
 
 class PodcastMoreOptionsScreen extends GetView<MainController> {
   const PodcastMoreOptionsScreen({Key? key}) : super(key: key);
@@ -148,6 +147,9 @@ class PodcastMoreOptionsScreen extends GetView<MainController> {
                               }
                             }),
                             Positioned(
+                              right: 0,
+                              top: 0,
+                              bottom: 0,
                               child: Obx(
                                 () => controller.downloadProgress.value != 0 &&
                                         controller.downloadProgress.value != 100
@@ -168,24 +170,23 @@ class PodcastMoreOptionsScreen extends GetView<MainController> {
                                       )
                                     : const SizedBox.shrink(),
                               ),
-                              right: 0,
-                              top: 0,
-                              bottom: 0,
                             )
                           ],
                         ),
                         listTile('images/share_circle.png', 'Share', () {
-                          if (CommonNetworkApi().mobileUserId != "-1") {
-                            DynamicLinksService.createDynamicLink(
-                                    controller.currentPodcast!)
-                                .then((value) {
-                              print(value);
-                              Share.share(value, subject: 'Look what i made');
-                              // Share.share(HtmlWidget(dummy).html);
-                            });
-                          } else {
-                            Utility.showRegistrationPromotion(context);
-                          }
+                          SocialShare.shareOptions(
+                              controller.currentPodcast!.audiopath ?? 'empty');
+                          // if (CommonNetworkApi().mobileUserId != "-1") {
+                          //   DynamicLinksService.createDynamicLink(
+                          //           controller.currentPodcast!)
+                          //       .then((value) {
+                          //     print(value);
+                          //     Share.share(value, subject: 'Look what i made');
+                          //     // Share.share(HtmlWidget(dummy).html);
+                          //   });
+                          // } else {
+                          //   Utility.showRegistrationPromotion(context);
+                          // }
 
                           //sharePodcast();
                         }),

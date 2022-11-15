@@ -21,6 +21,8 @@ class FavoriteList extends GetView<PlayListController> {
   @override
   Widget build(BuildContext context) {
 
+    
+
     controller.fetchFavourites(apiSuffix, query ?? {});
 
     /*if (title!.contains('Favorite')) {
@@ -150,7 +152,7 @@ class FavoriteList extends GetView<PlayListController> {
                     ],
                   ),
 
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Center(
                       child: Text(

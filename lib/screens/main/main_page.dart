@@ -49,12 +49,10 @@ class MainPage extends StatelessWidget {
     final searchController = Get.find<SearchController>();
     //final mainController = Get.find<MainController>();
 
-    if(TomTomApp.podcastId.isNotEmpty){
-
-      Future.delayed(const Duration(seconds: 3),(){
+    if (TomTomApp.podcastId.isNotEmpty) {
+      Future.delayed(const Duration(seconds: 3), () {
         playSelectedPodcast(TomTomApp.podcastId);
       });
-
     }
 
     if (isFirstBuild) {
@@ -261,7 +259,7 @@ class MainPage extends StatelessWidget {
             key: fabKey,
             ringDiameter: 350,
             ringWidth: 75,
-             /*fabOpenIcon: const Icon(
+            /*fabOpenIcon: const Icon(
               Icons.language,
               color: Colors.white,
             ),*/
@@ -270,6 +268,16 @@ class MainPage extends StatelessWidget {
             fabOpenIcon: Lottie.asset(
               'images/world_map_icon_new.json',
             ),
+            fabSize: 50,
+            alignment: Alignment(1, Platform.isIOS ? -0.715 : -0.715),
+            fabElevation: 0.0,
+            fabColor: AppColors.firstColor.withOpacity(0.0),
+
+            fabCloseIcon: const Icon(
+              Icons.close,
+              color: Colors.white,
+            ),
+            ringColor: Colors.black.withOpacity(0.65),
 
             children: <Widget>[
               fabIconButton('images/ttm_fb.png', () {
@@ -283,18 +291,8 @@ class MainPage extends StatelessWidget {
               }),
               fabIconButton('images/ttm_web.png', () {
                 Utility.openUrls(context, AppConstants.WEB_PAGE);
-              },size: 30),
+              }, size: 30),
             ],
-            fabSize: 50,
-            alignment: Alignment(1, Platform.isIOS ? -0.725 : -0.6),
-            fabElevation: 0.0,
-            fabColor: AppColors.firstColor.withOpacity(0.0),
-
-            fabCloseIcon: const Icon(
-              Icons.close,
-              color: Colors.white,
-            ),
-            ringColor: Colors.black.withOpacity(0.65),
           ),
           bottomNavigationBar: Obx(
             () => searchController.isFromPlayList.value
@@ -302,7 +300,7 @@ class MainPage extends StatelessWidget {
                 : BottomNavigation(
                     currentTab: TabItem.home,
                     onSelectTab: (t) {
-                     fabKey.currentState!.close();
+                      fabKey.currentState!.close();
                       searchController.closeSearchPanel();
                     },
                   ),
@@ -312,15 +310,15 @@ class MainPage extends StatelessWidget {
     );
   }
 
-  fabIconButton(String s, VoidCallback callback,
-      {double size = 40.0}) {
+  fabIconButton(String s, VoidCallback callback, {double size = 40.0}) {
     return IconButton(
         icon: Image.asset(
           s,
           //color: Colors.white,
-         /* width: width,
+          /* width: width,
           height: height,*/
-        ),iconSize: size,
+        ),
+        iconSize: size,
         onPressed: () {
           fabKey.currentState!.close();
           callback();
@@ -337,17 +335,16 @@ class MainPage extends StatelessWidget {
   }
 
   static void playSelectedPodcast(String podcastId) async {
-
     print('Play Podcast $podcastId');
 
-    if(podcastId.isEmpty) return;
+    if (podcastId.isEmpty) return;
 
     final responseData = await ApiService().postData(
         ApiKeys.PODCAST_BY_ID_SUFFIX,
         ApiKeys.getPodcastsByPodcastIdQuery(podcastId));
 
     PodcastResponse response =
-    PodcastResponse.fromJson(responseData as dynamic);
+        PodcastResponse.fromJson(responseData as dynamic);
 
     if (response.status == "Error" || response.podcasts == null) {
       return;
@@ -361,7 +358,5 @@ class MainPage extends StatelessWidget {
     }
 
     TomTomApp.podcastId = "";
-
   }
-
 }

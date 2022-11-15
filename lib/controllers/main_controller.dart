@@ -91,7 +91,7 @@ class MainController extends GetxController {
   RxString tabName = 'home'.obs;
   RxString unReadChatCount = ''.obs;
 
-  Podcast? currentPodcast;
+    Podcast? currentPodcast;
 
   RxInt downloadProgress = 0.obs;
 
