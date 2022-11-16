@@ -7,7 +7,6 @@ import 'package:podcast_app/controllers/main_controller.dart';
 import 'package:podcast_app/db/db.dart';
 import 'package:podcast_app/db/db_podcast.dart';
 import 'package:podcast_app/extras/app_dialogs.dart';
-import 'package:podcast_app/extras/dynamic_links_service.dart';
 import 'package:podcast_app/network/api_keys.dart';
 import 'package:podcast_app/extras/app_colors.dart';
 import 'package:podcast_app/extras/constants.dart';
@@ -246,7 +245,6 @@ class PodcastMoreOptionsScreen extends GetView<MainController> {
                         }),
                         listTile('images/report_flag.png', 'Report', () {
                           Get.back();
-
                           Future.delayed(const Duration(milliseconds: 500), () {
                             showGeneralDialog(
                                 context: MainPage.activeContext!,
@@ -337,6 +335,8 @@ class PodcastMoreOptionsScreen extends GetView<MainController> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
+  //*************************** dawnload function******************************************************* *//
+
   void startDownloadPodcast(context) async {
     controller.downloadInProgress.value = true;
 
@@ -344,7 +344,7 @@ class PodcastMoreOptionsScreen extends GetView<MainController> {
     String rjUserId = controller.currentPodcast!.userId!;
 
     final isPodcastExist = await TomTomDb().isPodcastExist(rjUserId, podcastId);
-    print(isPodcastExist);
+    // print(isPodcastExist);
     if (isPodcastExist) {
       AppDialogs.simpleOkDialog(context, 'Already Exist',
           'The podcast already downloaded/exists in your device ');
@@ -367,7 +367,7 @@ class PodcastMoreOptionsScreen extends GetView<MainController> {
         controller.currentPodcast!.audiopath!,
         onReceiveProgress: (received, total) {
           if (total != -1) {
-            print((received / total * 100).toStringAsFixed(0) + "%");
+            print("${(received / total * 100).toStringAsFixed(0)}%");
             controller.downloadProgress.value =
                 int.parse((received / total * 100).toStringAsFixed(0));
 
@@ -389,7 +389,7 @@ class PodcastMoreOptionsScreen extends GetView<MainController> {
               return status! < 500;
             }),
       );
-      print(response.headers);
+      // print(response.headers);
       File file = File(fullPath);
       var raf = file.openSync(mode: FileMode.write);
       // response.data is List<int> type
@@ -407,6 +407,10 @@ class PodcastMoreOptionsScreen extends GetView<MainController> {
 
     controller.downloadInProgress.value = false;
   }
+
+
+
+
 
   void showDownloadProgress(received, total) {
     if (total != -1) {
@@ -440,8 +444,11 @@ class PodcastMoreOptionsScreen extends GetView<MainController> {
 
     Share.shareFiles([fullPath],
         subject: "TomTom Podcast",
-        text: "By " + controller.currentPodcast!.rjname!);
+        text: "By ${controller.currentPodcast!.rjname!}");
   }
+
+
+  
 
   void insertInToDb(String downloadPath) {
     final podcast = controller.currentPodcast;

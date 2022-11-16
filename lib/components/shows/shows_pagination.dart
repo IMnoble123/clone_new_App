@@ -65,6 +65,7 @@ class _PaginationShowsState extends State<PaginationShows> {
         showsList = response.showsList!;
         totalRows = int.parse(response.totalRows!);
       });
+      print('man.............................$response');
     } catch (e) {
       print(e.toString());
     }
@@ -95,8 +96,9 @@ class _PaginationShowsState extends State<PaginationShows> {
           showsList.addAll(response.showsList!);
           _hasNextPage = totalRows != showsList.length;
 
-          print('load more $_hasNextPage');
+          // print('load more $_hasNextPage');
         });
+        print('person......................$response');
       } catch (e) {
         print(e.toString());
       }
@@ -116,7 +118,7 @@ class _PaginationShowsState extends State<PaginationShows> {
           callback: () {
             final args = ScreenArguments(
                 widget.headerTitle!, widget.apiEndPoint!, '',
-                filter: widget.category??'');
+                filter: widget.category ?? '');
             Navigator.pushNamed(
                 context, AppRoutes.showsListScreenVerticalPagination,
                 arguments: args);
@@ -130,35 +132,42 @@ class _PaginationShowsState extends State<PaginationShows> {
                 )
               : Padding(
                   padding: const EdgeInsets.only(left: 8.0),
-                  child: showsList.isNotEmpty?ListView.builder(
-                    itemCount: _isLoadMoreRunning
-                        ? showsList.length + 1
-                        : showsList.length,
-                    controller: _controller,
-                    itemBuilder: (context, index) {
-                      if (index == showsList.length) {
-                        return SizedBox(
-                            width: cardWidth,
-                            child: const Center(
-                                child: CircularProgressIndicator()));
-                      } else {
-                        return PaginationShowItem(
-                          cardWidth: cardWidth,
-                          showItem: showsList[index],
-                          callback: () {
-
-                            final args =
-                            ScreenArguments(showsList[index].showsName!, ApiKeys.PODCASTS_BY_SHOW_SUFFIX,'',filter: showsList[index].showsId!);
-                            Navigator.pushNamed(
-                                context, AppRoutes.showPodcastsScreenVerticalPagination,
-                                arguments: args);
-
+                  child: showsList.isNotEmpty
+                      ? ListView.builder(
+                          itemCount: _isLoadMoreRunning
+                              ? showsList.length + 1
+                              : showsList.length,
+                          controller: _controller,
+                          itemBuilder: (context, index) {
+                            if (index == showsList.length) {
+                              return SizedBox(
+                                  width: cardWidth,
+                                  child: const Center(
+                                      child: CircularProgressIndicator()));
+                            } else {
+                              return PaginationShowItem(
+                                cardWidth: cardWidth,
+                                showItem: showsList[index],
+                                callback: () {
+                                  final args = ScreenArguments(
+                                      showsList[index].showsName!,
+                                      ApiKeys.PODCASTS_BY_SHOW_SUFFIX,
+                                      '',
+                                      filter: showsList[index].showsId!);
+                                  Navigator.pushNamed(
+                                      context,
+                                      AppRoutes
+                                          .showPodcastsScreenVerticalPagination,
+                                      arguments: args);
+                                },
+                              );
+                            }
                           },
-                        );
-                      }
-                    },
-                    scrollDirection: Axis.horizontal,
-                  ):const Center(child: NoDataWidget(),),
+                          scrollDirection: Axis.horizontal,
+                        )
+                      : const Center(
+                          child: NoDataWidget(),
+                        ),
                 ),
         )
       ],

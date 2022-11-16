@@ -88,8 +88,7 @@ class TomTomPlayer {
 
   void _listenForChangesInPlayerPosition() {
     _audioPlayer.positionStream.listen((position) {
-
-      if(mainController.isSeekbarTouched.value) return;
+      if (mainController.isSeekbarTouched.value) return;
 
       final oldState = mainController.progressNotifier.value;
       mainController.updateProgressStates(ProgressBarState(
@@ -203,7 +202,7 @@ class TomTomPlayer {
     _audioPlayer.seek(position);
   }
 
-  void dispose() async{
+  void dispose() async {
     await _audioPlayer.setAudioSource(ConcatenatingAudioSource(children: []));
     await _audioPlayer.dispose();
   }
@@ -217,7 +216,6 @@ class TomTomPlayer {
   }
 
   void onNextSongButtonPressed() {
-
     _audioPlayer.seekToNext();
   }
 
@@ -312,7 +310,7 @@ class TomTomPlayer {
     for (int x = 0; x < dpPods.length; x++) {
       int pos = (initialPodcast + x) % dpPods.length;
 
-      print(pos);
+      // print(pos);
 
       final podcast = convertToPodcast(dpPods[pos]);
 
@@ -371,11 +369,11 @@ class TomTomPlayer {
         // File file = File(podcast.localFile!);
         //String localPath = file.path;
         // String localPath = "file://"+file.path.replaceAll(" ", "%20");
-        print(podcast.localFile!);
+        // print(podcast.localFile!);
 
         //File file = File(Uri.file(podcast.localFile!).toFilePath());
         var encodedUrl = Uri.encodeFull(podcast.localFile!);
-        print(encodedUrl);
+        // print(encodedUrl);
         await _playlist.add(AudioSource.uri(
           // File.fromUri(Uri.parse(encodedUrl)).uri,
           Uri.parse(File.fromUri(Uri.parse(encodedUrl)).path),
@@ -403,11 +401,12 @@ class TomTomPlayer {
     play();
   }
 
-
   Timer? timer;
 
+//************************************************** **********************************************/////
 
   void addAllPodcasts(List<Podcast> pods, int initialPodcast) async {
+  
     if (timer != null) {
       timer?.cancel();
     }
@@ -422,16 +421,16 @@ class TomTomPlayer {
 
     mainController.updateLoading(true);
 
-
     await _audioPlayer.stop();
     podcasts.clear();
 
     final selectedPodcast = pods[initialPodcast];
 
     podcasts.add(selectedPodcast);
-    print(selectedPodcast.audiopath);
+    // print(selectedPodcast.audiopath);
 
-    if(selectedPodcast.audiopath!=null && selectedPodcast.audiopath!.isNotEmpty){
+    if (selectedPodcast.audiopath != null &&
+        selectedPodcast.audiopath!.isNotEmpty) {
       await _playlist.add(AudioSource.uri(
         Uri.parse(selectedPodcast.audiopath!),
         tag: MediaItem(
@@ -445,7 +444,6 @@ class TomTomPlayer {
       ));
     }
 
-
     await _audioPlayer.setAudioSource(_playlist);
 
     _init();
@@ -453,8 +451,6 @@ class TomTomPlayer {
 
     for (int x = 0; x < pods.length; x++) {
       int pos = (initialPodcast + x) % pods.length;
-
-
 
       //await Future.delayed(const Duration(seconds: 1));
 
@@ -474,14 +470,11 @@ class TomTomPlayer {
         ));
 
         print(pos);
-
       }
     }
-
-
-
-
   }
+
+  //******************************************************************************************** *///
 
   /*void addAllPodcastsOld(List<Podcast> pods, int initialPodcast) async {
     //working
@@ -581,26 +574,17 @@ class TomTomPlayer {
   }
 
   bool isPlayerPlaying = false;
-  void holdPlayer(){
-
-
+  void holdPlayer() {
     isPlayerPlaying = _audioPlayer.playing;
 
-    if(isPlayerPlaying){
+    if (isPlayerPlaying) {
       _audioPlayer.pause();
     }
-
-
-
   }
 
-  void releaseHold(){
-
-    if(isPlayerPlaying){
+  void releaseHold() {
+    if (isPlayerPlaying) {
       _audioPlayer.play();
     }
-
-
   }
-
 }

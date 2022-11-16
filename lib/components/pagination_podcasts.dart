@@ -147,7 +147,7 @@ class _PaginationPodcastsState extends State<PaginationPodcasts> {
                           podcast: podcastList[index],
                           callback: () {
 
-                            Get.find<MainController>()
+                           Get.find<MainController>()
                                 .tomtomPlayer
                                 .addAllPodcasts(podcastList, index);
                             Get.find<MainController>().togglePanel();

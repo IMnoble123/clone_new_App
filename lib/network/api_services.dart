@@ -17,7 +17,6 @@ class ApiService {
   late Dio dio;
   Dio dioDownloader = Dio();
 
-
   void initDio(String baseUrl) {
     dio = Dio();
 
@@ -81,12 +80,14 @@ class ApiService {
   }*/
 
   Future<dynamic> fetchCategories() async {
-    var response = await dio.get('/category',
-        options: Options(headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          //'X-ListenAPI-Key': AppConstants.token,
-        }),);
+    var response = await dio.get(
+      '/category',
+      options: Options(headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        //'X-ListenAPI-Key': AppConstants.token,
+      }),
+    );
     return response.data;
   }
 
@@ -181,7 +182,7 @@ class ApiService {
     try {
       response = await dio.post(apiSuffix,
           data: query,
-         /* options: buildCacheOptions(const Duration(days: 10),
+          /* options: buildCacheOptions(const Duration(days: 10),
               forceRefresh: true,
               options: Options(headers: {
                 'Content-Type': 'application/json',
@@ -192,8 +193,7 @@ class ApiService {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
             //'X-ListenAPI-Key': AppConstants.token,
-          })
-          );
+          }));
       print(response);
       return response.data;
     } on DioError catch (e) {
@@ -317,7 +317,7 @@ class ApiService {
   }
 
   Future<dynamic> podcastListByRj(Map<String, dynamic> query) async {
-    print(query);
+    print('hai..............................................$query');
 
     Response response;
     try {
@@ -328,7 +328,7 @@ class ApiService {
             'Accept': 'application/json',
             //'X-ListenAPI-Key': AppConstants.token,
           }));
-      print(response);
+      print('printed...........................................$response');
       return response.data;
     } on DioError catch (e) {
       print(e.response?.data);
@@ -403,7 +403,6 @@ class ApiService {
     } on DioError catch (e) {
       print(e.response?.data);
     }
-
   }
 
   Future<dynamic> sendOtp(Map<String, dynamic> query) async {
@@ -513,6 +512,8 @@ class ApiService {
     }
   }
 
+  ///*************post comment ***************** *////
+
   Future<dynamic> postComment(Map<String, Object> query) async {
     Response response;
     try {
@@ -523,12 +524,15 @@ class ApiService {
             'Accept': 'application/json',
             //'X-ListenAPI-Key': AppConstants.token,
           }));
+      print('postComment.................................$query');
       print('DATA => ${response.data}');
       return response.data;
     } on DioError catch (e) {
       print(e.response?.data);
     }
   }
+
+  ////************************list comments******************************** *//////////////
 
   Future<dynamic> fetchComments(Map<String, dynamic> query) async {
     print('fetching comments  $query');
@@ -543,11 +547,11 @@ class ApiService {
             //'X-ListenAPI-Key': AppConstants.token,
           }));
       print('Response');
-      print('RES => ${response.data}');
+      // print('RES => ${response.data}');
       return response.data;
     } on DioError catch (e, str) {
-      print('Error');
-      print(str);
+      // print('Error');
+      // print(str);
       print(e.response?.data);
     }
   }

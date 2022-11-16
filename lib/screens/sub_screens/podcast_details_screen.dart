@@ -85,7 +85,7 @@ class PodcastDetailsScreen extends GetView<MainController> {
               child: Column(children: [
                 SizedBox(
                   // height: rjItem.rjName!.length > 15 ? 175 : 125,
-                  height: MediaQuery.of(context).size.width>600?130:150,
+                  height: MediaQuery.of(context).size.width > 600 ? 130 : 150,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -192,7 +192,7 @@ class PodcastDetailsScreen extends GetView<MainController> {
                               ),
                               tapOnlyMode: true,
                               onRatingUpdate: (rating) {
-                                print(rating);
+                                print('rating...............................$rating');
 
                                 if (CommonNetworkApi().mobileUserId == "-1") {
                                   Utility.showRegistrationPromotion(context);
@@ -207,6 +207,7 @@ class PodcastDetailsScreen extends GetView<MainController> {
                                           "Yes")
                                       .then((value) {
                                     if (value == AppConstants.OK) {
+                                      print('star..........................................$value');
                                       ApiService()
                                           .postData(
                                               ApiKeys.USER_RATING_SUFFIX,
@@ -237,6 +238,7 @@ class PodcastDetailsScreen extends GetView<MainController> {
                               child: Padding(
                                 padding: const EdgeInsets.only(right: 8.0),
                                 child: Material(
+                                  color: Colors.transparent,
                                   child: InkWell(
                                       onTap: () {
                                         if (CommonNetworkApi().mobileUserId ==
@@ -258,12 +260,6 @@ class PodcastDetailsScreen extends GetView<MainController> {
                                             style: const TextStyle(
                                                 color: Colors.white),
                                           ),
-                                          child: Image.asset(
-                                            'images/chat_icon_new.png',
-                                            width: 30,
-                                            height: 30,
-                                            /*color: Colors.white,*/
-                                          ),
                                           badgeColor: controller
                                                       .unReadChatCount.value !=
                                                   "0"
@@ -274,9 +270,14 @@ class PodcastDetailsScreen extends GetView<MainController> {
                                           showBadge: controller
                                                   .unReadChatCount.value !=
                                               "0",
+                                          child: Image.asset(
+                                            'images/chat_icon_new.png',
+                                            width: 30,
+                                            height: 30,
+                                            /*color: Colors.white,*/
+                                          ),
                                         ),
                                       )),
-                                  color: Colors.transparent,
                                 ),
                               ),
                             ),

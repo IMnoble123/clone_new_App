@@ -125,7 +125,7 @@ class EditProfileScree extends GetView<ProfileController> {
                                 .putData(
                                     ApiKeys.UPDATE_RPOFILE_SUFFIX,
                                     ApiKeys.getProfileUpdateQuery(
-                                        'name', value))
+                                        'fullname', value))
                                 .then((value) => controller.fetchProfileInfo());
                           }
                         });

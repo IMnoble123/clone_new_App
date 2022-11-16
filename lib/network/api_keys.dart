@@ -265,8 +265,7 @@ class ApiKeys {
   }
 
   static Map<String, dynamic> deletePodcastQuery(
-    String folderFileId,
-  ) {
+    String folderFileId ) {
     return {
       "folder_file_id": folderFileId,
       "mob_user_id": CommonNetworkApi().mobileUserId

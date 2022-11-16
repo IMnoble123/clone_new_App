@@ -91,7 +91,7 @@ class MainController extends GetxController {
   RxString tabName = 'home'.obs;
   RxString unReadChatCount = ''.obs;
 
-    Podcast? currentPodcast;
+  Podcast? currentPodcast;
 
   RxInt downloadProgress = 0.obs;
 
@@ -102,7 +102,11 @@ class MainController extends GetxController {
   RxList<Comment> comments = <Comment>[].obs;
   RxBool commentsLoad = false.obs;
 
-  List<AudioPlayer>audioplayers = [];
+  List<AudioPlayer> audioplayers = [];
+
+
+//***************************Add comment ************************************** *///
+
 
   Future<void> addComment({required String comment, bool file = false}) async {
     try {
@@ -587,6 +591,11 @@ class MainController extends GetxController {
     }
   }
 
+
+
+
+  ///****************************list comment************************************************ */////
+
   void fetchComments(String podcastId) async {
     if (CommonNetworkApi().mobileUserId == "-1") {
       comments.value = [];
@@ -618,6 +627,9 @@ class MainController extends GetxController {
 
     commentsLoad.value = false;
   }
+
+
+  
 
   void sendReplyMessage(context) async {
     try {
@@ -686,7 +698,7 @@ class MainController extends GetxController {
         fetchComments(podcastId.value);
       }
     } catch (err, str) {
-      print('Add Comment Error $err');
+      // print('Add Comment Error $err');
       print(str);
     }
   }
@@ -703,7 +715,7 @@ class MainController extends GetxController {
         fetchComments(podcastId.value);
       }
     } catch (err, str) {
-      print('Add Comment Error $err');
+      // print('Add Comment Error $err');
       print(str);
     }
   }

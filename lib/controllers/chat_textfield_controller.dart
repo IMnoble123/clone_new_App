@@ -54,6 +54,8 @@ class ChatTextFieldController extends GetxController {
     super.onInit();
   }
 
+  // *******************send comment ***********************//
+
   void sendMessage(context) async {
 
     if(message.value.isEmpty) return;
@@ -91,6 +93,8 @@ class ChatTextFieldController extends GetxController {
 
     messageController.clear();
   }
+
+  ////******************************************************************** */////
 
   void sendHtmlMessage(context,String htmlData) async {
     Get.find<MainController>().commentsLoad.value = true;

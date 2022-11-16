@@ -234,7 +234,7 @@ class PlayListController extends GetxController {
     inputController.clear();
 
     if (responseData.status!.toUpperCase() == AppConstants.SUCCESS) {
-      print('added new collection ${responseData.status}');
+      print('print...................................................$responseData');
     } else {
       AppDialogs.simpleOkDialog(context, 'Failed',
           responseData.response ?? "unable to process request");

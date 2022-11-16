@@ -128,14 +128,14 @@ class MainComment extends GetView<MainController> {
                             //position where you want to show the menu on screen
                             items: [
                               PopupMenuItem<String>(
-                                  child: const Text(
-                                    'Delete',
-                                  ),
                                   value: '1',
                                   onTap: () {
                                     controller
                                         .deleteComment(comment.commentId!);
-                                  }),
+                                  },
+                                  child: const Text(
+                                    'Delete',
+                                  )),
                             ],
 
                             elevation: 8.0,
@@ -159,9 +159,6 @@ class MainComment extends GetView<MainController> {
                             //position where you want to show the menu on screen
                             items: [
                               PopupMenuItem<String>(
-                                  child: const Text(
-                                    'Report',
-                                  ),
                                   value: '2',
                                   onTap: () {
                                     //controller.deleteComment(comment.commentId!);
@@ -208,7 +205,10 @@ class MainComment extends GetView<MainController> {
                             ],
                           );
                         });*/
-                                  }),
+                                  },
+                                  child: const Text(
+                                    'Report',
+                                  )),
                             ],
 
                             elevation: 8.0,

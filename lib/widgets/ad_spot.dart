@@ -14,11 +14,9 @@ import 'package:url_launcher/url_launcher.dart';
 class AdSpotWidget extends StatelessWidget {
   const AdSpotWidget({Key? key}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
-
-    final adsController  = Get.find<AdsController>();
+    final adsController = Get.find<AdsController>();
 
     return FutureBuilder(
       builder: (context, snapShot) {
@@ -31,7 +29,7 @@ class AdSpotWidget extends StatelessWidget {
               return const NoDataWidget();
             }
             print(snapShot.data);
-            return updateServerAds(response.response!,adsController);
+            return updateServerAds(response.response!, adsController);
           } catch (e) {
             return const NoDataWidget();
           }
@@ -148,7 +146,10 @@ class AdSpotWidget extends StatelessWidget {
     );*/ /*
   }*/
 
-  Widget updateServerAds(List<AdItem> list, AdsController adsController,) {
+  Widget updateServerAds(
+    List<AdItem> list,
+    AdsController adsController,
+  ) {
     return Column(
       children: [
         CarouselSlider(
@@ -167,23 +168,22 @@ class AdSpotWidget extends StatelessWidget {
               autoPlayCurve: Curves.fastOutSlowIn,
               enlargeCenterPage: true,
               onPageChanged: (i, s) {
-
                 adsController.currentPosition.value = i;
-
               },
               scrollDirection: Axis.horizontal,
             )),
         Obx(
-          ()=> Row(
+          () => Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: list.asMap().entries.map((entry) {
               return GestureDetector(
-                onTap: () => adsController.carouselController.animateToPage(entry.key),
+                onTap: () =>
+                    adsController.carouselController.animateToPage(entry.key),
                 child: Container(
                   width: 5.0,
                   height: 5.0,
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 4.0, horizontal: 4.0),
+                  margin: const EdgeInsets.symmetric(
+                      vertical: 4.0, horizontal: 4.0),
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: adsController.currentPosition.value == entry.key
@@ -221,17 +221,15 @@ class AdSpotWidget extends StatelessWidget {
                         if (url == null || url.isEmpty) return;
 
                         if (url.contains('http') || url.contains('https')) {
-                          launch(url);
+                          Uri.http(url);
                         } else {
-                          launch('https://' + url);
+                          Uri.https(url);
                         }
                       } else if (adItems[i].linkType!.toLowerCase() ==
                               "podcast" &&
                           adItems[i].linkValue != null &&
                           adItems[i].linkValue!.isNotEmpty) {
-
                         playPodcast(adItems[i].linkValue!);
-
                       }
                     },
                   )))
@@ -257,7 +255,9 @@ class AdSpotWidget extends StatelessWidget {
     List<Podcast> podcasts = response.podcasts!;
 
     if (podcasts.isNotEmpty) {
+      //to play the audio
       Get.find<MainController>().tomtomPlayer.addAllPodcasts(podcasts, 0);
+      // used to navigate to play page
       Get.find<MainController>().togglePanel();
     }
   }

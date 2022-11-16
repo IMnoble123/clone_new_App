@@ -1,10 +1,6 @@
-import 'dart:ui';
-
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:podcast_app/controllers/main_controller.dart';
 import 'package:podcast_app/controllers/search_controller.dart';
 import 'package:podcast_app/extras/app_colors.dart';
@@ -110,10 +106,23 @@ class SearchWidget extends GetView<SearchController> {
                       child: InkWell(
                         // onTapDown: (details) {
                         onTap: () {
-                          print(controller.notificationItems.length);
+                          print('bell clicked.............');
+                          // print(controller.notificationItems.length);
 
-                          if (controller.notificationItems.value.isEmpty)
-                            return;
+                          if (controller.notificationItems.value.isEmpty) {
+                            showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                      title:const  Text('No Notifications'),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child:const  Text('go back'))
+                                      ],
+                                    ));
+                          }
 
                           showOverlay(context);
 
@@ -161,13 +170,13 @@ class SearchWidget extends GetView<SearchController> {
                                   shape: BoxShape.circle,
                                   color: AppColors.firstColor),
                             ),
+                            badgeColor: const Color.fromARGB(255, 33, 0, 0),
+                            animationType: BadgeAnimationType.scale,
+                            showBadge: controller.notificationCount.value != 0,
                             child: const ImageIcon(
                               AssetImage('images/notification_icon.png'),
                               color: Colors.white,
-                            ),
-                            badgeColor: const Color.fromARGB(255, 33, 0, 0),
-                            animationType: BadgeAnimationType.scale,
-                            showBadge: controller.notificationCount.value != 0),
+                            )),
                       ),
                     )),
           ),
@@ -196,6 +205,8 @@ class SearchWidget extends GetView<SearchController> {
     }
   }
 
+  ///******************************************************* **************************///
+
   static OverlayEntry? overlayEntry;
 
   void showOverlay(BuildContext context) {
@@ -214,9 +225,9 @@ class SearchWidget extends GetView<SearchController> {
                 return Container(
                   color: const Color.fromARGB(255, 82, 7, 9),
                   height: 150,
-                 *//* child: Divider(
+                 */ /* child: Divider(
                     color: Colors.white.withOpacity(0.4),
-                  ),*//*
+                  ),*/ /*
                 );
               },*/
               itemBuilder: (context, index) {
@@ -245,7 +256,14 @@ class SearchWidget extends GetView<SearchController> {
                     },
                     child: Container(
                       color: const Color.fromARGB(255, 82, 7, 9),
-                      padding:  EdgeInsets.only(left: 5.0,right: 5.0,bottom: index==controller.notificationItems.length-1?25: 15,top: index==0?20:10),
+                      padding: EdgeInsets.only(
+                          left: 5.0,
+                          right: 5.0,
+                          bottom:
+                              index == controller.notificationItems.length - 1
+                                  ? 25
+                                  : 15,
+                          top: index == 0 ? 20 : 10),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -304,7 +322,7 @@ class PopUpMenuTile extends StatelessWidget {
       children: <Widget>[
         Icon(icon,
             color: isActive
-                ? Theme.of(context).accentColor
+                ? Theme.of(context).colorScheme.secondary
                 : Theme.of(context).primaryColor),
         const SizedBox(
           width: 8,
@@ -313,7 +331,7 @@ class PopUpMenuTile extends StatelessWidget {
           title,
           style: Theme.of(context).textTheme.headline4!.copyWith(
               color: isActive
-                  ? Theme.of(context).accentColor
+                  ? Theme.of(context).colorScheme.secondary
                   : Theme.of(context).primaryColor),
         ),
       ],

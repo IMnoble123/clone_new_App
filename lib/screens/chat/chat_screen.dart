@@ -137,11 +137,9 @@ class ChatScreen extends GetView<ChartController> {
                             ),
                             Expanded(
                               child: Text(
-                                Utility.formatNumber(
-                                        controller.recordDuration.value ~/ 60) +
-                                    ':' +
-                                    Utility.formatNumber(
-                                        controller.recordDuration.value % 60),
+                                '${Utility.formatNumber(
+                                        controller.recordDuration.value ~/ 60)}:${Utility.formatNumber(
+                                        controller.recordDuration.value % 60)}',
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
                                     color: AppColors.firstColor),

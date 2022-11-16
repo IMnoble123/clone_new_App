@@ -9,7 +9,6 @@ import 'package:podcast_app/extras/constants.dart';
 import 'package:podcast_app/extras/dynamic_links_service.dart';
 import 'package:podcast_app/extras/routes.dart';
 import 'package:podcast_app/extras/share_prefs.dart';
-import 'package:podcast_app/models/response/podcast_response.dart';
 import 'package:podcast_app/models/response/rj_response.dart';
 import 'package:podcast_app/network/api_keys.dart';
 import 'package:podcast_app/network/api_services.dart';
@@ -20,7 +19,6 @@ import 'package:podcast_app/widgets/chat_text_field.dart';
 import 'package:podcast_app/widgets/comment/main_comment_screen.dart';
 import 'package:podcast_app/widgets/stroke_circular_btn.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:social_share/social_share.dart';
 import 'sub_screens/podcast_more_options_screen.dart';
 
 class SlideUpScreen extends GetView<MainController> {

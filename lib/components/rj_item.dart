@@ -23,6 +23,7 @@ class RjPaginationItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Stack(
+                  alignment: Alignment.center,
                   children: [
                     ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),
@@ -45,7 +46,6 @@ class RjPaginationItem extends StatelessWidget {
                         )),
 
                   ],
-                  alignment: Alignment.center,
                 ),
                 const SizedBox(
                   height: 5,
