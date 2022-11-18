@@ -181,7 +181,7 @@ class ProfileShareScreen extends StatelessWidget {
                   shape: const StadiumBorder(),
                   color: AppColors.firstColor,
                   child: const Text(
-                    'More',
+                    'Done',
                     style: TextStyle(color: Colors.white),
                   ),
                 ),

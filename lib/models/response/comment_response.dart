@@ -22,9 +22,9 @@ class CommentResponse {
   List<Comment>? comments;
 
   factory CommentResponse.fromJson(Map<String, dynamic> json) => CommentResponse(
-    status: json["Status"],
-    statuscode: json["Statuscode"],
-    statusDescription: json["StatusDescription"],
+    status: json["Status"].toString(),
+    statuscode: json["Statuscode"].toString(),
+    statusDescription: json["StatusDescription"].toString(),
     comments: List<Comment>.from(json["Response"].map((x) => Comment.fromJson(x))),
   );
 
@@ -76,22 +76,22 @@ class Comment {
   List<Reply>? replylist;
 
   factory Comment.fromJson(Map<String, dynamic> json) => Comment(
-    commentId: json["comment_id"],
-    commenterId: json["commenter_id"],
-    commentDescription: json["comment_description"],
-    filepath: json["filepath"] == null ? null : json["filepath"],
-    commenterName: json["commenter_name"],
-    commenterImage: json["commenter_image"],
-    commenterUsertype: json["commenter_usertype"],
-    commentDate: json["comment_date"],
-    likecount: json["likecount"],
-    dislikecount: json["dislikecount"],
-    heartcount: json["heartcount"],
-    commentYouLiked: json["comment_you_liked"],
-    commentYouDisliked: json["comment_you_disliked"],
-    commentYouHearted: json["comment_you_hearted"],
+    commentId: json["comment_id"].toString(),
+    commenterId: json["commenter_id"].toString(),
+    commentDescription: json["comment_description"].toString(),
+    filepath: json["filepath"] == null ? null : json["filepath"].toString(),
+    commenterName: json["commenter_name"].toString(),
+    commenterImage: json["commenter_image"].toString(),
+    commenterUsertype: json["commenter_usertype"].toString(),
+    commentDate: json["comment_date"].toString(),
+    likecount: json["likecount"].toString(),
+    dislikecount: json["dislikecount"].toString(),
+    heartcount: json["heartcount"].toString(),
+    commentYouLiked: json["comment_you_liked"].toString(),
+    commentYouDisliked: json["comment_you_disliked"].toString(),
+    commentYouHearted: json["comment_you_hearted"].toString(),
     replyInputVisible: json["reply_input_visible"],
-    commentDateInago: json["comment_date_inago"],
+    commentDateInago: json["comment_date_inago"].toString(),
     replylist: List<Reply>.from(json["replylist"].map((x) => Reply.fromJson(x))),
   );
 
@@ -150,20 +150,20 @@ class Reply {
   String? replyDate;
 
   factory Reply.fromJson(Map<String, dynamic> json) => Reply(
-    replyId: json["reply_id"],
-    replyerId: json["replyer_id"],
-    replyerName: json["replyer_name"],
-    replyerImage: json["replyer_image"],
-    replyerType: json["replyer_type"],
-    replyerDescription: json["replyer_description"],
-    replyDateInago: json["reply_date_inago"],
-    likecount: json["likecount"],
-    dislikecount: json["dislikecount"],
-    heartcount: json["heartcount"],
-    replyYouLiked: json["reply_you_liked"],
-    replyYouDisliked: json["reply_you_disliked"],
-    replyYouHearted: json["reply_you_hearted"],
-    replyDate: json["reply_date"],
+    replyId: json["reply_id"].toString(),
+    replyerId: json["replyer_id"].toString(),
+    replyerName: json["replyer_name"].toString(),
+    replyerImage: json["replyer_image"].toString(),
+    replyerType: json["replyer_type"].toString(),
+    replyerDescription: json["replyer_description"].toString(),
+    replyDateInago: json["reply_date_inago"].toString(),
+    likecount: json["likecount"].toString(),
+    dislikecount: json["dislikecount"].toString(),
+    heartcount: json["heartcount"].toString(),
+    replyYouLiked: json["reply_you_liked"].toString(),
+    replyYouDisliked: json["reply_you_disliked"].toString(),
+    replyYouHearted: json["reply_you_hearted"].toString(),
+    replyDate: json["reply_date"].toString(),
   );
 
   Map<String, dynamic> toJson() => {

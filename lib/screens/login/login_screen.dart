@@ -26,6 +26,7 @@ import 'package:podcast_app/models/response/response_data.dart';
 import 'package:podcast_app/network/api_services.dart';
 import 'package:podcast_app/network/common_network_calls.dart';
 import 'package:podcast_app/network/network_config.dart';
+import 'package:podcast_app/screens/dash_board.dart';
 import 'package:podcast_app/screens/home_screen.dart';
 import 'package:podcast_app/screens/login/countries_list.dart';
 import 'package:podcast_app/screens/login/otp_screen.dart';
@@ -833,7 +834,7 @@ class _LoginScreenState extends State<LoginScreen> {
         'name': userData['name'],
       });
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (_) => const HomeScreen()),
+          MaterialPageRoute(builder: (_) => const DashBoardScreen()),
           (route) => false);
     } on FirebaseException catch (e) {
       var title = '';

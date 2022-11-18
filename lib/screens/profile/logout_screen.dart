@@ -2,13 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:podcast_app/controllers/auth_controller.dart';
 import 'package:podcast_app/controllers/main_controller.dart';
-import 'package:podcast_app/extras/app_binding.dart';
 import 'package:podcast_app/extras/app_colors.dart';
 import 'package:podcast_app/extras/constants.dart';
 import 'package:podcast_app/extras/share_prefs.dart';
-import 'package:podcast_app/main.dart';
 import 'package:podcast_app/network/common_network_calls.dart';
 import 'package:podcast_app/screens/login/login_screen.dart';
 import 'package:podcast_app/screens/main/main_page.dart';
@@ -83,7 +80,9 @@ class LogOutScreen extends StatelessWidget {
                     }
 
                     await FirebaseAuth.instance.signOut();
-                  } catch (e) {}
+                  } catch (e) {
+                    print(e.toString());
+                  }
 
                   CommonNetworkApi().mobileUserId = "";
 

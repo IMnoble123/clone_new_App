@@ -117,11 +117,15 @@ class ApiService {
     }
   }
 
+  //******************************list out report ******************************************* *//
+
   Future<dynamic> fetchItems(String apiSuffix) async {
     Response response;
     try {
-      response = await dio.get(apiSuffix,
-          options: Options(headers: {
+      response = await dio.get(
+        apiSuffix,
+          options: Options(
+            headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
             //'X-ListenAPI-Key': AppConstants.token,
@@ -180,7 +184,8 @@ class ApiService {
 
     Response response;
     try {
-      response = await dio.post(apiSuffix,
+      response = await dio.post(
+        apiSuffix,
           data: query,
           /* options: buildCacheOptions(const Duration(days: 10),
               forceRefresh: true,
@@ -194,7 +199,7 @@ class ApiService {
             'Accept': 'application/json',
             //'X-ListenAPI-Key': AppConstants.token,
           }));
-      print(response);
+      print('creates listing from api..........................................$response');
       return response.data;
     } on DioError catch (e) {
       print(e.response?.data);
@@ -317,7 +322,7 @@ class ApiService {
   }
 
   Future<dynamic> podcastListByRj(Map<String, dynamic> query) async {
-    print('hai..............................................$query');
+    print('query..............................................$query');
 
     Response response;
     try {
@@ -388,12 +393,13 @@ class ApiService {
   }
 
   Future<dynamic> registerSocialUser(Map<String, dynamic> query) async {
-    print(query);
+    print("social......................................$query");
     Response response;
     try {
       response = await dio.post('/mobuser/socialsignin',
           data: query,
-          options: Options(headers: {
+          options: Options(
+            headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
             //'X-ListenAPI-Key': AppConstants.token,
@@ -524,8 +530,7 @@ class ApiService {
             'Accept': 'application/json',
             //'X-ListenAPI-Key': AppConstants.token,
           }));
-      print('postComment.................................$query');
-      print('DATA => ${response.data}');
+      print('post45656Comment.................................$query');
       return response.data;
     } on DioError catch (e) {
       print(e.response?.data);
@@ -556,6 +561,8 @@ class ApiService {
     }
   }
 
+
+
   Future<dynamic> uploadFile(String filePath) async {
     Response response;
     try {
@@ -575,6 +582,9 @@ class ApiService {
       return null;
     }
   }
+
+
+
 
   Future<String> generateToken() async {
     var response = await dio.get(ApiKeys.GENERATE_TOKEN,

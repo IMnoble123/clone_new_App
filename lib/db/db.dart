@@ -15,12 +15,15 @@ class TomTomDb {
   Database? database;
 
   void initDb() async {
+    String path = await getDatabasesPath();
+
+    // print('database clicked .................$path');
     openDatabase(
       join(await getDatabasesPath(), AppConstants.DB_NAME),
       onCreate: (db, version) {
         // Run the CREATE TABLE statement on the database.
         return db.execute(
-          'CREATE TABLE ${AppConstants.PODCAST_TABLE_NAME} (id INTEGER PRIMARY KEY, podcast_id TEXT,user_id TEXT,rjname TEXT,podcast_name TEXT,author_name TEXT,imagepath TEXT,audiopath TEXT,like_count TEXT,broadcast_date TEXT,localPath TEXT)',
+          "CREATE TABLE ${AppConstants.PODCAST_TABLE_NAME} (id INTEGER PRIMARY KEY, podcast_id TEXT,user_id TEXT,rjname TEXT,podcast_name TEXT,author_name TEXT,imagepath TEXT,audiopath TEXT,like_count TEXT,broadcast_date TEXT,localPath TEXT)",
         );
       },
       version: 1,

@@ -79,7 +79,8 @@ class AppDialogs {
                   fontWeight: FontWeight.w600),
               textAlign: TextAlign.center,
             )),
-            content: Text(message,
+            content: Text(
+              message,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                     color: AppColors.phoneTextColor,

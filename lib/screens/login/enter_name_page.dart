@@ -116,7 +116,7 @@ class _EnterNameScreenState extends State<EnterNameScreen> {
                                   fillColor: Colors.white,
                                   filled: true,
                                   labelStyle:
-                                  TextStyle(color: Colors.black87),
+                                  const TextStyle(color: Colors.black87),
                                   hintStyle:
                                   TextStyle(color: Colors.black87.withOpacity(0.4)),
                                   focusedBorder: const OutlineInputBorder(

@@ -9,7 +9,6 @@ import 'package:podcast_app/models/response/podcast_response.dart';
 import 'package:podcast_app/network/api_keys.dart';
 import 'package:podcast_app/network/api_services.dart';
 import 'package:podcast_app/widgets/no_data_widget.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class AdSpotWidget extends StatelessWidget {
   const AdSpotWidget({Key? key}) : super(key: key);
@@ -28,7 +27,6 @@ class AdSpotWidget extends StatelessWidget {
             if (response.status == "Error" || response.response == null) {
               return const NoDataWidget();
             }
-            print(snapShot.data);
             return updateServerAds(response.response!, adsController);
           } catch (e) {
             return const NoDataWidget();

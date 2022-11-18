@@ -65,7 +65,7 @@ class _PaginationShowsState extends State<PaginationShows> {
         showsList = response.showsList!;
         totalRows = int.parse(response.totalRows!);
       });
-      print('man.............................$response');
+      // print('man.............................$response');
     } catch (e) {
       print(e.toString());
     }
@@ -98,7 +98,7 @@ class _PaginationShowsState extends State<PaginationShows> {
 
           // print('load more $_hasNextPage');
         });
-        print('person......................$response');
+        // print('person......................$response');
       } catch (e) {
         print(e.toString());
       }

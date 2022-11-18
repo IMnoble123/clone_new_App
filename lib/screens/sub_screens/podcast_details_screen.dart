@@ -85,7 +85,7 @@ class PodcastDetailsScreen extends GetView<MainController> {
               child: Column(children: [
                 SizedBox(
                   // height: rjItem.rjName!.length > 15 ? 175 : 125,
-                  height: MediaQuery.of(context).size.width > 600 ? 130 : 150,
+                  height: MediaQuery.of(context).size.width>600?130:150,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -192,7 +192,7 @@ class PodcastDetailsScreen extends GetView<MainController> {
                               ),
                               tapOnlyMode: true,
                               onRatingUpdate: (rating) {
-                                print('rating...............................$rating');
+                                print(rating);
 
                                 if (CommonNetworkApi().mobileUserId == "-1") {
                                   Utility.showRegistrationPromotion(context);
@@ -207,7 +207,6 @@ class PodcastDetailsScreen extends GetView<MainController> {
                                           "Yes")
                                       .then((value) {
                                     if (value == AppConstants.OK) {
-                                      print('star..........................................$value');
                                       ApiService()
                                           .postData(
                                               ApiKeys.USER_RATING_SUFFIX,
@@ -357,8 +356,6 @@ class PodcastDetailsScreen extends GetView<MainController> {
                                 ? AppColors.firstColor
                                 : null, //1 means subscribed, 0 means not
                             onPressed: () {
-
-
                               if (rjController.rjItem.value.subscribed!
                                       .toString() ==
                                   "0") {
@@ -370,7 +367,6 @@ class PodcastDetailsScreen extends GetView<MainController> {
                                     .then((value) {
                                   ResponseData responseData =
                                       ResponseData.fromJson(value);
-
                                   if (responseData.status!.toUpperCase() ==
                                       AppConstants.SUCCESS) {
                                     rjController.rjItem.value.subscribed ="1";
@@ -579,7 +575,6 @@ class PodcastDetailsScreen extends GetView<MainController> {
                               onSelected: (selected) {
                                 controller.rjPodcastFilter.value =
                                     'Entertainment';
-
                                 controller.rjChipSelectedIndex.value = 4;
                                 updateFilter();
                               },
@@ -689,9 +684,7 @@ class PodcastDetailsScreen extends GetView<MainController> {
 
   /*Widget updateTilesData(dynamic data) {
     print(data);
-
     PodcastResponse response = PodcastResponse.fromJson(data);
-
     if (response.status == "Error") {
       return Container(
         alignment: Alignment.center,
@@ -701,9 +694,7 @@ class PodcastDetailsScreen extends GetView<MainController> {
         ),
       );
     }
-
     List<Podcast> podcasts = response.podcasts!;
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4.0),
       child: ListView.separated(

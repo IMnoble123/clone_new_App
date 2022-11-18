@@ -137,11 +137,15 @@ class PodcastMoreOptionsScreen extends GetView<MainController> {
                             listTile('images/download_icon.png', 'Download',
                                 () {
                               if (CommonNetworkApi().mobileUserId != "-1") {
-                                if (!controller.downloadInProgress.value) {
-                                  controller.downloadProgress.value = 0;
+                                print('if in if');
+                                if (!controller.downloadInProgress.value ==
+                                    true) {
+                                  print('inn second if');
+                                  // controller.downloadProgress.value = 0;
                                   startDownloadPodcast(context);
                                 }
                               } else {
+                                print('in else');
                                 Utility.showRegistrationPromotion(context);
                               }
                             }),
@@ -343,14 +347,14 @@ class PodcastMoreOptionsScreen extends GetView<MainController> {
     String podcastId = controller.currentPodcast!.podcastId!;
     String rjUserId = controller.currentPodcast!.userId!;
 
-    final isPodcastExist = await TomTomDb().isPodcastExist(rjUserId, podcastId);
+    // final isPodcastExist = await TomTomDb().isPodcastExist(rjUserId, podcastId);
     // print(isPodcastExist);
-    if (isPodcastExist) {
-      AppDialogs.simpleOkDialog(context, 'Already Exist',
-          'The podcast already downloaded/exists in your device ');
-      controller.downloadInProgress.value = false;
-      return;
-    }
+    // if (isPodcastExist) {
+    //   AppDialogs.simpleOkDialog(context, 'Already Exist',
+    //       'The podcast already downloaded/exists in your device ');
+    //   controller.downloadInProgress.value = false;
+    //   return;
+    // }
 
     String dirPath = await Utility.createFolderInAppDocDir(
         AppConstants.DOWNLOADS_FILES_DIRECTORY);
@@ -363,19 +367,17 @@ class PodcastMoreOptionsScreen extends GetView<MainController> {
     print(fullPath);
 
     try {
+      print('aaaaaaaaaaaaaaaaaaaaa');
       final response = await ApiService().dioDownloader.get(
         controller.currentPodcast!.audiopath!,
         onReceiveProgress: (received, total) {
           if (total != -1) {
-            print("${(received / total * 100).toStringAsFixed(0)}%");
+            print((received / total * 100).toStringAsFixed(0) + "%");
             controller.downloadProgress.value =
                 int.parse((received / total * 100).toStringAsFixed(0));
 
             /* if (controller.downloadProgress.value == 100) {
               showSnackBar(context, 'Downloaded', downloadComplete: true);
-
-
-
             }
             */
           } else {
@@ -389,7 +391,7 @@ class PodcastMoreOptionsScreen extends GetView<MainController> {
               return status! < 500;
             }),
       );
-      // print(response.headers);
+      print(response.headers);
       File file = File(fullPath);
       var raf = file.openSync(mode: FileMode.write);
       // response.data is List<int> type
@@ -408,10 +410,6 @@ class PodcastMoreOptionsScreen extends GetView<MainController> {
     controller.downloadInProgress.value = false;
   }
 
-
-
-
-
   void showDownloadProgress(received, total) {
     if (total != -1) {
       print((received / total * 100).toStringAsFixed(0) + "%");
@@ -422,7 +420,7 @@ class PodcastMoreOptionsScreen extends GetView<MainController> {
     }
   }
 
-  Future<void> sharePodcast() async {
+  Future<void> sharePodcRast() async {
     final documentDirectory = (await getTemporaryDirectory()).path;
     String fullPath =
         "$documentDirectory/${controller.currentPodcast!.podcastName!}${p.extension(controller.currentPodcast!.audiopath!)}";
@@ -446,9 +444,6 @@ class PodcastMoreOptionsScreen extends GetView<MainController> {
         subject: "TomTom Podcast",
         text: "By ${controller.currentPodcast!.rjname!}");
   }
-
-
-  
 
   void insertInToDb(String downloadPath) {
     final podcast = controller.currentPodcast;

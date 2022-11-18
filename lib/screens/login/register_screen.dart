@@ -705,7 +705,6 @@ class RegisterScreen extends GetView<AuthController> {
 
   void _showDatePicker(BuildContext context) async {
     final ThemeData theme = Theme.of(context);
-    assert(theme.platform != null);
     switch (theme.platform) {
       case TargetPlatform.android:
       case TargetPlatform.fuchsia:

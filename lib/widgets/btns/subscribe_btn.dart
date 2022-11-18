@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:podcast_app/network/api_keys.dart';
 import 'package:podcast_app/extras/app_dialogs.dart';
-import 'package:podcast_app/extras/constants.dart';
 import 'package:podcast_app/models/response/response_data.dart';
 import 'package:podcast_app/models/response/rj_response.dart';
 import 'package:podcast_app/network/api_services.dart';
@@ -24,40 +23,14 @@ class SubScribeButton extends StatefulWidget {
 class _SubScribeButtonState extends State<SubScribeButton> {
   @override
   Widget build(BuildContext context) {
-    return RawMaterialButton(
-      // fillColor: rjItem.subscribed!.toString() == "1"?AppColors.firstColor:null,//1 means subscribed, 0 means not
-      fillColor: widget.rjItem.subscribed!.toString() == "1"
-          ? AppColors.firstColor
-          : null, //1 means subscribed, 0 means not
-      onPressed: () {
-        if (CommonNetworkApi().mobileUserId == "-1") {
-          Utility.showRegistrationPromotion(context);
-          return;
-        }
-
-        // if (widget.rjItem.subscribed!.toString() != "1") {
-        ApiService()
-            .postData(ApiKeys.SUBSCRIBE_SUFFIX,
-                ApiKeys.getSubscribedQuery(widget.rjItem.rjUserId!),
-                ageNeeded: false)
-            .then((value) {
-          ResponseData responseData = ResponseData.fromJson(value);
-
-          if (responseData.status!.toUpperCase() == AppConstants.SUCCESS) {
-            widget.rjItem.subscribed =
-                widget.rjItem.subscribed == "1" ? "0" : "1";
-            setState(() {});
-            AppDialogs.simpleOkDialog(
-                context, 'Success', responseData.response ?? '');
-          } else {
-            AppDialogs.simpleOkDialog(
-                context, 'Success', responseData.response ?? '');
-          }
-        });
-        // }
-      },
-      shape: const StadiumBorder(
-        side: BorderSide(color: AppColors.firstColor),
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: widget.rjItem.subscribed!.toString() == "0"
+            ? AppColors.firstColor
+            : AppColors.inActiveColor,
+        shape: const StadiumBorder(
+          side: BorderSide(color: AppColors.firstColor),
+        ),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -65,10 +38,9 @@ class _SubScribeButtonState extends State<SubScribeButton> {
           text: TextSpan(
             children: [
               TextSpan(
-                text: widget.rjItem.subscribed!.toString() == "1"
-                    ? "Subscribed "
-                    : "Subscribe",
-              ),
+                  text: widget.rjItem.subscribed!.toString() == "1"
+                      ? "Subscribed "
+                      : "Subscribe"),
               const WidgetSpan(
                 child: Icon(
                   Icons.notifications_none,
@@ -80,6 +52,33 @@ class _SubScribeButtonState extends State<SubScribeButton> {
           ),
         ),
       ),
+      onPressed: () {
+        if (CommonNetworkApi().mobileUserId == "-1") {
+          Utility.showRegistrationPromotion(context);
+          return;
+        }
+        ApiService()
+            .postData(ApiKeys.SUBSCRIBE_SUFFIX,
+                ApiKeys.getSubscribedQuery(widget.rjItem.rjUserId!),
+                ageNeeded: false
+                )
+            .then((value) {
+          ResponseData responseData = ResponseData.fromJson(value);
+          setState(() {
+            print(
+                'subscribed data= ${responseData.statusDescription} = ..................................... ');
+            widget.rjItem.subscribed = responseData.response
+                    .toString()
+                    .toLowerCase()
+                    .contains(('Unsubscribed').toLowerCase())
+                ? "0"
+                : "1";
+          });
+          AppDialogs.simpleOkDialog(
+              context, 'Success', responseData.response ?? '');
+        });
+        // }
+      },
     );
   }
 }

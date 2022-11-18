@@ -104,9 +104,7 @@ class MainController extends GetxController {
 
   List<AudioPlayer> audioplayers = [];
 
-
 //***************************Add comment ************************************** *///
-
 
   Future<void> addComment({required String comment, bool file = false}) async {
     try {
@@ -383,7 +381,7 @@ class MainController extends GetxController {
     player.playerStateStream.listen((event) {
       switch (event.processingState) {
         case ProcessingState.idle:
-          // TODO: Handle this case.
+
           break;
         case ProcessingState.loading:
           isLoadingPodcast.value = true;
@@ -464,6 +462,8 @@ class MainController extends GetxController {
     }
   }
 
+  ///***************************** list unreade chat count*********************** ***//////
+
   void fetchUnreadChatCount(String rjId) async {
     final data = await ApiService()
         .postData(ApiKeys.CHAT_UNREAD_SUFFIX, ApiKeys.getChatListQuery(rjId));
@@ -478,6 +478,8 @@ class MainController extends GetxController {
       unReadChatCount.value = '';
     }
   }
+
+  ///***************************** list chat count*********************** ***//////
 
   void chatCountViewed(String rjId) async {
     final data = await ApiService()
@@ -591,9 +593,6 @@ class MainController extends GetxController {
     }
   }
 
-
-
-
   ///****************************list comment************************************************ */////
 
   void fetchComments(String podcastId) async {
@@ -608,10 +607,11 @@ class MainController extends GetxController {
       "podcast_id": podcastId,
       "mob_user_id": CommonNetworkApi().mobileUserId
     });
-
+    debugPrint('data .................................. $responseData');
     try {
       CommentResponse response = CommentResponse.fromJson(responseData);
 
+      print('fech-...................................$response');
       if (response.status == "Error" || response.comments!.isEmpty) {
         comments.value = [];
         commentsLoad.value = false;
@@ -621,15 +621,14 @@ class MainController extends GetxController {
       List<Comment> list = response.comments!.reversed.toList();
       comments.value = list;
     } catch (e) {
-      print(e.toString());
+      print('adnkadaksajdaj....................$e');
       comments.value = [];
     }
 
     commentsLoad.value = false;
   }
 
-
-  
+  //*****************send reply comment**************************** *//
 
   void sendReplyMessage(context) async {
     try {
@@ -656,6 +655,8 @@ class MainController extends GetxController {
     messageController.clear();
   }
 
+  //*************************delet comment**************************************** *//
+
   void deleteComment(String commentId) async {
     try {
       final data = await ApiService().deleteData(
@@ -670,6 +671,8 @@ class MainController extends GetxController {
       print(e.toString());
     }
   }
+
+  //***********************delect relply****************************************** *//
 
   void deleteReply(String replyId) async {
     try {
@@ -698,7 +701,7 @@ class MainController extends GetxController {
         fetchComments(podcastId.value);
       }
     } catch (err, str) {
-      // print('Add Comment Error $err');
+      print('Add Comment Error $err');
       print(str);
     }
   }
@@ -715,7 +718,7 @@ class MainController extends GetxController {
         fetchComments(podcastId.value);
       }
     } catch (err, str) {
-      // print('Add Comment Error $err');
+      print('Add Comment Error $err');
       print(str);
     }
   }

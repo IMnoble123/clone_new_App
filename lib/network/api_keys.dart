@@ -38,7 +38,10 @@ class ApiKeys {
   static const DELETE_COMMENT = "/mobuser/comment";
 
   static const COUNTRIES_SUFFIX = "/country";
+  
 
+  //*********************************** */ comment api*****************************************//
+  
   static const POST_COMMENT = "/mobuser/podcast/comment";
   static const POST_COMMENT_REPLY = "/mobuser/comment/reply";
   static const POST_COMMENT_LDH = "/mobuser/podcast/commentldh";
@@ -62,12 +65,23 @@ class ApiKeys {
 
   static const RJ_FILTER_CATEGORIES_SUFFIX = "/mobuser/rj/categorylist";
 
+
+
+//********************************* chat api*************************** ******//
+
+
   static const CREATE_CHAT_SUFFIX = "/chat/create";
-  static const CHAT_LIST_SUFFIX = "/chat/message/list";
+  static const CHAT_LIST_SUFFIX= "/chat/message/list";
   static const CHAT_UNREAD_SUFFIX = "/chat/message/unreadcount";
   static const UPDATE_CHAT_SUFFIX = "/chat/userunread/update";
 
+
+
+  /////**********************subcribe or non subscribe ************************************ */
+
   static const SUBSCRIBE_SUFFIX = "/mobuser/rj/subscribed";
+
+  //**********************************subscribe list inside the playlist screen************************************** */
   static const SUBSCRIBED_LIST_SUFFIX = "/mobuser/subscribedlistrj/podcast";
 
   static const FETCH_RPOFILE_SUFFIX = "/mobuser/profile/view";

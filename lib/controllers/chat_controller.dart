@@ -71,6 +71,8 @@ class ChartController extends GetxController {
     super.onInit();
   }
 
+  //*******************************chat list**************************************************************** */
+
   void fetchChatList() async {
     if (rjId.value.trim().isEmpty) return;
 
@@ -79,7 +81,7 @@ class ChartController extends GetxController {
         ageNeeded: false);
 
     ChatListData chatListData = ChatListData.fromJson(responseData as dynamic);
-
+    print('chatlist.....................................$chatListData');
     if (chatListData.status == "Success") {
       if (chatItems.value.length != chatListData.chatList) {
         chatItems.value = chatListData.chatList!;
@@ -108,6 +110,8 @@ class ChartController extends GetxController {
     }
   }
 
+  //********************************send message*********************************************************** */
+
   void sendMessage() async {
     if (rjId.value.trim().isEmpty) return;
 
@@ -135,8 +139,11 @@ class ChartController extends GetxController {
 
     if (response.status == "Success") {
       fetchChatList();
+      // print('sendchatResponce.................$response');
     }
   }
+
+  ///********************************************************************************///
 
   void sendHtmlMessage(String htmlData) async {
     if (rjId.value.trim().isEmpty) return;

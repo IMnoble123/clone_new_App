@@ -188,6 +188,7 @@ class EditProfileScree extends GetView<ProfileController> {
                       },
                     ),
                   ),
+                 const SizedBox(height: 8),
                   Obx(
                     () => TitleTileView(
                       title: 'DOB',
@@ -368,7 +369,7 @@ class EditProfileScree extends GetView<ProfileController> {
 
     final response = await ApiService().uploadFile(path);
 
-    ResponseData responseData = ResponseData.fromJson(response!);
+    ResponseData responseData = ResponseData.fromJson(response);
 
     /*if (responseData.status!.toUpperCase() == AppConstants.SUCCESS) {
 
@@ -622,7 +623,6 @@ class EditProfileScree extends GetView<ProfileController> {
 
   void _showDatePicker(BuildContext context) async {
     final ThemeData theme = Theme.of(context);
-    assert(theme.platform != null);
     switch (theme.platform) {
       case TargetPlatform.android:
       case TargetPlatform.fuchsia:
