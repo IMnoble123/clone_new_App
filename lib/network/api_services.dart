@@ -93,7 +93,8 @@ class ApiService {
 
   Future<dynamic> getServerItems(String apiSuffix) async {
     var response = await dio.get(apiSuffix,
-        options: Options(headers: {
+        options: Options(
+          headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
           //'X-ListenAPI-Key': AppConstants.token,
@@ -199,7 +200,7 @@ class ApiService {
             'Accept': 'application/json',
             //'X-ListenAPI-Key': AppConstants.token,
           }));
-      print('creates listing from api..........................................$response');
+      // print('creates listing from api..........................................$response');
       return response.data;
     } on DioError catch (e) {
       print(e.response?.data);
@@ -322,7 +323,7 @@ class ApiService {
   }
 
   Future<dynamic> podcastListByRj(Map<String, dynamic> query) async {
-    print('query..............................................$query');
+    // print('query..............................................$query');
 
     Response response;
     try {
@@ -333,7 +334,7 @@ class ApiService {
             'Accept': 'application/json',
             //'X-ListenAPI-Key': AppConstants.token,
           }));
-      print('printed...........................................$response');
+      // print('printed...........................................$response');
       return response.data;
     } on DioError catch (e) {
       print(e.response?.data);
@@ -404,7 +405,7 @@ class ApiService {
             'Accept': 'application/json',
             //'X-ListenAPI-Key': AppConstants.token,
           }));
-      print(response);
+      print('sociallogin...........................$response');
       return response.data;
     } on DioError catch (e) {
       print(e.response?.data);
@@ -540,7 +541,7 @@ class ApiService {
   ////************************list comments******************************** *//////////////
 
   Future<dynamic> fetchComments(Map<String, dynamic> query) async {
-    print('fetching comments  $query');
+    print('fetching comments ..................... $query');
     Response response;
     try {
       response = await dio.post('/mobuser/podcast/commentreplylist',
@@ -551,7 +552,7 @@ class ApiService {
 
             //'X-ListenAPI-Key': AppConstants.token,
           }));
-      print('Response');
+      // print('Response...................${response.data}');
       // print('RES => ${response.data}');
       return response.data;
     } on DioError catch (e, str) {

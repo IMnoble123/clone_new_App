@@ -71,7 +71,7 @@ class ChartController extends GetxController {
     super.onInit();
   }
 
-  //*******************************chat list**************************************************************** */
+  //*******************************chat list******************************************************************/
 
   void fetchChatList() async {
     if (rjId.value.trim().isEmpty) return;
@@ -81,9 +81,11 @@ class ChartController extends GetxController {
         ageNeeded: false);
 
     ChatListData chatListData = ChatListData.fromJson(responseData as dynamic);
-    print('chatlist.....................................$chatListData');
+    // print('chatlist.....................................$chatListData');
     if (chatListData.status == "Success") {
+      // print('chatlist.....................................$chatListData');
       if (chatItems.value.length != chatListData.chatList) {
+        // print('chatlist.....................................$chatItems');
         chatItems.value = chatListData.chatList!;
       }
     } else {
@@ -91,6 +93,7 @@ class ChartController extends GetxController {
     }
 
     if (count.value != chatItems.length) {
+      // print('count...............$count');
       scrollToBottom();
     }
 
@@ -136,10 +139,11 @@ class ChartController extends GetxController {
         ageNeeded: false);
 
     ResponseData response = ResponseData.fromJson(responseData as dynamic);
+    // print('chatresponece.............................$response');
 
     if (response.status == "Success") {
       fetchChatList();
-      // print('sendchatResponce.................$response');
+      // print('chatresponce.............................$response');
     }
   }
 

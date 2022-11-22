@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1037314246608-r2fq6nvp1m2g3bpuv12mh4hr5c2u7erq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.tomtompodcast.com",
+            "certificate_hash": "109ce543e001fe02478edcef920db80a7e8da8aa"
+          }
+        },
+        {
           "client_id": "1037314246608-gtjak6as1eqn5d3fdnujoce1v1vip3cj.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -31,10 +39,11 @@
               "client_type": 3
             },
             {
-              "client_id": "1037314246608-7oic71slcftqn0u7habsvin5q19n78gl.apps.googleusercontent.com",
+              "client_id": "1037314246608-6tq3t9go9ihibdocrg9grsrhmp7o4v9i.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "app.tomtompodcast.com"
+                "bundle_id": "app.tomtompodcast.com",
+                "app_store_id": "1586144146"
               }
             }
           ]

@@ -486,7 +486,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),*/
                                 CircleButton(
                                   child: Image.asset(
-                                    'images/gmail_new.png',
+                                    'images/google12.png',
                                     scale: 3,
                                   ),
                                   tapCallback: () {
@@ -499,7 +499,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     scale: 3,
                                   ),
                                   tapCallback: () {
-                                    loginwithFacebook();
+                                    // loginwithFacebook();
+                                    signInWithFacebook();
                                   },
                                 ),
                                 if (Platform.isIOS)
@@ -749,6 +750,8 @@ class _LoginScreenState extends State<LoginScreen> {
     });*/
   }
 
+
+
   Future<UserCredential> signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -769,6 +772,10 @@ class _LoginScreenState extends State<LoginScreen> {
     // Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
+
+
+
+
 
   void fbLogin() async {
     final LoginResult loginResult = await FacebookAuth.instance
@@ -799,7 +806,7 @@ class _LoginScreenState extends State<LoginScreen> {
           appleId: "",
           dob: "",
           facebookId: user.uid,
-          mobile: user.phoneNumber ?? AppConstants.getRandomNumber(),
+          mobile: user.phoneNumber,
           password: "",
           profileImage: user.photoURL ?? "");
 
@@ -814,56 +821,68 @@ class _LoginScreenState extends State<LoginScreen> {
       //AppDialogs.simpleOkDialog(context, 'Warning!', e.toString());
     }
 
-    if (mounted) {
+    if ( mounted) {
       setState(() {
         showProgress = false;
       });
     }
   }
 
-  void loginwithFacebook() async {
-    try {
-      final facebookLoginResult = await FacebookAuth.instance.login();
-      final userData = await FacebookAuth.instance.getUserData();
-      final facebookAuthCredential = FacebookAuthProvider.credential(
-          facebookLoginResult.accessToken!.token);
-      await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
-      await FirebaseFirestore.instance.collection('Users').add({
-        'email': userData['email'],
-        'imageUrl': userData['picture']['data']['url'],
-        'name': userData['name'],
-      });
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (_) => const DashBoardScreen()),
-          (route) => false);
-    } on FirebaseException catch (e) {
-      var title = '';
-      switch (e.code) {
-        case 'account-exists-with-different-credential':
-          title = 'This account exicts with a different sign in provider';
-          break;
-        case 'invalid-credential':
-          title = 'Unknown error has occurred';
-          break;
-        case 'user-disabled':
-          title = 'The user you to log into is disabled';
-          break;
-      }
-      showDialog(
-          context: context,
-          builder: (ctx) => AlertDialog(
-                title: const Text('Log in with facebook failed'),
-                content: Text(title),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text('Ok'))
-                ],
-              ));
-    } finally {}
+  Future<UserCredential> signInWithFacebook() async {
+    // Trigger the sign-in flow
+    final LoginResult loginResult = await FacebookAuth.instance.login();
+
+    // Create a credential from the access token
+    final OAuthCredential facebookAuthCredential =
+        FacebookAuthProvider.credential(loginResult.accessToken!.token);
+
+    // Once signed in, return the UserCredential
+    return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
   }
+
+  // void loginwithFacebook() async {
+  //   try {
+  //     final facebookLoginResult = await FacebookAuth.instance.login();
+  //     final userData = await FacebookAuth.instance.getUserData();
+  //     final facebookAuthCredential = FacebookAuthProvider.credential(
+  //         facebookLoginResult.accessToken!.token);
+  //     await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+  //     await FirebaseFirestore.instance.collection('Users').add({
+  //       'email': userData['email'],
+  //       'imageUrl': userData['picture']['data']['url'],
+  //       'name': userData['name'],
+  //     });
+  //     Navigator.of(context).pushAndRemoveUntil(
+  //         MaterialPageRoute(builder: (_) => const DashBoardScreen()),
+  //         (route) => false);
+  //   } on FirebaseException catch (e) {
+  //     var title = '';
+  //     switch (e.code) {
+  //       case 'account-exists-with-different-credential':
+  //         title = 'This account exicts with a different sign in provider';
+  //         break;
+  //       case 'invalid-credential':
+  //         title = 'Unknown error has occurred';
+  //         break;
+  //       case 'user-disabled':
+  //         title = 'The user you to log into is disabled';
+  //         break;
+  //     }
+  //     showDialog(
+  //         context: context,
+  //         builder: (ctx) => AlertDialog(
+  //               title: const Text('Log in with facebook failed'),
+  //               content: Text(title),
+  //               actions: [
+  //                 TextButton(
+  //                     onPressed: () {
+  //                       Navigator.of(context).pop();
+  //                     },
+  //                     child: const Text('Ok'))
+  //               ],
+  //             ));
+  //   } finally {}
+  // }
 
 //   void fbLoginOld() async {
 //     final LoginResult result = await FacebookAuth.instance.login(
@@ -1024,13 +1043,19 @@ class _LoginScreenState extends State<LoginScreen> {
         facebookId: "",
         mobile: AppConstants.getRandomNumber(),
         password: "",
-        profileImage: ""
-    );
+        profileImage: "");
 
     final response = await ApiService().registerSocialUser(socialUser.toJson());
 
     AppConstants.navigateToDashBoard(context, response);
   }
+
+
+
+//********************************google post *************************************************** *//
+
+
+
 
   void postGoogleSignInData(User? user) async {
     setState(() {
@@ -1046,7 +1071,7 @@ class _LoginScreenState extends State<LoginScreen> {
         appleId: "",
         dob: "",
         facebookId: "",
-        mobile: AppConstants.getRandomNumber(),
+        mobile: user?.phoneNumber,
         password: "",
         profileImage: user?.photoURL ?? AppConstants.dummyProfilePic);
 

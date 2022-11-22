@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -18,11 +19,15 @@ class AdSpotWidget extends StatelessWidget {
     final adsController = Get.find<AdsController>();
 
     return FutureBuilder(
+      future: ApiService().getServerItems(ApiKeys.ADS_SUFFIX),
       builder: (context, snapShot) {
+        // print(
+        //     'loooop................................................${snapShot.data}');
+
         if (snapShot.hasData) {
           try {
             AdsResponseData response =
-                AdsResponseData.fromJson(snapShot.data as dynamic);
+                adsResponseDataFromJson(jsonEncode(snapShot.data));
 
             if (response.status == "Error" || response.response == null) {
               return const NoDataWidget();
@@ -45,12 +50,26 @@ class AdSpotWidget extends StatelessWidget {
           ));
         }
       },
-      future: ApiService().getServerItems(ApiKeys.ADS_SUFFIX),
-      // future: ApiService().fetchTrendingPodcasts(),
+      //   if (snapShot.hasError) {
+      //     return const Text(
+      //       'Error',
+      //       style: TextStyle(color: Colors.white),
+      //     );
+      //   }
+        // DashbordResponsemodel response =
+        //     dashbordResponsemodelFromJson(jsonEncode(snapShot.data));
+
+      //   if (snapShot.hasData) {
+      //     return updateServerAds(response.response, adsController);
+      //   } else {
+      //     return const CircularProgressIndicator();
+      //   }
+      // });
     );
   }
+}
 
-  /*Widget build(BuildContext context) {
+/*Widget build(BuildContext context) {
     return Column(
       children: [
         CarouselSlider(
@@ -144,136 +163,115 @@ class AdSpotWidget extends StatelessWidget {
     );*/ /*
   }*/
 
-  Widget updateServerAds(
-    List<AdItem> list,
-    AdsController adsController,
-  ) {
-    return Column(
-      children: [
-        CarouselSlider(
-            items: getAdLists(list),
-            carouselController: adsController.carouselController,
-            options: CarouselOptions(
-              height: 200,
-              aspectRatio: 16 / 9,
-              viewportFraction: 0.8,
-              initialPage: 0,
-              enableInfiniteScroll: true,
-              reverse: false,
-              autoPlay: true,
-              autoPlayInterval: const Duration(seconds: 3),
-              autoPlayAnimationDuration: const Duration(milliseconds: 800),
-              autoPlayCurve: Curves.fastOutSlowIn,
-              enlargeCenterPage: true,
-              onPageChanged: (i, s) {
-                adsController.currentPosition.value = i;
-              },
-              scrollDirection: Axis.horizontal,
-            )),
-        Obx(
-          () => Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: list.asMap().entries.map((entry) {
-              return GestureDetector(
-                onTap: () =>
-                    adsController.carouselController.animateToPage(entry.key),
-                child: Container(
-                  width: 5.0,
-                  height: 5.0,
-                  margin: const EdgeInsets.symmetric(
-                      vertical: 4.0, horizontal: 4.0),
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: adsController.currentPosition.value == entry.key
-                          ? Colors.white
-                          : Colors.white.withOpacity(0.4)),
-                ),
-              );
-            }).toList(),
-          ),
+Widget updateServerAds(
+  List<AdItem> list,
+  AdsController adsController,
+) {
+  return Column(
+    children: [
+      CarouselSlider(
+          items: getAdLists(list),
+          carouselController: adsController.carouselController,
+          options: CarouselOptions(
+            height: 200,
+            aspectRatio: 16 / 9,
+            viewportFraction: 0.8,
+            initialPage: 0,
+            enableInfiniteScroll: true,
+            reverse: false,
+            autoPlay: true,
+            autoPlayInterval: const Duration(seconds: 3),
+            autoPlayAnimationDuration: const Duration(milliseconds: 800),
+            autoPlayCurve: Curves.fastOutSlowIn,
+            enlargeCenterPage: true,
+            onPageChanged: (i, s) {
+              adsController.currentPosition.value = i;
+            },
+            scrollDirection: Axis.horizontal,
+          )),
+      Obx(
+        () => Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: list.asMap().entries.map((entry) {
+            return GestureDetector(
+              onTap: () =>
+                  adsController.carouselController.animateToPage(entry.key),
+              child: Container(
+                width: 5.0,
+                height: 5.0,
+                margin:
+                    const EdgeInsets.symmetric(vertical: 4.0, horizontal: 4.0),
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: adsController.currentPosition.value == entry.key
+                        ? Colors.white
+                        : Colors.white.withOpacity(0.4)),
+              ),
+            );
+          }).toList(),
         ),
-      ],
-    );
-  }
+      ),
+    ],
+  );
+}
 
-  getAdLists(List<AdItem> adItems) {
-    List<Widget> items = [];
+getAdLists(List<AdItem> adItems) {
+  List<Widget> items = [];
 
-    for (int i = 0; i < adItems.length; i++) {
-      items.add(ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-        child: Stack(children: [
-          Container(
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: CachedNetworkImageProvider(adItems[i].image!))),
-          ),
-          Positioned.fill(
-              child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: () {
-                      if (adItems[i].linkType!.toLowerCase() == "web") {
-                        final url = adItems[i].linkValue;
-
-                        if (url == null || url.isEmpty) return;
-
-                        if (url.contains('http') || url.contains('https')) {
-                          Uri.http(url);
-                        } else {
-                          Uri.https(url);
-                        }
-                      } else if (adItems[i].linkType!.toLowerCase() ==
-                              "podcast" &&
-                          adItems[i].linkValue != null &&
-                          adItems[i].linkValue!.isNotEmpty) {
-                        playPodcast(adItems[i].linkValue!);
-                      }
-                    },
-                  )))
-        ]),
-      ));
-    }
-
-    return items;
-  }
-
-  void playPodcast(String podcastId) async {
-    final responseData = await ApiService().postData(
-        ApiKeys.PODCAST_BY_ID_SUFFIX,
-        ApiKeys.getPodcastsByPodcastIdQuery(podcastId));
-
-    PodcastResponse response =
-        PodcastResponse.fromJson(responseData as dynamic);
-
-    if (response.status == "Error" || response.podcasts == null) {
-      return;
-    }
-
-    List<Podcast> podcasts = response.podcasts!;
-
-    if (podcasts.isNotEmpty) {
-      //to play the audio
-      Get.find<MainController>().tomtomPlayer.addAllPodcasts(podcasts, 0);
-      // used to navigate to play page
-      Get.find<MainController>().togglePanel();
-    }
-  }
-
-/*getAdLists() {
-    List<Widget> items = [];
-
-    for (int i = 0; i < images.length; i++) {
-      items.add(ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-        child: Container(
+  for (int i = 0; i < adItems.length; i++) {
+    items.add(ClipRRect(
+      borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+      child: Stack(children: [
+        Container(
           decoration: BoxDecoration(
               image: DecorationImage(
-                  image: CachedNetworkImageProvider(images[i]))),
+                  image: CachedNetworkImageProvider(adItems[i].image!))),
         ),
-      ));
-    }
+        Positioned.fill(
+            child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () {
+                    if (adItems[i].linkType!.toLowerCase() == "web") {
+                      final url = adItems[i].linkValue;
 
-    return items;
-  }*/
+                      if (url == null || url.isEmpty) return;
+
+                      if (url.contains('http') || url.contains('https')) {
+                        Uri.http(url);
+                      } else {
+                        Uri.https(url);
+                      }
+                    } else if (adItems[i].linkType!.toLowerCase() == "podcast" &&
+                        adItems[i].linkValue != null &&
+                        adItems[i].linkValue!.isNotEmpty) {
+                      playPodcast(adItems[i].linkValue!);
+                    }
+                  },
+                )))
+      ]),
+    ));
+  }
+
+  return items;
+}
+
+void playPodcast(String podcastId) async {
+  final responseData = await ApiService().postData(ApiKeys.PODCAST_BY_ID_SUFFIX,
+      ApiKeys.getPodcastsByPodcastIdQuery(podcastId));
+
+  PodcastResponse response = PodcastResponse.fromJson(responseData as dynamic);
+
+  if (response.status == "Error" || response.podcasts == null) {
+    return;
+  }
+
+  List<Podcast> podcasts = response.podcasts!;
+
+  if (podcasts.isNotEmpty) {
+    //to play the audio
+    Get.find<MainController>().tomtomPlayer.addAllPodcasts(podcasts, 0);
+    // used to navigate to play page
+    Get.find<MainController>().togglePanel();
+  }
 }

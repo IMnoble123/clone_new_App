@@ -85,8 +85,9 @@ class PodcastMoreOptionsScreen extends GetView<MainController> {
                   controller.currentPodcast!.description!.isNotEmpty
                       ? controller.currentPodcast!.description!
                       : '',
+                      maxLines:5,
                   style: const TextStyle(
-                      color: AppColors.textSecondaryColor, fontSize: 14),
+                      color: AppColors.textSecondaryColor, fontSize: 14,overflow: TextOverflow.ellipsis,),
                 ),
               ),
               const SizedBox(

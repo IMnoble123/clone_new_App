@@ -96,7 +96,7 @@ class _PaginationShowsState extends State<PaginationShows> {
           showsList.addAll(response.showsList!);
           _hasNextPage = totalRows != showsList.length;
 
-          // print('load more $_hasNextPage');
+           print('load more $_hasNextPage');
         });
         // print('person......................$response');
       } catch (e) {

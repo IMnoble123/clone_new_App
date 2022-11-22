@@ -88,12 +88,12 @@ class _PaginationRjsState extends State<PaginationRjs> {
             .postData(widget.apiEndPoint!, getPaginationQuery(_page));
 
         RjResponse response = RjResponse.fromJson(res);
-
+        // print('pagination_rjs............................$response');
         setState(() {
           rjsList.addAll(response.rjItems!);
           _hasNextPage = totalRows != rjsList.length;
 
-          print('load more $_hasNextPage');
+          // print('load more......................... $_hasNextPage');
         });
       } catch (e) {
         print(e.toString());
@@ -112,9 +112,8 @@ class _PaginationRjsState extends State<PaginationRjs> {
         HeaderSection(
           title: widget.headerTitle ?? '',
           callback: () {
-            final args = ScreenArguments(
-                'Creators', widget.apiEndPoint!, '',
-                filter: widget.category??'');
+            final args = ScreenArguments('Creators', widget.apiEndPoint!, '',
+                filter: widget.category ?? '');
             Navigator.pushNamed(
                 context, AppRoutes.rjsListScreenVerticalPagination,
                 arguments: args);

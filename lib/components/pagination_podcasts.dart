@@ -7,7 +7,6 @@ import 'package:podcast_app/extras/screen_args.dart';
 import 'package:podcast_app/network/api_services.dart';
 import 'package:podcast_app/widgets/header.dart';
 import 'package:podcast_app/widgets/no_data_widget.dart';
-
 import '../extras/constants.dart';
 import '../models/response/podcast_response.dart';
 import '../network/common_network_calls.dart';
@@ -115,8 +114,9 @@ class _PaginationPodcastsState extends State<PaginationPodcasts> {
         HeaderSection(
           title: widget.headerTitle ?? '',
           callback: () {
-            final args =
-                ScreenArguments(widget.headerTitle!, widget.apiEndPoint!,'',filter: widget.category??'');
+            final args = ScreenArguments(
+                widget.headerTitle!, widget.apiEndPoint!, '',
+                filter: widget.category ?? '');
             Navigator.pushNamed(
                 context, AppRoutes.podcastListScreenVerticalPagination,
                 arguments: args);
@@ -129,38 +129,38 @@ class _PaginationPodcastsState extends State<PaginationPodcasts> {
                   child: CircularProgressIndicator(),
                 )
               : Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: podcastList.isNotEmpty?ListView.builder(
-                    itemCount: _isLoadMoreRunning
-                        ? podcastList.length + 1
-                        : podcastList.length,
-                    controller: _controller,
-                    itemBuilder: (context, index) {
-                      if (index == podcastList.length) {
-                        return SizedBox(
-                            width: cardWidth,
-                            child:
-                                const Center(child: CircularProgressIndicator()));
-                      } else {
-                        return PodcastItem(
-                          cardWidth: cardWidth,
-                          podcast: podcastList[index],
-                          callback: () {
-
-                           Get.find<MainController>()
-                                .tomtomPlayer
-                                .addAllPodcasts(podcastList, index);
-                            Get.find<MainController>().togglePanel();
-
-
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: podcastList.isNotEmpty
+                      ? ListView.builder(
+                          itemCount: _isLoadMoreRunning
+                              ? podcastList.length + 1
+                              : podcastList.length,
+                          controller: _controller,
+                          itemBuilder: (context, index) {
+                            if (index == podcastList.length) {
+                              return SizedBox(
+                                  width: cardWidth,
+                                  child: const Center(
+                                      child: CircularProgressIndicator()));
+                            } else {
+                              return PodcastItem(
+                                cardWidth: cardWidth,
+                                podcast: podcastList[index],
+                                callback: () {
+                                  Get.find<MainController>()
+                                      .tomtomPlayer
+                                      .addAllPodcasts(podcastList, index);
+                                  Get.find<MainController>().togglePanel();
+                                },
+                              );
+                            }
                           },
-                        );
-                      }
-
-                    },
-                    scrollDirection: Axis.horizontal,
-                  ):const Center(child: NoDataWidget(),),
-              ),
+                          scrollDirection: Axis.horizontal,
+                        )
+                      : const Center(
+                          child: NoDataWidget(),
+                        ),
+                ),
         )
       ],
     );

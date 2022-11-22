@@ -23,7 +23,9 @@ class AllPlayListScreen extends GetView<PlayListController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-           Obx(()=> controller.collections.value.isNotEmpty?const MenusTitle(text: 'By Folder'):const SizedBox.shrink()),
+          Obx(() => controller.collections.value.isNotEmpty
+              ? const MenusTitle(text: 'By Folder')
+              : const SizedBox.shrink()),
           const CollectionsList(),
           Obx(() => controller.podcasts.value.isNotEmpty
               ? MenusTitle(
@@ -58,6 +60,7 @@ class AllPlayListScreen extends GetView<PlayListController> {
                       //controller.deletePodcastItem(context, podcast.podcastId!);
 
                       deletePodcast(context, id);
+                      controller.deletePodcastItem(context, id);
                     },
                   )
                 : const SizedBox.shrink(),
@@ -133,7 +136,7 @@ class AllPlayListScreen extends GetView<PlayListController> {
             .deleteData(ApiKeys.DELETE_PODCAST_FROM_COLLECTION_SUFFIX,
                 ApiKeys.deletePodcastQuery(folder_file_id))
             .then((value) {
-              //hide success dialog
+          //hide success dialog
           //updateResponse(context, value);
           controller.fetchPodcastByCollectionId();
         });
@@ -143,8 +146,7 @@ class AllPlayListScreen extends GetView<PlayListController> {
 
   void updateResponse(BuildContext context, response) {
     ResponseData responseData = ResponseData.fromJson(response);
-    print(responseData);
-    print('-----');
+    print('all_playlistscreen.................................$responseData');
     if (responseData.status!.toUpperCase() == AppConstants.SUCCESS) {
       AppDialogs.simpleOkDialog(context, 'Success',
               "Successfully removed the podcast from the collection.")
@@ -160,5 +162,4 @@ class AllPlayListScreen extends GetView<PlayListController> {
   void gotoSearch() {
     Get.find<SearchController>().enablePlaylistSearch();
   }
-
 }

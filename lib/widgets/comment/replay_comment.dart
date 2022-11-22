@@ -116,7 +116,7 @@ class ReplayComment extends StatelessWidget {
                       child: IconButton(
                           key: overFlowKey,
                           onPressed: () async {
-                            print('clicked');
+                            // print('clicked');
 
                             showMenu<String>(
                               context: context,
@@ -126,14 +126,14 @@ class ReplayComment extends StatelessWidget {
                               //position where you want to show the menu on screen
                               items: [
                                 PopupMenuItem<String>(
-                                    child: const Text(
-                                      'Delete',
-                                    ),
                                     value: '1',
                                     onTap: () {
                                       Get.find<MainController>()
                                           .deleteReply(reply.replyId!);
-                                    }),
+                                    },
+                                    child: const Text(
+                                      'Delete',
+                                    )),
                               ],
 
                               elevation: 8.0,
@@ -196,7 +196,7 @@ class ReplayComment extends StatelessWidget {
                 icon: Icon(
                   reply.replyYouLiked == "1"
                       ? Icons.thumb_up
-                      : Icons.thumb_up_outlined,
+                      : Icons.thumb_up_alt_outlined,
                   color: Colors.white,
                   size: 20,
                 ),

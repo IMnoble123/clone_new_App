@@ -89,7 +89,8 @@ class DashBoardScreen extends GetView<MainController> {
 
                           final args = ScreenArguments(
                               'Creators', ApiKeys.TOP_50_RJS_SUFFIX, '',
-                              filter: '');
+                              filter: ''
+                              );
                           Navigator.pushNamed(
                               context, AppRoutes.rjsListScreenVerticalPagination,
                               arguments: args);

@@ -202,27 +202,27 @@ class PlayListController extends GetxController {
           responseData.response ?? "unable to process request");
     }
 
-
     showProgress.value = false;
 
   }
 
-  /*void deleteCollection(BuildContext context, String collectionId) async {
-    final response = await ApiService().deleteData(
-        ApiKeys.CREATE_COLLECTION_SUFFIX,
-        ApiKeys.deleteCollectionQuery(collectionId));
-
-    ResponseData responseData = ResponseData.fromJson(response);
 
 
+  // void deleteCollection(BuildContext context, String collectionId) async {
+  //   final response = await ApiService().deleteData(
+  //       ApiKeys.CREATE_COLLECTION_SUFFIX,
+  //       ApiKeys.deleteCollectionQuery(collectionId));
 
-    if (responseData.status!.toUpperCase() == AppConstants.SUCCESS) {
-      print('added new collection ${responseData.status}');
-    } else {
-      AppDialogs.simpleOkDialog(context, 'Failed',
-          responseData.response ?? "unable to process request");
-    }
-  }*/
+  //   ResponseData responseData = ResponseData.fromJson(response);
+  //   if (responseData.status!.toUpperCase() == AppConstants.SUCCESS) {
+  //     print('added new collection ${responseData.status}');
+  //   } else {
+  //     AppDialogs.simpleOkDialog(context, 'Failed',
+  //         responseData.response ?? "unable to process request");
+  //   }
+  // }
+
+
 
   void deletePodcastItem(context, podcastId) async {
     final response = await ApiService().deleteData(

@@ -607,11 +607,11 @@ class MainController extends GetxController {
       "podcast_id": podcastId,
       "mob_user_id": CommonNetworkApi().mobileUserId
     });
-    debugPrint('data .................................. $responseData');
+    // debugPrint('data .................................. $responseData');
     try {
       CommentResponse response = CommentResponse.fromJson(responseData);
 
-      print('fech-...................................$response');
+      //
       if (response.status == "Error" || response.comments!.isEmpty) {
         comments.value = [];
         commentsLoad.value = false;
@@ -621,7 +621,7 @@ class MainController extends GetxController {
       List<Comment> list = response.comments!.reversed.toList();
       comments.value = list;
     } catch (e) {
-      print('adnkadaksajdaj....................$e');
+      // print('adnkadaksajdaj....................$e');
       comments.value = [];
     }
 
@@ -691,6 +691,7 @@ class MainController extends GetxController {
 
   void postldh(String commentId, String s) async {
     try {
+      // print('clicked................................................$commentId');
       final data = await ApiService().postData(
           ApiKeys.POST_COMMENT_LDH, ApiKeys.getCommentLDHQuery(commentId, s),
           ageNeeded: false);
@@ -698,10 +699,11 @@ class MainController extends GetxController {
       ResponseData responseData = ResponseData.fromJson(data);
 
       if (responseData.status == 'Success') {
+        //  print('clicked111111...............................................${data}.');
         fetchComments(podcastId.value);
       }
     } catch (err, str) {
-      print('Add Comment Error $err');
+      // print('Add Comment Error $err');
       print(str);
     }
   }

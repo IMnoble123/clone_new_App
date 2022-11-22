@@ -8,7 +8,7 @@ class NoDataWidget extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       child: const Text(
-        'No Data',
+        'No data',
         style: TextStyle(color: Colors.white),
       ),
     );

@@ -108,13 +108,16 @@ class MainComment extends GetView<MainController> {
                             builder: (_) => ImageDialog(
                                   imgUrl: imgUrl.sources.first.url,
                                 ));
-                      } catch (e) {}
+                      } catch (e) {
+                        print(e.toString());
+                      }
                     },
                   ),
                 ],
               ),
             ),
-            comment.commenterId == CommonNetworkApi().mobileUserId
+            // comment.commenterId == CommonNetworkApi().mobileUserId
+            CommonNetworkApi().mobileUserId.contains(comment.commenterId!)
                 ? Material(
                     color: Colors.transparent,
                     child: IconButton(
@@ -151,6 +154,8 @@ class MainComment extends GetView<MainController> {
                     child: IconButton(
                         key: overFlowKey,
                         onPressed: () {
+                          // print('commenter id..............................${comment.commenterId}');
+                          //  print('dddddommenter id..............................${CommonNetworkApi().mobileUserId}');
                           showMenu<String>(
                             context: context,
                             // position: RelativeRect.fromLTRB(25.0, 25.0, 0.0, 0.0),
@@ -236,9 +241,12 @@ class MainComment extends GetView<MainController> {
             IconButton(
               onPressed: () {
                 controller.postldh(comment.commentId!, 'like');
+                // print(
+                //     'comment............................${comment.commentYouLiked}');
               },
               icon: Icon(
                 comment.commentYouLiked == "1"
+                // comment.commentYouLiked!.contains("1")
                     ? Icons.thumb_up
                     : Icons.thumb_up_outlined,
                 color: Colors.white,
@@ -258,6 +266,7 @@ class MainComment extends GetView<MainController> {
               },
               icon: Icon(
                 comment.commentYouDisliked == "1"
+                // comment.commentYouLiked!.contains("1")
                     ? Icons.thumb_down
                     : Icons.thumb_down_alt_outlined,
                 color: Colors.white,
