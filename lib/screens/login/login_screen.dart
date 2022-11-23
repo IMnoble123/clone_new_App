@@ -1071,7 +1071,7 @@ class _LoginScreenState extends State<LoginScreen> {
         appleId: "",
         dob: "",
         facebookId: "",
-        mobile: user?.phoneNumber,
+        mobile: AppConstants.getRandomNumber(),
         password: "",
         profileImage: user?.photoURL ?? AppConstants.dummyProfilePic);
 

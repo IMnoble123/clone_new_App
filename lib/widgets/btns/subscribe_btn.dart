@@ -46,7 +46,7 @@ class _SubScribeButtonState extends State<SubScribeButton> {
 
           if (responseData.status!.toUpperCase() == AppConstants.SUCCESS) {
             widget.rjItem.subscribed =
-                widget.rjItem.subscribed == "1" ? "1" : "0";
+                widget.rjItem.subscribed == "1" ? "0" : "1";
             setState(() {});
             AppDialogs.simpleOkDialog(
                 context, 'Success', responseData.response ?? '');

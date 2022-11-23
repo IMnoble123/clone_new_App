@@ -188,7 +188,6 @@ class EditProfileScree extends GetView<ProfileController> {
                       },
                     ),
                   ),
-                 const SizedBox(height: 8),
                   Obx(
                     () => TitleTileView(
                       title: 'DOB',
