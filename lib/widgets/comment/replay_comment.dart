@@ -29,13 +29,27 @@ class ReplayComment extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CircleAvatar(
-                radius: 15,
-                backgroundImage: CachedNetworkImageProvider(
-                    reply.replyerImage == null || reply.replyerImage!.isEmpty
-                        ? AppConstants.dummyProfilePic
-                        : reply.replyerImage!),
+
+               SizedBox(
+              height: 30,
+              width: 30,
+              child: CachedNetworkImage(
+                imageUrl: reply.replyerImage ?? '',
+                fit: BoxFit.cover,
+                errorWidget: (context, url, error) =>
+                    Image.asset('images/profile1.0.png', fit: BoxFit.cover),
+                placeholder: (context, url) => const Center(
+                  child: CircularProgressIndicator(),
+                ),
               ),
+            ),
+              // CircleAvatar(
+              //   radius: 15,
+              //   backgroundImage: CachedNetworkImageProvider(
+              //       reply.replyerImage == null || reply.replyerImage!.isEmpty
+              //           ? AppConstants.dummyProfilePic
+              //           : reply.replyerImage!),
+              // ),
               const SizedBox(
                 width: 10,
               ),

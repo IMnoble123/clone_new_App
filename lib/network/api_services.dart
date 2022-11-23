@@ -93,8 +93,7 @@ class ApiService {
 
   Future<dynamic> getServerItems(String apiSuffix) async {
     var response = await dio.get(apiSuffix,
-        options: Options(
-          headers: {
+        options: Options(headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
           //'X-ListenAPI-Key': AppConstants.token,
@@ -123,10 +122,8 @@ class ApiService {
   Future<dynamic> fetchItems(String apiSuffix) async {
     Response response;
     try {
-      response = await dio.get(
-        apiSuffix,
-          options: Options(
-            headers: {
+      response = await dio.get(apiSuffix,
+          options: Options(headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
             //'X-ListenAPI-Key': AppConstants.token,
@@ -185,8 +182,7 @@ class ApiService {
 
     Response response;
     try {
-      response = await dio.post(
-        apiSuffix,
+      response = await dio.post(apiSuffix,
           data: query,
           /* options: buildCacheOptions(const Duration(days: 10),
               forceRefresh: true,
@@ -399,8 +395,7 @@ class ApiService {
     try {
       response = await dio.post('/mobuser/socialsignin',
           data: query,
-          options: Options(
-            headers: {
+          options: Options(headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
             //'X-ListenAPI-Key': AppConstants.token,
@@ -538,7 +533,7 @@ class ApiService {
     }
   }
 
-  ////************************list comments******************************** *//////////////
+  ////************************list ******************************** *//////////////
 
   Future<dynamic> fetchComments(Map<String, dynamic> query) async {
     print('fetching comments ..................... $query');
@@ -562,8 +557,6 @@ class ApiService {
     }
   }
 
-
-
   Future<dynamic> uploadFile(String filePath) async {
     Response response;
     try {
@@ -583,9 +576,6 @@ class ApiService {
       return null;
     }
   }
-
-
-
 
   Future<String> generateToken() async {
     var response = await dio.get(ApiKeys.GENERATE_TOKEN,

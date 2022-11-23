@@ -1,5 +1,3 @@
-
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -152,7 +150,8 @@ class SlideUpScreen extends GetView<MainController> {
                               color: Colors.transparent,
                               child: InkWell(
                                 onTap: () {
-                                  gotoRjPage(controller.currentPodcast!.userId!);
+                                  gotoRjPage(
+                                      controller.currentPodcast!.userId!);
                                 },
                                 child: Align(
                                     alignment: Alignment.centerLeft,

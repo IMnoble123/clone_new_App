@@ -28,12 +28,14 @@ class CommonNetworkApi {
 
       if (responseData.status!.toUpperCase() == AppConstants.SUCCESS) {
         if (isDialogRequired) {
+          // ignore: use_build_context_synchronously
           AppDialogs.simpleOkDialog(
               context, 'Success', responseData.response ?? '');
         }
         return true;
       } else {
         if (isDialogRequired) {
+          // ignore: use_build_context_synchronously
           AppDialogs.simpleOkDialog(context, 'Failed',
               responseData.response ?? "unable to process request");
         }
@@ -41,6 +43,7 @@ class CommonNetworkApi {
       }
     } catch (e) {
       if (isDialogRequired) {
+        // ignore: use_build_context_synchronously
         AppDialogs.simpleOkDialog(
             context, 'Failed', "unable to process request");
       }
@@ -59,12 +62,14 @@ class CommonNetworkApi {
 
       if (responseData.status!.toUpperCase() == AppConstants.SUCCESS) {
         if (isDialogRequired) {
+          // ignore: use_build_context_synchronously
           AppDialogs.simpleOkDialog(
               context, 'Success', responseData.response ?? '');
         }
         return true;
       } else {
         if (isDialogRequired) {
+          // ignore: use_build_context_synchronously
           AppDialogs.simpleOkDialog(context, 'Failed',
               responseData.response ?? "unable to process request");
         }
@@ -72,6 +77,7 @@ class CommonNetworkApi {
       }
     } catch (e) {
       if (isDialogRequired) {
+        // ignore: use_build_context_synchronously
         AppDialogs.simpleOkDialog(
             context, 'Failed', "unable to process request");
       }

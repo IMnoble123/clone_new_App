@@ -9,6 +9,7 @@ import 'package:podcast_app/models/response/ads_response_data.dart';
 import 'package:podcast_app/models/response/podcast_response.dart';
 import 'package:podcast_app/network/api_keys.dart';
 import 'package:podcast_app/network/api_services.dart';
+import 'package:podcast_app/widgets/list/error_file.dart';
 import 'package:podcast_app/widgets/no_data_widget.dart';
 
 class AdSpotWidget extends StatelessWidget {
@@ -19,53 +20,35 @@ class AdSpotWidget extends StatelessWidget {
     final adsController = Get.find<AdsController>();
 
     return FutureBuilder(
-      future: ApiService().getServerItems(ApiKeys.ADS_SUFFIX),
-      builder: (context, snapShot) {
-        // print(
-        //     'loooop................................................${snapShot.data}');
+        future: ApiService().getServerItems(ApiKeys.ADS_SUFFIX),
+        builder: (context, snapShot) {
+          print('banner.................${snapShot.data}');
 
-        if (snapShot.hasData) {
-          try {
-            AdsResponseData response =
-                adsResponseDataFromJson(jsonEncode(snapShot.data));
+          if (snapShot.hasData) {
+            try {
+              AdsResponseData response = AdsResponseData.fromJson(snapShot.data);
 
-            if (response.status == "Error" || response.response == null) {
+              if (response.status == "Error" || response.response == null) {
+                return const NoErrorWidget();
+              }
+              return updateServerAds(response.response!, adsController);
+            } catch (e) {
               return const NoDataWidget();
             }
-            return updateServerAds(response.response!, adsController);
-          } catch (e) {
-            return const NoDataWidget();
+
+            // return updateTilesData(snapShot.data, categoryName!);
+          } else if (snapShot.hasError) {
+            return const Text(
+              'Error',
+              style: TextStyle(color: Colors.white),
+            );
+          } else {
+            return const Center(
+                child: CircularProgressIndicator(
+              strokeWidth: 3.0,
+            ));
           }
-
-          // return updateTilesData(snapShot.data, categoryName!);
-        } else if (snapShot.hasError) {
-          return const Text(
-            'Error',
-            style: TextStyle(color: Colors.white),
-          );
-        } else {
-          return const Center(
-              child: CircularProgressIndicator(
-            strokeWidth: 3.0,
-          ));
-        }
-      },
-      //   if (snapShot.hasError) {
-      //     return const Text(
-      //       'Error',
-      //       style: TextStyle(color: Colors.white),
-      //     );
-      //   }
-        // DashbordResponsemodel response =
-        //     dashbordResponsemodelFromJson(jsonEncode(snapShot.data));
-
-      //   if (snapShot.hasData) {
-      //     return updateServerAds(response.response, adsController);
-      //   } else {
-      //     return const CircularProgressIndicator();
-      //   }
-      // });
-    );
+        });
   }
 }
 
@@ -242,7 +225,8 @@ getAdLists(List<AdItem> adItems) {
                       } else {
                         Uri.https(url);
                       }
-                    } else if (adItems[i].linkType!.toLowerCase() == "podcast" &&
+                    } else if (adItems[i].linkType!.toLowerCase() ==
+                            "podcast" &&
                         adItems[i].linkValue != null &&
                         adItems[i].linkValue!.isNotEmpty) {
                       playPodcast(adItems[i].linkValue!);

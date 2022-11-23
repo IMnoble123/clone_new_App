@@ -142,7 +142,7 @@ class PodcastMoreOptionsScreen extends GetView<MainController> {
                                 if (!controller.downloadInProgress.value ==
                                     true) {
                                   print('inn second if');
-                                  // controller.downloadProgress.value = 0;
+                                  controller.downloadProgress.value = 0;
                                   startDownloadPodcast(context);
                                 }
                               } else {
@@ -348,14 +348,14 @@ class PodcastMoreOptionsScreen extends GetView<MainController> {
     String podcastId = controller.currentPodcast!.podcastId!;
     String rjUserId = controller.currentPodcast!.userId!;
 
-    // final isPodcastExist = await TomTomDb().isPodcastExist(rjUserId, podcastId);
-    // print(isPodcastExist);
-    // if (isPodcastExist) {
-    //   AppDialogs.simpleOkDialog(context, 'Already Exist',
-    //       'The podcast already downloaded/exists in your device ');
-    //   controller.downloadInProgress.value = false;
-    //   return;
-    // }
+    final isPodcastExist = await TomTomDb().isPodcastExist(rjUserId, podcastId);
+    print(isPodcastExist);
+    if (isPodcastExist) {
+      AppDialogs.simpleOkDialog(context, 'Already Exist',
+          'The podcast already downloaded/exists in your device ');
+      controller.downloadInProgress.value = false;
+      return;
+    }
 
     String dirPath = await Utility.createFolderInAppDocDir(
         AppConstants.DOWNLOADS_FILES_DIRECTORY);
@@ -368,12 +368,11 @@ class PodcastMoreOptionsScreen extends GetView<MainController> {
     print(fullPath);
 
     try {
-      print('aaaaaaaaaaaaaaaaaaaaa');
       final response = await ApiService().dioDownloader.get(
         controller.currentPodcast!.audiopath!,
         onReceiveProgress: (received, total) {
           if (total != -1) {
-            print((received / total * 100).toStringAsFixed(0) + "%");
+            // print((received / total * 100).toStringAsFixed(0) + "%");
             controller.downloadProgress.value =
                 int.parse((received / total * 100).toStringAsFixed(0));
 

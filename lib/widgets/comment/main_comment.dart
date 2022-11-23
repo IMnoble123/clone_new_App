@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
@@ -30,13 +32,18 @@ class MainComment extends GetView<MainController> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CircleAvatar(
-              radius: 20,
-              backgroundImage: CachedNetworkImageProvider(
-                  comment.commenterImage == null ||
-                          comment.commenterImage!.isEmpty
-                      ? AppConstants.dummyProfilePic
-                      : comment.commenterImage!),
+            SizedBox(
+              height: 30,
+              width: 30,
+              child: CachedNetworkImage(
+                imageUrl: comment.commenterImage ?? '',
+                fit: BoxFit.cover,
+                errorWidget: (context, url, error) =>
+                    Image.asset('images/profile1.0.png', fit: BoxFit.cover),
+                placeholder: (context, url) => const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
             ),
             const SizedBox(
               width: 10,
@@ -241,12 +248,11 @@ class MainComment extends GetView<MainController> {
             IconButton(
               onPressed: () {
                 controller.postldh(comment.commentId!, 'like');
-                // print(
-                //     'comment............................${comment.commentYouLiked}');
+                print(
+                    'liked............................${comment.commentYouLiked}');
               },
               icon: Icon(
                 comment.commentYouLiked == "1"
-                // comment.commentYouLiked!.contains("1")
                     ? Icons.thumb_up
                     : Icons.thumb_up_outlined,
                 color: Colors.white,
@@ -262,11 +268,12 @@ class MainComment extends GetView<MainController> {
             ),
             IconButton(
               onPressed: () {
+                print(
+                    'deliked............................${comment.commentYouLiked}');
                 controller.postldh(comment.commentId!, 'dislike');
               },
               icon: Icon(
                 comment.commentYouDisliked == "1"
-                // comment.commentYouLiked!.contains("1")
                     ? Icons.thumb_down
                     : Icons.thumb_down_alt_outlined,
                 color: Colors.white,

@@ -33,14 +33,14 @@ class BottomNavigation extends GetView<MainController> {
   Widget build(BuildContext context) {
     return Obx(
       () => BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
-          const BottomNavigationBarItem(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
             icon: ImageIcon(
               AssetImage('images/home_icon.png'),
             ),
             label: 'Home',
           ),
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: ImageIcon(
               AssetImage('images/play_list_icon.png'),
             ),
@@ -58,7 +58,7 @@ class BottomNavigation extends GetView<MainController> {
             ),
             label: 'Media',
           ),*/
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: ImageIcon(
               AssetImage('images/profile_icon.png'),
             ),

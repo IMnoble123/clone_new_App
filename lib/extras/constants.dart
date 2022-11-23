@@ -14,9 +14,10 @@ import 'package:url_launcher/url_launcher.dart';
 import 'app_dialogs.dart';
 
 class AppConstants {
-
   static const PAGE_SIZE = 5;
   static const PAGE_SIZE_VERTICAL = 10;
+  static const dummyname = "anonymous";
+
 
   static const token = 'cab86d0e941f49438c79d2f5f5e42e07';
 
@@ -35,10 +36,13 @@ class AppConstants {
 
   static const String dummyRjPic =
       "https://static.vecteezy.com/system/resources/thumbnails/002/157/610/small_2x/illustrations-concept-design-podcast-channel-free-vector.jpg";
-  static const String dummyFolderPic ="https://icons.iconarchive.com/icons/papirus-team/papirus-places/512/folder-red-music-icon.png";
-  static const String dummyProfilePic ="https://struggletownvet.com.au/wp-content/uploads/2019/11/blank-profile-picture-973460_640-300x300.png";
+  static const String dummyFolderPic =
+      "https://icons.iconarchive.com/icons/papirus-team/papirus-places/512/folder-red-music-icon.png";
+  static const String dummyProfilePic =
+      "https://struggletownvet.com.au/wp-content/uploads/2019/11/blank-profile-picture-973460_640-300x300.png";
   static const String dummyPic =
       "https://static.vecteezy.com/system/resources/thumbnails/002/157/610/small_2x/illustrations-concept-design-podcast-channel-free-vector.jpg";
+  static const String dummyemail = "anonymous";
 
   static const DOWNLOADS_FILES_DIRECTORY = "TomTom";
 
@@ -78,8 +82,6 @@ class AppConstants {
   static bool age_restricted = false;
 
   static bool isFromBg_Notification = false;
-
-
 
   static UserResponseData? userData;
 
@@ -143,7 +145,8 @@ class AppConstants {
         ApiService().updateApiToken(userData?.token);
 
         AppSharedPreference().saveBoolData(AppConstants.IS_USER_LOGED_IN, true);
-        AppSharedPreference().saveStringData(AppConstants.USER_Name, userData!.name??'Anonymous');
+        AppSharedPreference().saveStringData(
+            AppConstants.USER_Name, userData!.name ?? 'Anonymous');
         AppSharedPreference()
             .saveStringData(AppConstants.USER_ID, userData?.id ?? '')
             .then((value) => Get.offAll(() => const MainPage()));
@@ -157,16 +160,12 @@ class AppConstants {
   }
 
   static void navigateToDashBoardNew(
-      BuildContext context,String mobileNumber, dynamic response) async {
+      BuildContext context, String mobileNumber, dynamic response) async {
     try {
       NewOtpResponseData responseData = NewOtpResponseData.fromJson(response);
 
       if (responseData.status!.toUpperCase() == AppConstants.SUCCESS) {
-
-
-
-        if(responseData.response!.usertype!.toUpperCase() == "EXISTING"){
-
+        if (responseData.response!.usertype!.toUpperCase() == "EXISTING") {
           // userData = responseData.response!.userdata;
           userData = UserResponseData.fromJson(responseData.response!.userdata);
 
@@ -176,34 +175,29 @@ class AppConstants {
           print(userData?.id);
           CommonNetworkApi().mobileUserId = userData?.id ?? '';
 
-
-          AppSharedPreference().saveBoolData(AppConstants.IS_USER_LOGED_IN, true);
-          AppSharedPreference().saveStringData(AppConstants.USER_Name, userData!.name??'Anonymous');
+          AppSharedPreference()
+              .saveBoolData(AppConstants.IS_USER_LOGED_IN, true);
+          AppSharedPreference().saveStringData(
+              AppConstants.USER_Name, userData!.name ?? 'Anonymous');
           AppSharedPreference()
               .saveStringData(AppConstants.USER_ID, userData?.id ?? '')
               .then((value) => Get.offAll(() => const MainPage()));
-
-        }else if(responseData.response!.usertype! == "NEW"){
-
-          Get.to(()=>EnterNameScreen(mobileNumber: mobileNumber, token: responseData.response!.token!));
-
-        }else{
-
-          AppDialogs.simpleOkDialog(context, 'Failed',
-               "Something wrong in backend");
-          
+        } else if (responseData.response!.usertype! == "NEW") {
+          Get.to(() => EnterNameScreen(
+              mobileNumber: mobileNumber,
+              token: responseData.response!.token!));
+        } else {
+          AppDialogs.simpleOkDialog(
+              context, 'Failed', "Something wrong in backend");
         }
-
-
-
-
       } else {
         AppDialogs.simpleOkDialog(context, 'Failed',
             responseData.response!.message ?? "unable to process request");
       }
     } catch (e) {
       print(e.toString());
-      AppDialogs.simpleOkDialog(context, 'Failed!', "unable to process request");
+      AppDialogs.simpleOkDialog(
+          context, 'Failed!', "unable to process request");
     }
   }
 }

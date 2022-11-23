@@ -750,8 +750,6 @@ class _LoginScreenState extends State<LoginScreen> {
     });*/
   }
 
-
-
   Future<UserCredential> signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -772,10 +770,6 @@ class _LoginScreenState extends State<LoginScreen> {
     // Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
-
-
-
-
 
   void fbLogin() async {
     final LoginResult loginResult = await FacebookAuth.instance
@@ -821,7 +815,7 @@ class _LoginScreenState extends State<LoginScreen> {
       //AppDialogs.simpleOkDialog(context, 'Warning!', e.toString());
     }
 
-    if ( mounted) {
+    if (mounted) {
       setState(() {
         showProgress = false;
       });
@@ -1050,12 +1044,7 @@ class _LoginScreenState extends State<LoginScreen> {
     AppConstants.navigateToDashBoard(context, response);
   }
 
-
-
 //********************************google post *************************************************** *//
-
-
-
 
   void postGoogleSignInData(User? user) async {
     setState(() {
@@ -1063,15 +1052,15 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     final socialUser = SocialUserData(
-        email: user?.email,
-        name: user?.displayName,
+        email: "",
+        name: user?.displayName ?? AppConstants.dummyname,
         source: 'google',
         gmailId: user?.uid,
         gender: "Male",
         appleId: "",
         dob: "",
         facebookId: "",
-        mobile: AppConstants.getRandomNumber(),
+        mobile: "",
         password: "",
         profileImage: user?.photoURL ?? AppConstants.dummyProfilePic);
 

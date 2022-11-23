@@ -15,47 +15,54 @@ class SubscribedPodcasts extends GetView<PlayListController> {
   Widget build(BuildContext context) {
     controller.fetchSubscribedList();
     return SingleChildScrollView(
-      child: controller.mainRjList.value.isNotEmpty?Column(
-        children: [
-          Obx(() =>
-              SizedBox(
+      child: controller.mainRjList.value.isNotEmpty
+          ? Column(
+              children: [
+                Obx(() => SizedBox(
+                    height: 150,
+                    child: controller.mainRjList.value.isNotEmpty
+                        ? updateRjsData(context, controller.mainRjList.value)
+                        : const NoDataWidget())),
+                Obx(
+                  () => controller.showingPodcasts.value.isNotEmpty
+                      ? PodcastList(
+                          podcasts: controller.showingPodcasts.value,
+                          shrinkWrap: true,
+                        )
+                      : const SizedBox.shrink(),
+                ),
+                const SizedBox(
                   height: 150,
-                  child: controller.mainRjList.value.isNotEmpty
-                      ? updateRjsData(context, controller.mainRjList.value)
-                      : const NoDataWidget())),
-          Obx(
-                () => controller.showingPodcasts.value.isNotEmpty
-                ? PodcastList(
-              podcasts: controller.showingPodcasts.value, shrinkWrap: true,)
-                : const SizedBox.shrink()
-            ,
-          ),
-          const SizedBox(height: 150,)
-        ],
-      ):SizedBox(
-        height: MediaQuery.of(context).size.height/2,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: const [
-            Icon(
-              Icons.notifications_active, size: 50,
-              color: Colors.white,
-            ),
-            Text(
-              'Oh oh ! You have no subscriptions.',
-              style: TextStyle(color: Colors.white,fontSize: 14), textAlign: TextAlign.center,
-            ),
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                'We don\'t charge for subscriptions like the OTT\'s do. Never miss a podcast from your favourite podcasters by subscribing.',
-                style: TextStyle(color: Colors.white,fontSize: 14), textAlign: TextAlign.center,
-              ),
+                )
+              ],
             )
-          ],
-        ),
-      ),
+          : SizedBox(
+              height: MediaQuery.of(context).size.height / 2,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: const [
+                  Icon(
+                    Icons.notifications_active,
+                    size: 50,
+                    color: Colors.white,
+                  ),
+                  Text(
+                    'Oh oh ! You have no subscriptions.',
+                    style: TextStyle(color: Colors.white, fontSize: 14),
+                    textAlign: TextAlign.center,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      'We don\'t charge for subscriptions like the OTT\'s do. Never miss a podcast from your favourite podcasters by subscribing.',
+                      style: TextStyle(color: Colors.white, fontSize: 14),
+                      textAlign: TextAlign.center,
+                    ),
+                  )
+                ],
+              ),
+            ),
     );
   }
 
@@ -78,16 +85,23 @@ class SubscribedPodcasts extends GetView<PlayListController> {
                         ClipRRect(
                             borderRadius: BorderRadius.circular(8.0),
                             child: CachedNetworkImage(
-                              imageUrl: items[i].profileImage ??
-                                  AppConstants.dummyPic,
+                              imageUrl: AppConstants.dummyPic,
                               width: 100,
-                              height: 100,memCacheWidth: 100,memCacheHeight: 100,
+                              height: 100,
+                              memCacheWidth: 100,
+                              memCacheHeight: 100,
                               fit: BoxFit.cover,
-                              placeholder: (context, url) =>
-                              const Center(
+                              placeholder: (context, url) => const Center(
                                   child: CircularProgressIndicator()),
-                              errorWidget: (context, url, error) =>
-                              Container(width:100,height: 100,color:AppColors.firstColor.withOpacity(0.25),child: const Icon(Icons.error_outline,color: Colors.white,size: 25,)),
+                              errorWidget: (context, url, error) => Container(
+                                  width: 100,
+                                  height: 100,
+                                  color: AppColors.firstColor.withOpacity(0.25),
+                                  child: const Icon(
+                                    Icons.error_outline,
+                                    color: Colors.white,
+                                    size: 25,
+                                  )),
                             )),
                       ],
                     ),
@@ -98,7 +112,7 @@ class SubscribedPodcasts extends GetView<PlayListController> {
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.ellipsis,
                         style:
-                        const TextStyle(color: Colors.white, fontSize: 14),
+                            const TextStyle(color: Colors.white, fontSize: 14),
                       ),
                     ),
                   ],
@@ -106,15 +120,15 @@ class SubscribedPodcasts extends GetView<PlayListController> {
               ),
               Positioned.fill(
                   child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () {
-                        controller.selectedRjId.value = items[i].rjUserId!;
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () {
+                    controller.selectedRjId.value = items[i].rjUserId!;
 
-                        controller.filterPodcastsByRjId();
-                      },
-                    ),
-                  )),
+                    controller.filterPodcastsByRjId();
+                  },
+                ),
+              )),
             ],
           ),
         );
